@@ -3,6 +3,8 @@
 import { useRef, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import SideActions from "../components/SideActions";
+import NavBar from "./components/NavBar";
+import SiteFooter from "./components/SiteFooter";
 import {
   motion,
   useScroll,
@@ -10,7 +12,6 @@ import {
   useMotionValueEvent,
   useMotionValue,
   useSpring,
-  useInView,
   AnimatePresence,
 } from "framer-motion";
 
@@ -18,70 +19,28 @@ const CityScene = dynamic(() => import("./CityScene"), { ssr: false });
 
 /* ─── COLOR TOKENS ─── */
 const C = {
-  bg:         "#030d07",
-  bgWhite:    "#ffffff",
+  bg:         "#ffffff",
   bgSection:  "#f8fef8",
   bgGray:     "#f3f4f6",
   bgDark:     "#071a0e",
-  bgDark2:    "#0a1628",
   green:      "#16a34a",
   greenDark:  "#14532d",
   greenLight: "#dcfce7",
   greenMid:   "#22c55e",
-  greenFoot:  "#a8d5a2",
   yellow:     "#d97706",
   yellowLight:"#fef9c3",
   red:        "#dc2626",
-  redLight:   "#fee2e2",
   blue:       "#1e3a8a",
-  blueLight:  "#dbeafe",
   text:       "#1c3a1c",
   body:       "#374151",
   muted:      "#6b7280",
   border:     "#d1fae5",
   borderGray: "#e5e7eb",
-  shadow:     "0 1px 3px rgba(0,0,0,0.08)",
   shadowMd:   "0 4px 12px rgba(0,0,0,0.08)",
   shadowLg:   "0 10px 30px rgba(0,0,0,0.12)",
 };
 
-/* ─── NAV MENUS ─── */
-const NAV_MENUS = {
-  projects: [
-    { label: "BMI Garden City",      sub: "Off NH 207, Devanahalli",       href: "/home-v1/our-projects/garden-city" },
-    { label: "BMI North Metro City", sub: "Adjacent to Amity University",  href: "/home-v1/our-projects/north-metro-city" },
-    { label: "Upcoming Projects",    sub: "Coming soon — North Bengaluru", href: "/home-v1/our-projects" },
-  ],
-  apply: [
-    { label: "Membership Registration",  sub: "Join the co-operative society",  href: "/home-v1/membership" },
-    { label: "Application Registration", sub: "Submit your application form",   href: "/home-v1/application-registration" },
-  ],
-};
-
-/* ─── DROPDOWN PANEL ─── */
-function DropdownPanel({ items }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 6, scale: 0.97 }}
-      transition={{ duration: 0.16 }}
-      className="absolute top-full left-0 mt-2 w-64 rounded-xl overflow-hidden z-50"
-      style={{ background: C.bgWhite, border: `1px solid ${C.border}`, boxShadow: C.shadowLg }}
-    >
-      {items.map((item) => (
-        <a key={item.label} href={item.href || "#"}
-          className="flex flex-col gap-0.5 px-4 py-3.5 text-left hover:bg-green-50 transition-colors group border-b last:border-b-0"
-          style={{ borderColor: C.border, display: "block" }}>
-          <span className="text-[13px] font-semibold group-hover:text-green-700 transition-colors" style={{ color: C.text }}>{item.label}</span>
-          <span className="text-[11px]" style={{ color: C.muted }}>{item.sub}</span>
-        </a>
-      ))}
-    </motion.div>
-  );
-}
-
-/* ─── LIGHT FEATURE CARD (3D tilt) ─── */
+/* ─── FEATURE CARD (3D tilt) ─── */
 function FeatureCard({ icon, title, desc, accent, delay = 0 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -107,18 +66,15 @@ function FeatureCard({ icon, title, desc, accent, delay = 0 }) {
       style={{
         background: "#ffffff",
         border: `1px solid ${accent}22`,
-        boxShadow: `0 4px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)`,
+        boxShadow: "0 4px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
       }}
     >
-      {/* Top accent glow bar */}
       <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
         style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
-      {/* Hover glow */}
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}0a 0%, transparent 65%)` }}
       />
-      {/* Icon */}
       <motion.div
         whileHover={{ scale: 1.1, rotate: [-3, 3, -3, 0] }}
         transition={{ duration: 0.4 }}
@@ -129,241 +85,232 @@ function FeatureCard({ icon, title, desc, accent, delay = 0 }) {
       </motion.div>
       <h3 className="font-bold text-lg mb-3" style={{ color: C.text }}>{title}</h3>
       <p className="text-sm leading-relaxed" style={{ color: C.body }}>{desc}</p>
-      <motion.div
-        whileHover={{ x: 4 }}
-        className="mt-5 text-[10px] tracking-[0.25em] uppercase font-bold flex items-center gap-1"
-        style={{ color: accent }}
-      >
+      <motion.div whileHover={{ x: 4 }} className="mt-5 text-[10px] tracking-[0.25em] uppercase font-bold flex items-center gap-1" style={{ color: accent }}>
         Learn More →
       </motion.div>
     </motion.div>
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* ─── STAT BADGE ─── */
+function StatBadge({ value, label, delay = 0 }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className="flex flex-col items-center px-6 py-4 rounded-2xl"
+      style={{
+        background: "rgba(255,255,255,0.12)",
+        backdropFilter: "blur(12px)",
+        border: "1px solid rgba(255,255,255,0.2)",
+        minWidth: "110px",
+      }}
+    >
+      <span className="font-extrabold text-2xl text-white leading-none">{value}</span>
+      <span className="text-[11px] mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>{label}</span>
+    </motion.div>
+  );
+}
+
+/* ─── CONTACT ITEM ─── */
+function ContactItem({ icon, label, value, href, delay = 0 }) {
+  return (
+    <motion.a
+      href={href || "#"}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4, boxShadow: `0 16px 40px rgba(22,163,74,0.2)` }}
+      className="flex flex-col items-center text-center p-8 rounded-2xl group transition-all duration-300"
+      style={{ background: "#ffffff", border: `1px solid ${C.border}`, boxShadow: C.shadowMd, textDecoration: "none" }}
+    >
+      <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
+        style={{ background: C.greenLight, color: C.green }}>
+        {icon}
+      </div>
+      <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-1" style={{ color: C.muted }}>{label}</p>
+      <p className="font-bold text-[15px]" style={{ color: C.text }}>{value}</p>
+    </motion.a>
+  );
+}
+
+/* ═══════════════════════════════════════════
    MAIN
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 export default function HomeV1Client() {
   const scrollProgressRef = useRef(0);
-  const [openMenu, setOpenMenu] = useState(null);
-
   const { scrollYProgress } = useScroll();
   useMotionValueEvent(scrollYProgress, "change", (v) => { scrollProgressRef.current = v; });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
-
-  /* Mouse parallax */
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 60, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 60, damping: 20 });
-
-  /* Layer transforms */
-  const l1x = useTransform(springX, [-1, 1], [-12, 12]);
-  const l1y = useTransform(springY, [-1, 1], [-12, 12]);
-  const l2x = useTransform(springX, [-1, 1], [-28, 28]);
-  const l2y = useTransform(springY, [-1, 1], [-28, 28]);
-  const l3x = useTransform(springX, [-1, 1], [-45, 45]);
-  const l3y = useTransform(springY, [-1, 1], [-45, 45]);
-
-  function handleHeroMouseMove(e) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / rect.width * 2 - 1;
-    const ny = (e.clientY - rect.top) / rect.height * 2 - 1;
-    mouseX.set(nx);
-    mouseY.set(ny);
-  }
 
   return (
-    <div style={{ background: "#ffffff" }} onClick={() => setOpenMenu(null)}>
-
-      {/* ── Floating side actions ── */}
+    <div style={{ background: C.bg }}>
       <SideActions />
 
-      {/* ── Scroll progress bar ── */}
+      {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] z-[200] origin-left"
         style={{ scaleX: scrollYProgress, background: `linear-gradient(90deg, ${C.green}, ${C.greenMid}, ${C.yellow})` }}
       />
 
-      {/* ════════════════════════════════════
-          NAVIGATION
-      ════════════════════════════════════ */}
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.3 }}
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{ background: "rgba(255,255,255,0.92)", backdropFilter: "blur(16px)", boxShadow: "0 2px 20px rgba(0,0,0,0.07)" }}
-      >
-        {/* Main row */}
-        <div className="px-6 lg:px-10 py-3 flex items-center justify-between gap-4">
-          <a href="/home-v1" className="flex items-center gap-2.5 shrink-0 group">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <motion.img
-              src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
-              alt="BMI" className="w-10 h-10 rounded-full object-contain"
-              whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }}
-            />
-            <div className="hidden sm:block leading-none">
-              <div className="font-bold text-[14px]" style={{ color: C.greenDark }}>BMI Housing</div>
-              <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5" style={{ color: C.muted }}>Co-Op Society · Est. 2022</div>
-            </div>
-          </a>
-
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {[
-              { label: "Home",         href: "/home-v1" },
-              { label: "E Brochure",   href: "/home-v1/e-brochure" },
-              { label: "Our Projects", href: "/home-v1/our-projects", menu: "projects" },
-              { label: "About Us",     href: "/home-v1/our-projects#about" },
-            ].map((lk) => (
-              <div key={lk.label} className="relative" onClick={lk.menu ? (e) => e.stopPropagation() : undefined}>
-                {lk.menu ? (
-                  <motion.button
-                    onClick={() => setOpenMenu(openMenu === lk.menu ? null : lk.menu)}
-                    whileHover={{ backgroundColor: "#f0fdf4" }}
-                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors hover:text-green-700"
-                    style={{ color: C.text }}
-                  >
-                    {lk.label}
-                    <motion.svg
-                      animate={{ rotate: openMenu === lk.menu ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
-                    >
-                      <path d="M6 9l6 6 6-6" />
-                    </motion.svg>
-                  </motion.button>
-                ) : (
-                  <motion.a
-                    href={lk.href}
-                    whileHover={{ backgroundColor: "#f0fdf4" }}
-                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors hover:text-green-700"
-                    style={{ color: lk.label === "Home" ? C.green : C.text }}
-                  >
-                    {lk.label}
-                  </motion.a>
-                )}
-                <AnimatePresence>
-                  {lk.menu && openMenu === lk.menu && <DropdownPanel items={NAV_MENUS[lk.menu]} />}
-                </AnimatePresence>
-              </div>
-            ))}
-
-            {/* Apply Now — dropdown with both forms */}
-            <div className="relative ml-2" onClick={(e) => e.stopPropagation()}>
-              <motion.button
-                onClick={() => setOpenMenu(openMenu === "apply" ? null : "apply")}
-                whileHover={{ scale: 1.04, boxShadow: `0 6px 20px ${C.green}40` }}
-                whileTap={{ scale: 0.96 }}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-bold text-white relative overflow-hidden group"
-                style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
-              >
-                <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100"
-                  style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
-                  animate={{ x: ["-100%", "100%"] }}
-                  transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 0.6 }}
-                />
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5 shrink-0">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                </svg>
-                Apply Now
-                <motion.svg
-                  animate={{ rotate: openMenu === "apply" ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </motion.svg>
-              </motion.button>
-              <AnimatePresence>
-                {openMenu === "apply" && <DropdownPanel items={NAV_MENUS.apply} />}
-              </AnimatePresence>
-            </div>
-          </nav>
-
-          <motion.button
-            whileHover={{ scale: 1.04, boxShadow: `0 8px 24px ${C.green}55` }}
-            whileTap={{ scale: 0.96 }}
-            className="shrink-0 px-6 py-2.5 rounded-lg text-[13px] font-bold text-white"
-            style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})`, boxShadow: `0 2px 10px ${C.green}33` }}
-          >
-            Contact Us
-          </motion.button>
-        </div>
-
-        {/* Sub-row */}
-        <div className="px-6 lg:px-10 py-1.5 flex items-center gap-1 text-[11px]"
-          style={{ borderTop: `1px solid ${C.border}`, background: C.bgSection }}>
-          <a href="#" className="hover:underline" style={{ color: C.green }}>Disclaimer</a>
-          <span style={{ color: C.muted }}>/</span>
-          <a href="#" className="hover:underline" style={{ color: C.green }}>Privacy Policy</a>
-          <span className="ml-auto text-[10px] tracking-[0.2em] uppercase" style={{ color: C.muted }}>
-            Reg. No: JRB/RGN/CR-13/51578/2022-23
-          </span>
-        </div>
-      </motion.header>
+      {/* ── Shared Nav ── */}
+      <NavBar activePage="home" />
 
       {/* ════════════════════════════════════
-          HERO — fullscreen video + mouse parallax
+          HERO — fullscreen video + overlay
       ════════════════════════════════════ */}
-      <section
-        className="relative w-full overflow-hidden"
-        style={{ height: "100svh" }}
-      >
+      <section className="relative w-full overflow-hidden" style={{ height: "100svh" }}>
+        {/* Video */}
         <video
           src="/hero.mp4"
           autoPlay loop muted playsInline preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         />
+        {/* Dark overlay */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(3,13,7,0.55) 0%, rgba(3,13,7,0.35) 40%, rgba(3,13,7,0.72) 100%)" }} />
+
+        {/* Hero Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center" style={{ paddingTop: "100px" }}>
+          {/* Tag */}
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-bold mb-6"
+            style={{ background: "rgba(34,197,94,0.18)", border: "1px solid rgba(34,197,94,0.4)", color: "#86efac" }}
+          >
+            <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#22c55e" }} />
+            North Bengaluru's #1 Co-Op Society
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="font-extrabold text-4xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.08] mb-6 max-w-5xl"
+          >
+            Your Dream Plot in{" "}
+            <span style={{ background: "linear-gradient(90deg, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              North Bengaluru
+            </span>
+          </motion.h1>
+
+          {/* Sub-headline */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.7 }}
+            className="text-[16px] md:text-[18px] max-w-2xl mb-10 leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.65)" }}
+          >
+            Premium RERA-approved residential plots starting at ₹1,175/sqft — near Kempegowda Airport, ITIR Tech Park & top universities.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.85, duration: 0.7 }}
+            className="flex flex-wrap items-center justify-center gap-4 mb-14"
+          >
+            <motion.a
+              href="/home-v1/our-projects"
+              whileHover={{ scale: 1.06, boxShadow: "0 12px 36px rgba(22,163,74,0.55)" }}
+              whileTap={{ scale: 0.96 }}
+              className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group"
+              style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
+            >
+              <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100"
+                style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 0.7 }}
+              />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4 shrink-0">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              Explore Projects
+            </motion.a>
+            <motion.a
+              href="/home-v1/membership"
+              whileHover={{ scale: 1.06, backgroundColor: "rgba(255,255,255,0.18)" }}
+              whileTap={{ scale: 0.96 }}
+              className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white"
+              style={{ background: "rgba(255,255,255,0.1)", border: "1.5px solid rgba(255,255,255,0.35)", backdropFilter: "blur(8px)" }}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4 shrink-0">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+              </svg>
+              Apply Now
+            </motion.a>
+          </motion.div>
+
+          {/* Stats Row */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.7 }}
+            className="flex flex-wrap items-center justify-center gap-3"
+          >
+            <StatBadge value="500+"  label="Members"      delay={1.05} />
+            <StatBadge value="2"     label="Projects"      delay={1.12} />
+            <StatBadge value="90%"   label="Bank Loan"     delay={1.19} />
+            <StatBadge value="RERA"  label="Approved"      delay={1.26} />
+            <StatBadge value="₹1,175" label="Starting/sqft" delay={1.33} />
+          </motion.div>
+        </div>
+
+        {/* Scroll hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10"
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            className="w-6 h-9 rounded-full flex items-start justify-center p-1.5"
+            style={{ border: "2px solid rgba(255,255,255,0.35)" }}
+          >
+            <div className="w-1.5 h-1.5 rounded-full bg-white" />
+          </motion.div>
+          <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.4)" }}>Scroll</span>
+        </motion.div>
       </section>
 
       {/* ════════════════════════════════════
-          FEATURE CARDS — dark bg with 3D wireframe bg
+          FEATURE CARDS
       ════════════════════════════════════ */}
-      <section
-        className="relative px-6 lg:px-10 py-28 overflow-hidden"
-        style={{ background: "#f8fef8" }}
-      >
-        {/* 3D wireframe rotating shapes */}
+      <section className="relative px-6 lg:px-10 py-28 overflow-hidden" style={{ background: C.bgSection }}>
+        {/* Rotating wireframe circles */}
         {[
           { top: "8%",  left: "4%",  w: 320, dur: 22, rx: [0, 360], ry: [0, 180], delay: 0 },
           { top: "60%", left: "72%", w: 260, dur: 18, rx: [0, -360], ry: [0, 360], delay: 1.5 },
           { top: "20%", left: "82%", w: 180, dur: 30, rx: [0, 180], ry: [0, 360], delay: 0.8 },
           { top: "70%", left: "10%", w: 200, dur: 35, rx: [0, 360], ry: [0, -180], delay: 2 },
-          { top: "42%", left: "45%", w: 150, dur: 26, rx: [0, -180], ry: [0, 360], delay: 1 },
         ].map((s, i) => (
           <motion.div
             key={i}
             animate={{ rotateX: s.rx, rotateY: s.ry }}
             transition={{ duration: s.dur, repeat: Infinity, ease: "linear", delay: s.delay }}
             style={{
-              position: "absolute",
-              top: s.top,
-              left: s.left,
-              width: s.w,
-              height: s.w,
-              borderRadius: "50%",
+              position: "absolute", top: s.top, left: s.left,
+              width: s.w, height: s.w, borderRadius: "50%",
               border: "1px solid rgba(22,163,74,0.10)",
-              pointerEvents: "none",
-              transformStyle: "preserve-3d",
+              pointerEvents: "none", transformStyle: "preserve-3d",
             }}
           />
         ))}
-
-        {/* Subtle grid */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
           style={{ backgroundImage: "linear-gradient(rgba(22,163,74,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(22,163,74,0.4) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
 
         <div className="relative max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-14"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
             <div className="flex items-center gap-3 mb-5">
               <span className="w-8 h-px" style={{ background: C.green }} />
               <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>Why BMI Housing</span>
@@ -377,83 +324,182 @@ export default function HomeV1Client() {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {/* Card 1 — Metro Connectivity */}
-            <FeatureCard
-              delay={0}
-              accent={C.greenMid}
-              title="Metro Connectivity"
+            <FeatureCard delay={0} accent={C.greenMid} title="Metro Connectivity"
               desc="Adjacent to ITIR Tech Park (12,000 acres), Amity & Gitam Universities, Harrow International School, and minutes from Kempegowda International Airport."
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7">
-                  <rect x="4" y="3" width="16" height="16" rx="2"/>
-                  <path d="M4 11h16"/>
-                  <path d="M12 3v8"/>
-                  <circle cx="8.5" cy="17" r="1"/>
-                  <circle cx="15.5" cy="17" r="1"/>
-                  <path d="M7.5 21l1.5-2 1.5 2 1.5-2 1.5 2 1.5-2 1.5 2"/>
-                </svg>
-              }
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><circle cx="8.5" cy="17" r="1"/><circle cx="15.5" cy="17" r="1"/><path d="M7.5 21l1.5-2 1.5 2 1.5-2 1.5 2 1.5-2 1.5 2"/></svg>}
             />
-            {/* Card 2 — Smart-Home Ready */}
-            <FeatureCard
-              delay={0.12}
-              accent={C.yellow}
-              title="Smart-Home Ready"
+            <FeatureCard delay={0.12} accent={C.yellow} title="Smart-Home Ready"
               desc="Underground electricity, 24/7 water supply, 60ft wide roads, themed clubhouse & swimming pool — infrastructure for tomorrow's lifestyle."
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-              }
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
             />
-            {/* Card 3 — Secure Co-Op Investment */}
-            <FeatureCard
-              delay={0.24}
-              accent={C.red}
-              title="Secure Co-Op Investment"
+            <FeatureCard delay={0.24} accent={C.red} title="Secure Co-Op Investment"
               desc="Government-registered co-operative society. Bank loans up to 90%. RERA, DTCP & BMRDA approved layouts in North Bengaluru's fastest-appreciating zone."
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7">
-                  <line x1="3" y1="22" x2="21" y2="22"/>
-                  <line x1="6" y1="18" x2="6" y2="11"/>
-                  <line x1="10" y1="18" x2="10" y2="11"/>
-                  <line x1="14" y1="18" x2="14" y2="11"/>
-                  <line x1="18" y1="18" x2="18" y2="11"/>
-                  <polygon points="12 2 20 7 4 7"/>
-                </svg>
-              }
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>}
             />
           </div>
         </div>
       </section>
 
       {/* ════════════════════════════════════
-          3D CITY — full 100vh
+          PROJECT TEASER CARDS
+      ════════════════════════════════════ */}
+      <section className="px-6 lg:px-10 py-24" style={{ background: C.bg }}>
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-8 h-px" style={{ background: C.green }} />
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>Explore</span>
+              <span className="w-8 h-px" style={{ background: C.green }} />
+            </div>
+            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight" style={{ color: C.text }}>
+              Our{" "}
+              <span style={{ background: `linear-gradient(90deg, ${C.green}, ${C.greenMid})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Projects
+              </span>
+            </h2>
+            <p className="mt-4 text-[15px] max-w-xl mx-auto" style={{ color: C.body }}>
+              Click on a project to explore full details, pricing, amenities and more.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Garden City */}
+            <motion.a
+              href="/home-v1/our-projects/garden-city"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(22,163,74,0.18)" }}
+              className="group relative rounded-3xl overflow-hidden cursor-pointer block"
+              style={{ boxShadow: C.shadowLg, textDecoration: "none" }}
+            >
+              <div className="relative h-64 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://www.bmihousing.com/wp-content/uploads/2023/07/Garden-City.jpg"
+                  alt="BMI Garden City"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80"; }}
+                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(7,26,14,0.85) 0%, transparent 50%)" }} />
+                <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[11px] font-bold text-white"
+                  style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}>
+                  Off NH 207, Devanahalli
+                </div>
+              </div>
+              <div className="p-7" style={{ background: "#ffffff", borderTop: `3px solid ${C.green}` }}>
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-extrabold text-2xl mb-1" style={{ color: C.text }}>BMI Garden City</h3>
+                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · RERA Approved</p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold" style={{ background: C.greenLight, color: C.greenDark }}>₹1,175/sqft</span>
+                </div>
+                <p className="text-[13px] leading-relaxed mb-5" style={{ color: C.body }}>
+                  Premium plots near Kempegowda Airport, ITIR Tech Park, Metro Phase 2A and top educational institutions.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {["Bank Loan 90%", "4-EMI Plan", "80ft Road", "Club House"].map((t) => (
+                    <span key={t} className="px-3 py-1 rounded-full text-[11px]"
+                      style={{ background: C.bgSection, color: C.body, border: `1px solid ${C.border}` }}>{t}</span>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 font-bold text-[14px] group-hover:gap-3 transition-all" style={{ color: C.green }}>
+                  Explore Garden City
+                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.2, repeat: Infinity }}>→</motion.span>
+                </div>
+              </div>
+            </motion.a>
+
+            {/* North Metro City */}
+            <motion.a
+              href="/home-v1/our-projects/north-metro-city"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.75, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(234,88,12,0.18)" }}
+              className="group relative rounded-3xl overflow-hidden cursor-pointer block"
+              style={{ boxShadow: C.shadowLg, textDecoration: "none" }}
+            >
+              <div className="relative h-64 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://www.bmihousing.com/wp-content/uploads/2023/07/North-Metro-City.jpg"
+                  alt="BMI North Metro City"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"; }}
+                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(67,20,7,0.85) 0%, transparent 50%)" }} />
+                <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[11px] font-bold text-white"
+                  style={{ background: "linear-gradient(135deg, #ea580c, #c2410c)" }}>
+                  Adjacent to Amity University
+                </div>
+              </div>
+              <div className="p-7" style={{ background: "#ffffff", borderTop: "3px solid #ea580c" }}>
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-extrabold text-2xl mb-1" style={{ color: C.text }}>BMI North Metro City</h3>
+                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · RERA Approved</p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold" style={{ background: "#ffedd5", color: "#c2410c" }}>₹1,199/sqft</span>
+                </div>
+                <p className="text-[13px] leading-relaxed mb-5" style={{ color: C.body }}>
+                  Prime plots adjacent to Amity University, Harrow International School, ITIR Tech Park and Padukone-Dravid Academy.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {["Bank Loan 90%", "4-EMI Plan", "60ft Road", "Swimming Pool"].map((t) => (
+                    <span key={t} className="px-3 py-1 rounded-full text-[11px]"
+                      style={{ background: "#fff7ed", color: C.body, border: "1px solid #fed7aa" }}>{t}</span>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 font-bold text-[14px] group-hover:gap-3 transition-all" style={{ color: "#ea580c" }}>
+                  Explore North Metro City
+                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }}>→</motion.span>
+                </div>
+              </div>
+            </motion.a>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-center mt-10"
+          >
+            <motion.a
+              href="/home-v1/our-projects"
+              whileHover={{ scale: 1.05, boxShadow: `0 10px 30px ${C.green}40` }}
+              whileTap={{ scale: 0.96 }}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-[14px] font-bold text-white"
+              style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
+            >
+              View All Projects &amp; Details →
+            </motion.a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════
+          3D CITY
       ════════════════════════════════════ */}
       <section className="relative overflow-hidden" style={{ height: "100vh", background: "#030d07" }}>
-        {/* CityScene fills all */}
         <div className="absolute inset-0">
           <CityScene scrollProgressRef={scrollProgressRef} />
         </div>
-
-        {/* Frosted title card top-left */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="absolute top-8 left-6 lg:left-10 z-10 px-6 py-4 rounded-2xl"
-          style={{
-            background: "rgba(3,13,7,0.65)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(34,197,94,0.2)",
-            boxShadow: "0 4px 32px rgba(0,0,0,0.4)",
-          }}
+          style={{ background: "rgba(3,13,7,0.65)", backdropFilter: "blur(16px)", border: "1px solid rgba(34,197,94,0.2)", boxShadow: "0 4px 32px rgba(0,0,0,0.4)" }}
         >
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="w-5 h-px" style={{ background: C.greenMid }} />
-            <span className="text-[9px] tracking-[0.5em] uppercase font-semibold" style={{ color: C.greenMid }}>Interactive 3D</span>
+            <span className="w-5 h-px" style={{ background: "#22c55e" }} />
+            <span className="text-[9px] tracking-[0.5em] uppercase font-semibold" style={{ color: "#22c55e" }}>Interactive 3D</span>
           </div>
           <h2 className="font-extrabold text-xl md:text-2xl text-white leading-tight">
             Visualise the{" "}
@@ -461,12 +507,8 @@ export default function HomeV1Client() {
               City of Tomorrow
             </span>
           </h2>
-          <p className="text-[11px] mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
-            Drag to rotate · scroll to zoom
-          </p>
+          <p className="text-[11px] mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>Drag to rotate · scroll to zoom</p>
         </motion.div>
-
-        {/* Floating info badges */}
         {[
           { label: "80 Buildings",    top: "18%", right: "6%",  delay: 0.5,  dy: [0, -8, 0] },
           { label: "2,400 Particles", top: "38%", right: "4%",  delay: 0.8,  dy: [0, 8, 0] },
@@ -477,27 +519,16 @@ export default function HomeV1Client() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: b.delay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            animate={{ y: b.dy }}
-            style={{
-              position: "absolute",
-              top: b.top,
-              right: b.right,
-              zIndex: 10,
-            }}
+            transition={{ delay: b.delay, duration: 0.6 }}
+            style={{ position: "absolute", top: b.top, right: b.right, zIndex: 10 }}
           >
             <motion.div
               animate={{ y: b.dy }}
               transition={{ duration: 3 + b.delay, repeat: Infinity, ease: "easeInOut" }}
               className="px-4 py-2 rounded-full text-[11px] font-semibold text-white"
-              style={{
-                background: "rgba(3,13,7,0.7)",
-                backdropFilter: "blur(12px)",
-                border: `1px solid ${C.greenMid}40`,
-                boxShadow: `0 0 16px ${C.greenMid}20`,
-              }}
+              style={{ background: "rgba(3,13,7,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(34,197,94,0.3)", boxShadow: "0 0 16px rgba(34,197,94,0.15)" }}
             >
-              <span style={{ color: C.greenMid }} className="mr-1.5">●</span>
+              <span style={{ color: "#22c55e" }} className="mr-1.5">●</span>
               {b.label}
             </motion.div>
           </motion.div>
@@ -505,40 +536,119 @@ export default function HomeV1Client() {
       </section>
 
       {/* ════════════════════════════════════
-          FOOTER — minimal dark
+          CONTACT US SECTION
       ════════════════════════════════════ */}
-      <footer style={{ background: C.bgSection, borderTop: `1px solid ${C.border}` }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
-              alt="BMI"
-              className="w-10 h-10 rounded-full object-contain p-1"
-              style={{ background: C.greenLight }}
-            />
-            <div>
-              <div className="font-bold text-[14px]" style={{ color: C.greenDark }}>BMI Housing</div>
-              <div className="text-[9px] tracking-[0.25em] uppercase" style={{ color: C.muted }}>Co-Op Society · Est. 2022</div>
+      <section id="contact" className="px-6 lg:px-10 py-24" style={{ background: C.bgSection }}>
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-8 h-px" style={{ background: C.green }} />
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>Get In Touch</span>
+              <span className="w-8 h-px" style={{ background: C.green }} />
             </div>
+            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight" style={{ color: C.text }}>
+              Contact{" "}
+              <span style={{ background: `linear-gradient(90deg, ${C.green}, ${C.greenMid})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Us
+              </span>
+            </h2>
+            <p className="mt-4 text-[15px] max-w-xl mx-auto" style={{ color: C.body }}>
+              Have questions? We are here to help. Reach us by phone, email, or visit our office.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <ContactItem delay={0}    label="Call Us"     value="7710556677"            href="tel:7710556677"
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.91 19.79 19.79 0 0 1 1.61 4.28 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.7a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}
+            />
+            <ContactItem delay={0.08} label="Landline"    value="080 66469061"          href="tel:08066469061"
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.91 19.79 19.79 0 0 1 1.61 4.28 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.7a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}
+            />
+            <ContactItem delay={0.16} label="Email"       value="info@bmihousing.com"   href="mailto:info@bmihousing.com"
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>}
+            />
+            <ContactItem delay={0.24} label="Visit Us"    value="Sahakar Nagar, Bengaluru" href="https://maps.google.com/?q=Sahakar+Nagar+Bangalore"
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>}
+            />
           </div>
 
-          {/* Links */}
-          <div className="flex flex-wrap items-center gap-6 text-[12px]" style={{ color: C.muted }}>
-            <a href="/home-v1" className="hover:text-green-700 transition-colors">Home</a>
-            <a href="/home-v1/e-brochure" className="hover:text-green-700 transition-colors">E Brochure</a>
-            <a href="/home-v1/our-projects" className="hover:text-green-700 transition-colors">Our Projects</a>
-            <a href="/home-v1/our-projects#about" className="hover:text-green-700 transition-colors">About Us</a>
-          </div>
+          {/* Map + CTA row */}
+          <div className="grid lg:grid-cols-2 gap-8 items-stretch">
+            {/* Map */}
+            <motion.div
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="rounded-2xl overflow-hidden"
+              style={{ boxShadow: C.shadowLg, border: `1px solid ${C.border}`, minHeight: "280px" }}
+            >
+              <iframe
+                title="BMI Housing Office Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.6153578065257!2d77.57426731482207!3d13.057729990797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae17c7b2da4a5b%3A0x5e21dd44d7f0e0e5!2sSahakar%20Nagar%2C%20Bengaluru%2C%20Karnataka%20560092!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                width="100%" height="100%" style={{ border: 0, display: "block", minHeight: "280px" }}
+                allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+              />
+            </motion.div>
 
-          {/* Copyright */}
-          <div className="text-[11px]" style={{ color: C.muted }}>
-            © 2024–2025 BMI Housing. All rights reserved.
+            {/* CTA card */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="rounded-2xl p-8 flex flex-col justify-center"
+              style={{ background: `linear-gradient(135deg, ${C.greenDark}, #0d2818)`, boxShadow: C.shadowLg }}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-6 h-px" style={{ background: "#22c55e" }} />
+                <span className="text-[10px] tracking-[0.5em] uppercase font-bold" style={{ color: "#22c55e" }}>Office Address</span>
+              </div>
+              <h3 className="font-extrabold text-2xl text-white mb-4 leading-snug">
+                Visit Our Office in<br />
+                <span style={{ color: "#86efac" }}>Sahakar Nagar, Bangalore</span>
+              </h3>
+              <p className="text-[14px] mb-8 leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+                #28/1, 2nd floor, 1st cross, 15th main E-block,<br />
+                Sahakar Nagar, Bangalore – 560 092
+              </p>
+              <div className="flex flex-col gap-3">
+                <motion.a
+                  href="tel:7710556677"
+                  whileHover={{ scale: 1.04, boxShadow: "0 10px 30px rgba(22,163,74,0.45)" }}
+                  whileTap={{ scale: 0.96 }}
+                  className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-[14px] font-bold text-white relative overflow-hidden group"
+                  style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
+                >
+                  <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100"
+                    style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
+                    animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 0.7 }} />
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.91 19.79 19.79 0 0 1 1.61 4.28 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.7a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                  Call: 7710556677
+                </motion.a>
+                <motion.a
+                  href="mailto:info@bmihousing.com"
+                  whileHover={{ scale: 1.04, backgroundColor: "rgba(255,255,255,0.15)" }}
+                  whileTap={{ scale: 0.96 }}
+                  className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-[14px] font-bold text-white"
+                  style={{ background: "rgba(255,255,255,0.08)", border: "1.5px solid rgba(255,255,255,0.2)" }}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  info@bmihousing.com
+                </motion.a>
+              </div>
+            </motion.div>
           </div>
         </div>
-      </footer>
+      </section>
 
+      {/* ── Shared Footer ── */}
+      <SiteFooter />
     </div>
   );
 }

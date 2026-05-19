@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import NavBar from "../../components/NavBar";
+import SiteFooter from "../../components/SiteFooter";
 
 const C = {
   bg:          "#fff7ed",
@@ -105,7 +107,7 @@ function Navbar() {
 export default function NorthMetroCityClient() {
   return (
     <div style={{ background: C.bgWhite }}>
-      <Navbar />
+      <NavBar activePage="north-metro-city" />
       <div style={{ height: "88px" }} />
 
       {/* ── Hero Banner ── */}
@@ -465,24 +467,7 @@ export default function NorthMetroCityClient() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ background: "#fff7ed", borderTop: `1px solid ${C.border}` }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png" alt="BMI"
-              className="w-9 h-9 rounded-full object-contain p-1" style={{ background: C.orangeLight }} />
-            <div className="font-bold text-[13px]" style={{ color: C.orange }}>BMI Housing Co-Op Society</div>
-          </div>
-          <div className="flex flex-wrap gap-5 text-[12px]" style={{ color: C.muted }}>
-            <a href="/home-v1" className="hover:text-orange-600 transition-colors">Home</a>
-            <a href="/home-v1/our-projects" className="hover:text-orange-600 transition-colors">Our Projects</a>
-            <a href="/home-v1/our-projects/garden-city" className="hover:text-orange-600 transition-colors">Garden City</a>
-            <a href="/home-v1/e-brochure" className="hover:text-orange-600 transition-colors">E Brochure</a>
-          </div>
-          <div className="text-[11px]" style={{ color: C.muted }}>© 2024–2025 BMI Housing. All rights reserved.</div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

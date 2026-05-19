@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import NavBar from "../components/NavBar";
+import SiteFooter from "../components/SiteFooter";
 
 const C = {
   bg:         "#f0faf0",
@@ -86,60 +88,7 @@ export default function ApplicationClient() {
 
   return (
     <div style={{ background: C.bg, minHeight: "100vh" }}>
-
-      {/* ── Navbar ── */}
-      <motion.header
-        initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{ background: "rgba(255,255,255,0.93)", backdropFilter: "blur(16px)", boxShadow: "0 2px 20px rgba(0,0,0,0.07)" }}
-      >
-        <div className="px-6 lg:px-10 py-3 flex items-center justify-between gap-4">
-          <a href="/home-v1" className="flex items-center gap-2.5 shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <motion.img src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
-              alt="BMI" className="w-10 h-10 rounded-full object-contain"
-              whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }} />
-            <div className="hidden sm:block leading-none">
-              <div className="font-bold text-[14px]" style={{ color: C.greenDark }}>BMI Housing</div>
-              <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5" style={{ color: C.muted }}>Co-Op Society · Est. 2022</div>
-            </div>
-          </a>
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {[
-              { label: "Home",         href: "/home-v1" },
-              { label: "E Brochure",   href: "/home-v1/e-brochure" },
-              { label: "Our Projects", href: "/home-v1/our-projects" },
-              { label: "About Us",     href: "/home-v1/our-projects#about" },
-            ].map((lk) => (
-              <motion.a key={lk.label} href={lk.href}
-                whileHover={{ backgroundColor: "#f0fdf4" }}
-                className="px-3 py-2 rounded-lg text-[13px] font-medium transition-colors hover:text-green-700"
-                style={{ color: C.text }}>{lk.label}</motion.a>
-            ))}
-          </nav>
-          <motion.a href="/home-v1/application-registration"
-            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-            className="shrink-0 flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-[13px] font-bold text-white relative overflow-hidden group"
-            style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}>
-            <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100"
-              style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
-              animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 0.6 }} />
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5 shrink-0">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-            </svg>
-            Apply Now
-          </motion.a>
-        </div>
-        <div className="px-6 lg:px-10 py-1.5 flex items-center gap-1 text-[11px]"
-          style={{ borderTop: `1px solid ${C.border}`, background: C.bgSection }}>
-          <a href="#" className="hover:underline" style={{ color: C.green }}>Disclaimer</a>
-          <span style={{ color: C.muted }}>/</span>
-          <a href="#" className="hover:underline" style={{ color: C.green }}>Privacy Policy</a>
-          <span className="ml-auto text-[10px] tracking-[0.2em] uppercase" style={{ color: C.muted }}>
-            Reg. No: JRB/RGN/CR-13/51578/2022-23
-          </span>
-        </div>
-      </motion.header>
+      <NavBar activePage="application-registration" />
       <div style={{ height: "88px" }} />
 
       {/* ── Hero Banner ── */}
@@ -424,24 +373,7 @@ export default function ApplicationClient() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ background: C.bgSection, borderTop:`1px solid ${C.border}` }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png" alt="BMI"
-              className="w-9 h-9 rounded-full object-contain p-1" style={{ background: C.greenLight }} />
-            <div className="font-bold text-[13px]" style={{ color: C.greenDark }}>BMI Housing Co-Op Society</div>
-          </div>
-          <div className="flex flex-wrap gap-5 text-[12px]" style={{ color: C.muted }}>
-            <a href="/home-v1" className="hover:text-green-700 transition-colors">Home</a>
-            <a href="/home-v1/our-projects" className="hover:text-green-700 transition-colors">Our Projects</a>
-            <a href="/home-v1/membership" className="hover:text-green-700 transition-colors">Membership</a>
-            <a href="/home-v1/application-registration" className="font-semibold hover:text-green-700 transition-colors" style={{ color: C.green }}>Application Form</a>
-          </div>
-          <div className="text-[11px]" style={{ color: C.muted }}>© 2024–2025 BMI Housing. All rights reserved.</div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
