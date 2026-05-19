@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "mcp__Claude_Preview__preview_start",
+      "PowerShell(cmd /c \"dir /a `\"C:\\\\Users\\\\R K Developers\\\\Downloads\\\\channapatna_extracted`\"\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\R K Developers\\\\Downloads\\\\channapatna_extracted\\\\.claude\" 2>/dev/null; echo \"done\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "WebFetch(domain:www.bmihousing.com)",
+      "Bash(Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue)",
+      "PowerShell(ffmpeg -version 2>&1)",
+      "PowerShell(\\(Get-Item \"C:\\\\Users\\\\R K Developers\\\\OneDrive\\\\Desktop\\\\BMI webiste\\\\public\\\\hero.mp4\"\\).Length / 1MB | ForEach-Object { \"{0:N1} MB\" -f $_ })",
+      "Bash(Get-Content \"C:\\\\Users\\\\RKDEVE~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-R-K-Developers-OneDrive-Desktop-BMI-webiste\\\\35136cf2-d422-4b38-b63e-a78bb64c06e4\\\\tasks\\\\btyq97rtz.output\" -Wait)",
+      "Bash(Select-String --line-buffered \"localhost|Local|ready|error|Error\")",
+      "Bash(dir \"C:\\\\Users\\\\R K Developers\\\\OneDrive\\\\Desktop\\\\BMI webiste\\\\public\")",
+      "Bash(netstat -ano)",
+      "Bash(findstr \"════════\" \"C:\\\\Users\\\\R K Developers\\\\OneDrive\\\\Desktop\\\\BMI webiste\\\\src\\\\app\\\\home-v1\\\\HomeV1Client.jsx\")",
+      "Bash(findstr \"ABOUT\\\\|BETTER\\\\|WHY CHOOSE\\\\|BANK\\\\|section id\" \"C:\\\\Users\\\\R K Developers\\\\OneDrive\\\\Desktop\\\\BMI webiste\\\\src\\\\app\\\\home-v1\\\\our-projects\\\\ProjectsClient.jsx\")",
+      "Bash(findstr /i \"name\\\\|version\\\\|next\")",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

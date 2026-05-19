@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --slate:      #ffffff;
+  --slate-deep: #f5f5f3;
+  --pearl:      #1a1a18;
+  --gold:       #f59e0b;
+  --ember:      #ef4444;
+  --ember-green:#22c55e;
+}
+
+* { -webkit-font-smoothing: antialiased; }
+
+html, body {
+  background: var(--slate);
+  color: var(--pearl);
+  overflow: hidden;
+}
+
+::selection { background: var(--gold); color: #fff; }
+
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(245,158,11,0.3); border-radius: 4px; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* ── Glass ── */
+.glass {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid rgba(26, 26, 24, 0.07);
+  box-shadow: 0 2px 24px rgba(26,26,24,0.06);
+}
+.glass-light {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(26, 26, 24, 0.08);
+}
+
+/* ── 3D Stage ── */
+.zoom-stage {
+  position: fixed;
+  inset: 0;
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+.zoom-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+}
+
+/* ── Scene content: the padded container inside each section ── */
+.scene-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  height: 100vh;
+  padding: 136px 36px 72px; /* header ~62px + marquee strip ~36px + gap */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245,158,11,0.25) transparent;
+}
+
+/* ── Card base ── */
+.card {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(26,26,24,0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card:hover {
+  box-shadow: 0 8px 32px rgba(26,26,24,0.08);
+}
+
+/* ── Slow zoom for hero bg ── */
+@keyframes slow-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+.animate-slow-zoom {
+  animation: slow-zoom 18s ease-in-out infinite alternate;
+}
+
+/* ── Text clamp utilities ── */
+.line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+.line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+
+/* ── 3D icon badge ── */
+.icon-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── Mobile: smaller padding ── */
+@media (max-width: 768px) {
+  .scene-content {
+    padding: 120px 20px 60px;
+  }
+}

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMI Housing — Bengaluru Metro City Infrastructure Housing Co-Operative Society Ltd.</title>
+  <meta name="description" content="BMI Housing — premier co-operative housing society building affordable & luxury residential layouts across Bengaluru. Plots, villas & homes for a better tomorrow." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============== TOP NAV (Quick Section Links) ============== -->
+  <header class="top-nav" id="topNav">
+    <div class="nav-inner">
+      <a href="#home" class="logo" data-jump="0">
+        <span class="logo-mark">B<span>M</span>I</span>
+        <span class="logo-tag">Housing Society</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#home"        class="nav-link active" data-jump="0"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="#intro"       class="nav-link"        data-jump="1"><i class="fa-solid fa-circle-info"></i><span>Introduction</span></a>
+        <a href="#projects"    class="nav-link"        data-jump="2"><i class="fa-solid fa-building"></i><span>Projects</span></a>
+        <a href="#immersive"   class="nav-link"        data-jump="3"><i class="fa-solid fa-cube"></i><span>3D Tour</span></a>
+        <a href="#services"    class="nav-link"        data-jump="4"><i class="fa-solid fa-handshake"></i><span>Services</span></a>
+        <a href="#gallery"     class="nav-link"        data-jump="5"><i class="fa-solid fa-images"></i><span>Gallery</span></a>
+        <a href="#testimonials"class="nav-link"        data-jump="6"><i class="fa-solid fa-quote-left"></i><span>Reviews</span></a>
+        <a href="#contact"     class="nav-link"        data-jump="7"><i class="fa-solid fa-phone"></i><span>Contact</span></a>
+      </nav>
+
+      <a href="#contact" class="cta-btn" data-jump="7">
+        <i class="fa-solid fa-paper-plane"></i> Enquire Now
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <nav class="mobile-drawer" id="mobileDrawer" aria-label="Mobile">
+    <a href="#home"        class="active" data-jump="0"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="#intro"        data-jump="1"><i class="fa-solid fa-circle-info"></i> Introduction</a>
+    <a href="#projects"     data-jump="2"><i class="fa-solid fa-building"></i> Projects</a>
+    <a href="#immersive"    data-jump="3"><i class="fa-solid fa-cube"></i> 3D Tour</a>
+    <a href="#services"     data-jump="4"><i class="fa-solid fa-handshake"></i> Services</a>
+    <a href="#gallery"      data-jump="5"><i class="fa-solid fa-images"></i> Gallery</a>
+    <a href="#testimonials" data-jump="6"><i class="fa-solid fa-quote-left"></i> Reviews</a>
+    <a href="#contact"      data-jump="7"><i class="fa-solid fa-phone"></i> Contact</a>
+  </nav>
+
+  <!-- ============== PROGRESS RAIL ============== -->
+  <div class="progress-rail" aria-hidden="true">
+    <div class="progress-fill" id="progressFill"></div>
+    <ul class="progress-dots" id="progressDots">
+      <li data-jump="0" class="active" title="Home"><span></span></li>
+      <li data-jump="1" title="Introduction"><span></span></li>
+      <li data-jump="2" title="Projects"><span></span></li>
+      <li data-jump="3" title="3D Tour"><span></span></li>
+      <li data-jump="4" title="Services"><span></span></li>
+      <li data-jump="5" title="Gallery"><span></span></li>
+      <li data-jump="6" title="Testimonials"><span></span></li>
+      <li data-jump="7" title="Contact"><span></span></li>
+    </ul>
+  </div>
+
+  <!-- ============== FLOATING SIDE ACTIONS ============== -->
+  <aside class="side-actions" aria-label="Quick actions">
+    <a href="https://wa.me/919999999999" target="_blank" rel="noopener" class="side-btn whatsapp" data-tip="Chat on WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="ripple"></span>
+    </a>
+    <button class="side-btn ai" data-tip="Ask BMI AI" id="aiBtn">
+      <i class="fa-solid fa-robot"></i>
+      <span class="ripple"></span>
+    </button>
+    <button class="side-btn message" data-tip="Message Us" id="msgBtn">
+      <i class="fa-solid fa-comment-dots"></i>
+      <span class="ripple"></span>
+    </button>
+    <a href="#contact" class="side-btn contact" data-jump="7" data-tip="Contact Us">
+      <i class="fa-solid fa-headset"></i>
+      <span class="ripple"></span>
+    </a>
+    <a href="tel:+919999999999" class="side-btn call" data-tip="Call Us">
+      <i class="fa-solid fa-phone-volume"></i>
+      <span class="ripple"></span>
+    </a>
+  </aside>
+
+  <!-- ============== SECTIONS STACK (zoom-scroll stage) ============== -->
+  <main class="stage" id="stage">
+
+    <!-- ===== 0. HOME ===== -->
+    <section class="scene scene-home active" id="home" data-index="0">
+      <div class="scene-bg home-bg">
+        <div class="bg-overlay"></div>
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+      </div>
+      <div class="scene-content">
+        <div class="hero-tagline">
+          <span class="dot"></span> Bengaluru Metro City Infrastructure
+        </div>
+        <h1 class="hero-title">
+          <span class="line">Building Homes,</span>
+          <span class="line"><em>Building Trust.</em></span>
+        </h1>
+        <p class="hero-sub">
+          A premier housing co-operative society crafting premium plots,
+          villas &amp; layouts across Bengaluru since 2008.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary" data-jump="2">
+            <i class="fa-solid fa-building-circle-check"></i> Explore Projects
+          </a>
+          <a href="#contact" class="btn btn-ghost" data-jump="7">
+            <i class="fa-solid fa-calendar-check"></i> Book a Site Visit
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat"><b>15+</b><span>Years of Trust</span></div>
+          <div class="stat"><b>5,000+</b><span>Happy Members</span></div>
+          <div class="stat"><b>20+</b><span>Premium Layouts</span></div>
+          <div class="stat"><b>100%</b><span>Approved Plots</span></div>
+        </div>
+
+        <div class="scroll-hint">
+          <span>Scroll to Zoom</span>
+          <i class="fa-solid fa-angles-down"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 1. INTRODUCTION ===== -->
+    <section class="scene scene-intro" id="intro" data-index="1">
+      <div class="scene-bg intro-bg"><div class="bg-overlay"></div></div>
+      <div class="scene-content two-col">
+        <div class="col-text">
+          <span class="kicker"><i class="fa-solid fa-leaf"></i> Introduction</span>
+          <h2 class="section-title">A Legacy of Trusted Living Spaces</h2>
+          <p class="lead">
+            Bengaluru Metro City Infrastructure Housing Co-Operative Society Ltd. (BMI)
+            is one of Karnataka's most respected housing societies — committed to creating
+            sustainable, premium, and community-driven residential layouts.
+          </p>
+          <p class="lead">
+            We believe a home is more than four walls — it's a foundation for the future.
+            Every BMI layout is built on three pillars: <b>transparency</b>, <b>legality</b>,
+            and <b>long-term value</b>.
+          </p>
+
+          <ul class="check-list">
+            <li><i class="fa-solid fa-circle-check"></i> RERA &amp; DTCP Approved Layouts</li>
+            <li><i class="fa-solid fa-circle-check"></i> Clear Titles &amp; Bank Loan Ready</li>
+            <li><i class="fa-solid fa-circle-check"></i> Premium Amenities &amp; Gated Security</li>
+            <li><i class="fa-solid fa-circle-check"></i> Strategic Locations near Metro &amp; IT corridors</li>
+          </ul>
+
+          <a href="#projects" class="btn btn-primary" data-jump="2">
+            See Our Work <i class="fa-solid fa-arrow-right-long"></i>
+          </a>
+        </div>
+        <div class="col-visual">
+          <div class="float-card big">
+            <i class="fa-solid fa-trophy"></i>
+            <h4>15+ Years</h4>
+            <p>Of trusted real-estate excellence</p>
+          </div>
+          <div class="float-card sm card-a">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h4>100% Legal</h4>
+            <p>All approvals in place</p>
+          </div>
+          <div class="float-card sm card-b">
+            <i class="fa-solid fa-people-roof"></i>
+            <h4>5K+ Members</h4>
+            <p>Strong &amp; growing</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. PROJECTS ===== -->
+    <section class="scene scene-projects" id="projects" data-index="2">
+      <div class="scene-bg projects-bg"><div class="bg-overlay"></div></div>
+      <div class="scene-content">
+        <div class="section-head center">
+          <span class="kicker"><i class="fa-solid fa-city"></i> Our Projects</span>
+          <h2 class="section-title">Premium Layouts Across Bengaluru</h2>
+          <p class="lead-center">Strategically located, beautifully planned, and built to last.</p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-img" style="--img:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80')">
+              <span class="project-tag hot">Hot Selling</span>
+            </div>
+            <div class="project-info">
+              <h3>BMI Garden City</h3>
+              <p class="loc"><i class="fa-solid fa-location-dot"></i> Devanahalli, North Bengaluru</p>
+              <ul class="features">
+                <li><i class="fa-solid fa-vector-square"></i> 1200–2400 sqft</li>
+                <li><i class="fa-solid fa-tree"></i> 60% Open Space</li>
+                <li><i class="fa-solid fa-road"></i> 40ft Wide Roads</li>
+              </ul>
+              <a href="#contact" class="more" data-jump="7">View Details <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-img" style="--img:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80')">
+              <span class="project-tag new">New Launch</span>
+            </div>
+            <div class="project-info">
+              <h3>BMI Royal Meadows</h3>
+              <p class="loc"><i class="fa-solid fa-location-dot"></i> Sarjapur Road</p>
+              <ul class="features">
+                <li><i class="fa-solid fa-vector-square"></i> 1500–3000 sqft</li>
+                <li><i class="fa-solid fa-water"></i> Clubhouse</li>
+                <li><i class="fa-solid fa-shield"></i> 24/7 Security</li>
+              </ul>
+              <a href="#contact" class="more" data-jump="7">View Details <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-img" style="--img:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80')">
+              <span class="project-tag premium">Premium</span>
+            </div>
+            <div class="project-info">
+              <h3>BMI Green Valley</h3>
+              <p class="loc"><i class="fa-solid fa-location-dot"></i> Whitefield</p>
+              <ul class="features">
+                <li><i class="fa-solid fa-vector-square"></i> 1800–4000 sqft</li>
+                <li><i class="fa-solid fa-leaf"></i> Eco Friendly</li>
+                <li><i class="fa-solid fa-bolt"></i> Solar Lighting</li>
+              </ul>
+              <a href="#contact" class="more" data-jump="7">View Details <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-img" style="--img:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80')">
+              <span class="project-tag sold">Sold Out</span>
+            </div>
+            <div class="project-info">
+              <h3>BMI Sunshine Villas</h3>
+              <p class="loc"><i class="fa-solid fa-location-dot"></i> Hoskote</p>
+              <ul class="features">
+                <li><i class="fa-solid fa-house-chimney"></i> 3 &amp; 4 BHK</li>
+                <li><i class="fa-solid fa-dumbbell"></i> Gym &amp; Pool</li>
+                <li><i class="fa-solid fa-children"></i> Kids Park</li>
+              </ul>
+              <a href="#contact" class="more" data-jump="7">View Details <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. IMMERSIVE 3D LAYOUT ===== -->
+    <section class="scene scene-immersive" id="immersive" data-index="3">
+      <div class="scene-bg immersive-bg"><div class="bg-overlay"></div></div>
+      <canvas id="immersiveCanvas" class="immersive-canvas" aria-label="3D site plan"></canvas>
+      <div class="scene-content immersive-content">
+        <div class="immersive-overlay">
+          <span class="kicker"><i class="fa-solid fa-cube"></i> Immersive Layout</span>
+          <h2 class="section-title">Step Inside Your <em>Future Home</em></h2>
+          <p class="lead-center">Tour our 3D site plan &mdash; explore plots, greenery &amp; amenities in real time. Every element assembles as you arrive.</p>
+
+          <div class="immersive-stats">
+            <div class="i-chip">
+              <span class="i-chip-icon"><i class="fa-solid fa-vector-square"></i></span>
+              <div>
+                <span class="i-chip-label">Plot Sizes</span>
+                <span class="i-chip-value">1,200 &ndash; 4,000 sqft</span>
+              </div>
+            </div>
+            <div class="i-chip">
+              <span class="i-chip-icon"><i class="fa-solid fa-tag"></i></span>
+              <div>
+                <span class="i-chip-label">Starting at</span>
+                <span class="i-chip-value">&#8377;1,899 / sq.ft.</span>
+              </div>
+            </div>
+            <div class="i-chip">
+              <span class="i-chip-icon"><i class="fa-solid fa-tree"></i></span>
+              <div>
+                <span class="i-chip-label">Open Space</span>
+                <span class="i-chip-value">60% Greenery</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="immersive-hint">
+            <i class="fa-solid fa-arrow-pointer"></i>
+            Move your cursor over the layout to inspect
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. SERVICES ===== -->
+    <section class="scene scene-services" id="services" data-index="4">
+      <div class="scene-bg services-bg"><div class="bg-overlay"></div></div>
+      <div class="scene-content">
+        <div class="section-head center">
+          <span class="kicker"><i class="fa-solid fa-gears"></i> Services</span>
+          <h2 class="section-title">Why Choose BMI Housing</h2>
+          <p class="lead-center">End-to-end real estate solutions for your dream home.</p>
+        </div>
+
+        <div class="services-grid">
+          <div class="svc-card">
+            <div class="svc-icon"><i class="fa-solid fa-file-contract"></i></div>
+            <h4>Legal &amp; Approvals</h4>
+            <p>RERA, DTCP &amp; BMRDA approved plots with crystal-clear documentation.</p>
+          </div>
+          <div class="svc-card">
+            <div class="svc-icon"><i class="fa-solid fa-coins"></i></div>
+            <h4>Easy Finance</h4>
+            <p>Tie-ups with leading banks for instant home loans up to 90%.</p>
+          </div>
+          <div class="svc-card">
+            <div class="svc-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+            <h4>Architectural Design</h4>
+            <p>Custom villa &amp; home design by award-winning architects.</p>
+          </div>
+          <div class="svc-card">
+            <div class="svc-icon"><i class="fa-solid fa-trowel-bricks"></i></div>
+            <h4>Construction</h4>
+            <p>Turnkey home construction with premium-grade materials.</p>
+          </div>
+          <div class="svc-card">
+            <div class="svc-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+            <h4>Resale Support</h4>
+            <p>Hassle-free resale assistance with verified buyer network.</p>
+          </div>
+          <div class="svc-card">
+            <div class="svc-icon"><i class="fa-solid fa-headset"></i></div>
+            <h4>24/7 Support</h4>
+            <p>Dedicated relationship manager for every BMI member.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. GALLERY ===== -->
+    <section class="scene scene-gallery" id="gallery" data-index="5">
+      <div class="scene-bg gallery-bg"><div class="bg-overlay"></div></div>
+      <div class="scene-content">
+        <div class="section-head center">
+          <span class="kicker"><i class="fa-solid fa-camera-retro"></i> Gallery</span>
+          <h2 class="section-title">A Glimpse Inside BMI Communities</h2>
+          <p class="lead-center">Beautiful spaces, captured beautifully.</p>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="g-item g-tall" style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80')"></div>
+          <div class="g-item"        style="background-image:url('https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=800&q=80')"></div>
+          <div class="g-item"        style="background-image:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80')"></div>
+          <div class="g-item g-wide" style="background-image:url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80')"></div>
+          <div class="g-item"        style="background-image:url('https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&q=80')"></div>
+          <div class="g-item g-tall" style="background-image:url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80')"></div>
+          <div class="g-item"        style="background-image:url('https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&q=80')"></div>
+          <div class="g-item g-wide" style="background-image:url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80')"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. TESTIMONIALS ===== -->
+    <section class="scene scene-testimonials" id="testimonials" data-index="6">
+      <div class="scene-bg test-bg"><div class="bg-overlay"></div></div>
+      <div class="scene-content">
+        <div class="section-head center">
+          <span class="kicker"><i class="fa-solid fa-star"></i> Testimonials</span>
+          <h2 class="section-title">Voices of Our Members</h2>
+          <p class="lead-center">Real stories. Real homes. Real happiness.</p>
+        </div>
+
+        <div class="testimonial-grid">
+          <div class="t-card">
+            <i class="fa-solid fa-quote-left q"></i>
+            <p>"Buying my first plot with BMI was the smoothest experience. Transparent, legal, and zero stress."</p>
+            <div class="t-foot">
+              <div class="t-avatar" style="background-image:url('https://i.pravatar.cc/100?img=11')"></div>
+              <div><b>Rohit Sharma</b><span>Software Engineer, Bengaluru</span></div>
+            </div>
+            <div class="t-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          </div>
+          <div class="t-card">
+            <i class="fa-solid fa-quote-left q"></i>
+            <p>"BMI Garden City is everything they promised — wide roads, parks, and clear titles. Highly recommend."</p>
+            <div class="t-foot">
+              <div class="t-avatar" style="background-image:url('https://i.pravatar.cc/100?img=32')"></div>
+              <div><b>Anita Reddy</b><span>Doctor, Devanahalli</span></div>
+            </div>
+            <div class="t-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          </div>
+          <div class="t-card">
+            <i class="fa-solid fa-quote-left q"></i>
+            <p>"From site visit to registration, the BMI team handled everything. Truly a 5-star service."</p>
+            <div class="t-foot">
+              <div class="t-avatar" style="background-image:url('https://i.pravatar.cc/100?img=53')"></div>
+              <div><b>Vikram Iyer</b><span>Entrepreneur, Whitefield</span></div>
+            </div>
+            <div class="t-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. CONTACT ===== -->
+    <section class="scene scene-contact" id="contact" data-index="7">
+      <div class="scene-bg contact-bg"><div class="bg-overlay"></div></div>
+      <div class="scene-content two-col contact-col">
+        <div class="col-text">
+          <span class="kicker"><i class="fa-solid fa-paper-plane"></i> Contact</span>
+          <h2 class="section-title">Let's Build Your Dream Home Together</h2>
+          <p class="lead">
+            Talk to our advisors today. We'll help you find the perfect plot, villa,
+            or layout that matches your vision &amp; budget.
+          </p>
+
+          <ul class="contact-list">
+            <li><i class="fa-solid fa-location-dot"></i><div><b>Head Office</b><span>#42, MG Road, Bengaluru, Karnataka 560001</span></div></li>
+            <li><i class="fa-solid fa-phone"></i><div><b>Call Us</b><span>+91 99999 99999 / +91 88888 88888</span></div></li>
+            <li><i class="fa-solid fa-envelope"></i><div><b>Email</b><span>info@bmihousing.com</span></div></li>
+            <li><i class="fa-solid fa-clock"></i><div><b>Office Hours</b><span>Mon – Sat, 9:30 AM – 7:00 PM</span></div></li>
+          </ul>
+
+          <div class="socials">
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <form class="contact-form" id="contactForm" novalidate>
+          <h3>Send Us a Message</h3>
+          <div class="row">
+            <div class="field"><i class="fa-solid fa-user"></i><input type="text" required placeholder="Your Name" /></div>
+            <div class="field"><i class="fa-solid fa-phone"></i><input type="tel" required placeholder="Phone Number" /></div>
+          </div>
+          <div class="field"><i class="fa-solid fa-envelope"></i><input type="email" required placeholder="Email Address" /></div>
+          <div class="field"><i class="fa-solid fa-building"></i>
+            <select required>
+              <option value="">I'm interested in...</option>
+              <option>BMI Garden City</option>
+              <option>BMI Royal Meadows</option>
+              <option>BMI Green Valley</option>
+              <option>BMI Sunshine Villas</option>
+              <option>General Enquiry</option>
+            </select>
+          </div>
+          <div class="field tarea"><i class="fa-solid fa-message"></i><textarea rows="4" placeholder="Tell us a bit about what you're looking for..."></textarea></div>
+          <button type="submit" class="btn btn-primary big">
+            <i class="fa-solid fa-paper-plane"></i> Send Enquiry
+        
