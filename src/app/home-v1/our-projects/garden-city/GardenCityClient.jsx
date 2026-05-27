@@ -176,7 +176,7 @@ export default function GardenCityClient() {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            {["RERA Approved", "Bank Loan 90%", "Prime Location", "4-EMI Plan", "₹1,175/sqft"].map((tag, i) => (
+            {["Govt. Registered", "Bank Loan 90%", "Prime Location", "4-EMI Plan", "₹1,175/sqft"].map((tag, i) => (
               <span key={tag}
                 className="px-4 py-1.5 rounded-full text-[12px] font-semibold text-white"
                 style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}>
@@ -200,11 +200,10 @@ export default function GardenCityClient() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://www.bmihousing.com/wp-content/uploads/2023/07/Garden-City.jpg"
-              alt="BMI Garden City"
+              src="/garden-overview.png"
+              alt="BMI Garden City Overview"
               className="w-full h-auto object-cover"
               style={{ minHeight: "320px" }}
-              onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80"; }}
             />
             <div className="absolute bottom-4 left-4 px-4 py-2 rounded-xl text-[12px] font-bold text-white"
               style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})`, boxShadow: "0 4px 14px rgba(22,163,74,0.4)" }}>

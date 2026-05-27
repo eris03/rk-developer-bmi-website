@@ -179,7 +179,7 @@ export default function NorthMetroCityClient() {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            {["RERA Approved", "Bank Loan 90%", "Amity University Nearby", "4-EMI Plan", "₹1,199/sqft"].map((tag) => (
+            {["Govt. Registered", "Bank Loan 90%", "Amity University Nearby", "4-EMI Plan", "₹1,199/sqft"].map((tag) => (
               <span key={tag}
                 className="px-4 py-1.5 rounded-full text-[12px] font-semibold text-white"
                 style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}>
@@ -203,11 +203,10 @@ export default function NorthMetroCityClient() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://www.bmihousing.com/wp-content/uploads/2023/07/North-Metro-City.jpg"
-              alt="BMI North Metro City"
+              src="/north-metro-overview.png"
+              alt="BMI North Metro City Overview"
               className="w-full h-auto object-cover"
               style={{ minHeight: "320px" }}
-              onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"; }}
             />
             <div className="absolute bottom-4 left-4 px-4 py-2 rounded-xl text-[12px] font-bold text-white"
               style={{ background: `linear-gradient(135deg, ${C.orangeMid}, ${C.orange})`, boxShadow: `0 4px 14px ${C.orangeMid}66` }}>

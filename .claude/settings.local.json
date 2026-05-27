@@ -20,7 +20,20 @@
       "Bash(findstr /i \"name\\\\|version\\\\|next\")",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git config *)",
+      "Bash(npx vercel *)",
+      "Read(//c/Users/R K Developers/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/b92c56e5-6e90-495e-8def-2125900d797e/69ea2a10-841a-4513-b1f7-79bc5e3e2f28/skills/pdf/**)",
+      "Bash(python -c ' *)",
+      "Bash(python3 -c ' *)",
+      "Bash(where py *)",
+      "Bash(py --version)",
+      "Bash(node -e ' *)",
+      "Bash(node \"C:/Users/R K Developers/Desktop/read_pdfs.js\")",
+      "Bash(copy \"C:\\\\Users\\\\R K Developers\\\\Downloads\\\\Gemini_Generated_Image_mbwwmsmbwwmsmbww.png\" \"C:\\\\Users\\\\R K Developers\\\\OneDrive\\\\Desktop\\\\BMI webiste\\\\public\\\\north-metro-overview.png\")",
+      "Bash(copy \"C:\\\\Users\\\\R K Developers\\\\Downloads\\\\garden.png\" \"C:\\\\Users\\\\R K Developers\\\\OneDrive\\\\Desktop\\\\BMI webiste\\\\public\\\\garden-overview.png\")",
+      "Bash(cp \"/mnt/c/Users/R K Developers/Downloads/Gemini_Generated_Image_mbwwmsmbwwmsmbww.png\" \"/mnt/c/Users/R K Developers/OneDrive/Desktop/BMI webiste/public/north-metro-overview.png\")",
+      "Bash(cp \"/mnt/c/Users/R K Developers/Downloads/garden.png\" \"/mnt/c/Users/R K Developers/OneDrive/Desktop/BMI webiste/public/garden-overview.png\")"
     ]
   }
 }

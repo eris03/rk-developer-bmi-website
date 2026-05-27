@@ -164,13 +164,32 @@ export default function MembershipClient() {
   const [paymentMode, setPaymentMode] = useState("");
   const [checks, setChecks]           = useState({ c1: false, c2: false, c3: false });
   const [submitted, setSubmitted]     = useState(false);
+  const [loading, setLoading]         = useState(false);
 
   const toggleCheck = (k) => setChecks((p) => ({ ...p, [k]: !p[k] }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    const form = e.target;
+    const name   = form.querySelector('input[placeholder="FULL NAME IN CAPITALS"]')?.value || "";
+    const mobile = form.querySelector('input[placeholder="+91 XXXXX XXXXX"][type="tel"]')?.value || "";
+    const email  = form.querySelector('input[type="email"]')?.value || "";
+    try {
+      await fetch("/api/submit-application", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formType: "membership",
+          applicantName: name,
+          mobile,
+          email,
+          fields: { "Name": name, "Mobile": mobile, "Email": email, "Payment Mode": paymentMode || "Not specified" },
+        }),
+      });
+    } catch (_) { /* show popup regardless */ }
+    setLoading(false);
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 6000);
   };
 
   /* ──────────────────────────────────────────── */
@@ -243,25 +262,75 @@ export default function MembershipClient() {
       <section className="px-4 md:px-6 lg:px-10 py-14">
         <div className="max-w-5xl mx-auto">
 
-          {/* success toast */}
+          {/* ── THANK YOU POPUP MODAL ── */}
           <AnimatePresence>
             {submitted && (
               <motion.div
-                initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }} className="mb-8 p-5 rounded-2xl flex items-center gap-4"
-                style={{ background: C.greenLight, border: `1.5px solid ${C.green}` }}>
-                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: C.green }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5} className="w-5 h-5">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                </div>
-                <div>
-                  <div className="font-bold text-[15px]" style={{ color: C.greenDark }}>Membership Application Submitted!</div>
-                  <div className="text-[13px]" style={{ color: C.body }}>
-                    We will contact you at your registered mobile / email shortly.
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[999] flex items-center justify-center p-6"
+                style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)" }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.85, y: 40 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  transition={{ type: "spring", stiffness: 280, damping: 24 }}
+                  className="relative max-w-md w-full rounded-3xl overflow-hidden text-center"
+                  style={{ background: "#ffffff", boxShadow: "0 32px 80px rgba(0,0,0,0.35)" }}
+                >
+                  {/* Green header band */}
+                  <div className="px-8 pt-10 pb-8"
+                    style={{ background: `linear-gradient(135deg, ${C.greenDark}, #0d2818)` }}>
+                    <motion.div
+                      initial={{ scale: 0 }} animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
+                      className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5"
+                      style={{ background: "rgba(34,197,94,0.2)", border: "3px solid rgba(134,239,172,0.5)" }}
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#86efac" strokeWidth={2.5} className="w-10 h-10">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </motion.div>
+                    <h2 className="font-extrabold text-2xl text-white mb-2">
+                      Thank You for Registering!
+                    </h2>
+                    <p className="text-[14px]" style={{ color: "rgba(255,255,255,0.65)" }}>
+                      Your membership application has been received successfully.
+                    </p>
                   </div>
-                </div>
+
+                  {/* Body */}
+                  <div className="px-8 py-7">
+                    <div className="p-5 rounded-2xl mb-6"
+                      style={{ background: C.bgSection, border: `1.5px solid ${C.border}` }}>
+                      <p className="text-[14px] leading-relaxed font-medium" style={{ color: C.body }}>
+                        For further steps or to process your application, please contact our
+                        <span className="font-bold" style={{ color: C.greenDark }}> Sales Executive</span>.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <a href="tel:7710556677"
+                        className="flex items-center justify-center gap-2 py-3.5 rounded-xl text-[14px] font-bold text-white"
+                        style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.91 19.79 19.79 0 0 1 1.61 4.28 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.7a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Call: 7710556677
+                      </a>
+                      <a href="mailto:info@bmihousing.com"
+                        className="flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-semibold"
+                        style={{ background: C.greenLight, color: C.greenDark, border: `1px solid ${C.border}` }}>
+                        info@bmihousing.com
+                      </a>
+                      <button
+                        onClick={() => setSubmitted(false)}
+                        className="py-3 rounded-xl text-[13px] font-medium"
+                        style={{ background: "#f3f4f6", color: C.muted }}>
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -693,10 +762,17 @@ export default function MembershipClient() {
                   transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 0.6 }}
                 />
                 <span className="relative flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5">
-                    <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/>
-                  </svg>
-                  Submit Membership Application
+                  {loading ? (
+                    <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                      <circle cx="12" cy="12" r="10" strokeDasharray="32" strokeDashoffset="32" style={{ opacity: 0.4 }}/>
+                      <path d="M12 2a10 10 0 0 1 10 10" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5">
+                      <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/>
+                    </svg>
+                  )}
+                  {loading ? "Submitting…" : "Submit Membership Application"}
                 </span>
               </motion.button>
             </motion.div>

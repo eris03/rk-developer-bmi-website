@@ -39,7 +39,7 @@ const C = {
 
 const CHECKLIST = [
   "Project layout maps & plot details",
-  "RERA, DTCP & BMRDA approvals",
+  "DTCP & BMRDA approvals",
   "Pricing & 4-EMI payment plan",
   "Amenities & infrastructure highlights",
   "Bank loan information up to 90%",
@@ -241,60 +241,45 @@ export default function EBrochureClient() {
                 </span>
               </motion.div>
 
-              {/* Heading */}
+              {/* Kannada heading — large */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="font-extrabold text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.08] mb-5"
-                style={{ color: "#ffffff" }}
+                className="font-extrabold text-3xl md:text-4xl lg:text-5xl leading-snug mb-3"
+                style={{ color: "#86efac" }}
               >
-                BMI Housing{" "}
-                <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                  E-Brochure
-                </span>
-                <br />
-                <span className="text-3xl md:text-4xl" style={{ color: "rgba(255,255,255,0.55)" }}>2024–25</span>
+                ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್<br />
+                ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ ಲಿ.
               </motion.h1>
 
-              {/* Description */}
+              {/* English sub-heading — smaller */}
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35, duration: 0.7 }}
-                className="text-[15px] leading-relaxed mb-8"
-                style={{ color: "rgba(255,255,255,0.6)" }}
+                className="text-[17px] md:text-[19px] font-semibold leading-snug mb-3"
+                style={{ color: "rgba(255,255,255,0.75)" }}
               >
-                Get complete details about our premium layouts, pricing, amenities, floor plans, and
-                government approvals — all in one convenient digital brochure.
+                Bengaluru Metro City Infrastructure Housing<br />
+                Co-Operative Society Ltd
               </motion.p>
 
-              {/* Checklist */}
-              <ul className="flex flex-col gap-3 mb-10">
-                {CHECKLIST.map((item, i) => (
-                  <motion.li
-                    key={item}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.45 + i * 0.08, duration: 0.55 }}
-                    className="flex items-center gap-3 text-[14px]"
-                    style={{ color: "rgba(255,255,255,0.75)" }}
-                  >
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5 + i * 0.08, type: "spring", stiffness: 400 }}
-                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                      style={{ background: `${C.greenMid}22`, border: `1px solid ${C.greenMid}50` }}
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke={C.greenMid} strokeWidth={3} className="w-3 h-3">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </motion.span>
-                    {item}
-                  </motion.li>
-                ))}
-              </ul>
+              {/* Reg No */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.42, duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl mb-8"
+                style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)" }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke={C.greenMid} strokeWidth={2} className="w-4 h-4 shrink-0">
+                  <circle cx="12" cy="8" r="5"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
+                </svg>
+                <span className="text-[12px] font-semibold" style={{ color: C.greenMid }}>
+                  Reg No. JRB/RGN/CR-13/51578/2022-23
+                </span>
+              </motion.div>
 
               {/* Download button */}
               <motion.div
@@ -388,30 +373,30 @@ export default function EBrochureClient() {
         <div className="w-16 h-1 rounded-full mx-auto mb-10" style={{ background: `linear-gradient(90deg, ${C.green}, ${C.greenMid})` }} />
 
         <div className="max-w-3xl mx-auto text-center">
-          {/* English heading */}
+          {/* Kannada — large, first */}
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="font-extrabold text-2xl md:text-3xl leading-snug mb-4"
-            style={{ color: "#1a1a2e" }}
+            className="font-extrabold text-3xl md:text-4xl leading-snug mb-3"
+            style={{ color: C.green }}
           >
-            Bengaluru Metro City Infrastructure Housing<br />
-            Co-Operative Society Ltd
+            ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್<br />
+            ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ ಲಿ.
           </motion.h2>
 
-          {/* Kannada */}
+          {/* English — smaller, below */}
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.7 }}
-            className="kannada text-xl md:text-2xl font-semibold leading-relaxed mb-8"
-            style={{ color: "#1a1a2e" }}
+            className="text-lg md:text-xl font-semibold leading-snug mb-8"
+            style={{ color: "#374151" }}
           >
-            ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್<br />
-            ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ ಲಿ.
+            Bengaluru Metro City Infrastructure Housing<br />
+            Co-Operative Society Ltd
           </motion.p>
 
           {/* Description */}

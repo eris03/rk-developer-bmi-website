@@ -480,7 +480,7 @@ export default function ProjectsClient() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-extrabold text-2xl mb-1" style={{ color: C.text }}>BMI Garden City</h3>
-                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · RERA Approved</p>
+                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · Govt. Registered</p>
                   </div>
                   <span className="px-3 py-1 rounded-full text-[11px] font-bold" style={{ background: C.greenLight, color: C.greenDark }}>
                     ₹1,175/sqft
@@ -537,7 +537,7 @@ export default function ProjectsClient() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-extrabold text-2xl mb-1" style={{ color: C.text }}>BMI North Metro City</h3>
-                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · RERA Approved</p>
+                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · Govt. Registered</p>
                   </div>
                   <span className="px-3 py-1 rounded-full text-[11px] font-bold" style={{ background: "#ffedd5", color: "#c2410c" }}>
                     ₹1,199/sqft
@@ -590,8 +590,8 @@ export default function ProjectsClient() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <BetterCard delay={0} accent={C.green} title="RERA Approved"
-              desc="All our layouts are RERA, DTCP & BMRDA approved. 100% legal with government-registered co-operative society."
+            <BetterCard delay={0} accent={C.green} title="Govt. Registered Society"
+              desc="100% legal government-registered co-operative society. Layouts approved by DTCP &amp; BMRDA with complete documentation."
               icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>}
             />
             <BetterCard delay={0.07} accent={C.blue} title="Bank Loan up to 90%"

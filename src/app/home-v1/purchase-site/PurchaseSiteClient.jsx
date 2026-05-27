@@ -172,21 +172,36 @@ function TableRows({ columns, rows, setRows, accentColor }) {
 
 /* ═══ MAIN ═══ */
 export default function PurchaseSiteClient() {
-  const [scSt, setScSt] = useState("");
+  const [scSt, setScSt]           = useState("");
   const [karnataka, setKarnataka] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading]     = useState(false);
 
-  const [nomineeRows, setNomineeRows] = useState([
-    { name: "", relationship: "", age: "", dob: "" }
-  ]);
-  const [familyRows, setFamilyRows] = useState([
-    { name: "", relationship: "", age: "", occupation: "" }
-  ]);
+  const [nomineeRows, setNomineeRows] = useState([{ name: "", relationship: "", age: "", dob: "" }]);
+  const [familyRows, setFamilyRows]   = useState([{ name: "", relationship: "", age: "", occupation: "" }]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    const form   = e.target;
+    const name   = form.querySelector('input[placeholder="As in official records (Block Letters)"]')?.value || "";
+    const mobile = form.querySelector('input[placeholder="+91 xxxxx xxxxx"]')?.value || "";
+    const email  = form.querySelector('input[type="email"]')?.value || "";
+    try {
+      await fetch("/api/submit-application", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formType: "purchase",
+          applicantName: name,
+          mobile,
+          email,
+          fields: { "Name": name, "Mobile": mobile, "Email": email, "SC/ST": scSt || "No", "Karnataka": karnataka || "Not specified" },
+        }),
+      });
+    } catch (_) { /* show popup regardless */ }
+    setLoading(false);
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 6000);
   };
 
   return (
@@ -240,7 +255,7 @@ export default function PurchaseSiteClient() {
           {/* Quick info chips */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
             className="flex flex-wrap items-center justify-center gap-2">
-            {["₹100 Form Fee", "RERA Approved", "Bank Loan Available", "Govt. Registered"].map(tag => (
+            {["₹100 Form Fee", "DTCP & BMRDA Approved", "Bank Loan Available", "Govt. Registered"].map(tag => (
               <span key={tag} className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white"
                 style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}>
                 {tag}
@@ -275,6 +290,76 @@ export default function PurchaseSiteClient() {
 
       {/* ── FORM ── */}
       <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-6 lg:px-0 py-8 flex flex-col gap-6">
+
+        {/* ── THANK YOU POPUP MODAL ── */}
+        <AnimatePresence>
+          {submitted && (
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[999] flex items-center justify-center p-6"
+              style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)" }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.85, y: 40 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", stiffness: 280, damping: 24 }}
+                className="relative max-w-md w-full rounded-3xl overflow-hidden text-center"
+                style={{ background: "#ffffff", boxShadow: "0 32px 80px rgba(0,0,0,0.35)" }}
+              >
+                <div className="px-8 pt-10 pb-8"
+                  style={{ background: "linear-gradient(135deg, #071a0e, #0d2818)" }}>
+                  <motion.div
+                    initial={{ scale: 0 }} animate={{ scale: 1 }}
+                    transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
+                    className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5"
+                    style={{ background: "rgba(34,197,94,0.2)", border: "3px solid rgba(134,239,172,0.5)" }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#86efac" strokeWidth={2.5} className="w-10 h-10">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </motion.div>
+                  <h2 className="font-extrabold text-2xl text-white mb-2">
+                    Thank You for Registering!
+                  </h2>
+                  <p className="text-[14px]" style={{ color: "rgba(255,255,255,0.65)" }}>
+                    Your application for purchase of site has been received.
+                  </p>
+                </div>
+                <div className="px-8 py-7">
+                  <div className="p-5 rounded-2xl mb-6"
+                    style={{ background: C.bgSection, border: `1.5px solid ${C.border}` }}>
+                    <p className="text-[14px] leading-relaxed font-medium" style={{ color: C.body }}>
+                      For further steps or to process your application, please contact our
+                      <span className="font-bold" style={{ color: C.greenDark }}> Sales Executive</span>.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <a href="tel:7710556677"
+                      className="flex items-center justify-center gap-2 py-3.5 rounded-xl text-[14px] font-bold text-white"
+                      style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.91 19.79 19.79 0 0 1 1.61 4.28 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.7a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                      </svg>
+                      Call: 7710556677
+                    </a>
+                    <a href="mailto:info@bmihousing.com"
+                      className="flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-semibold"
+                      style={{ background: C.greenLight, color: C.greenDark, border: `1px solid ${C.border}` }}>
+                      info@bmihousing.com
+                    </a>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="py-3 rounded-xl text-[13px] font-medium"
+                      style={{ background: "#f3f4f6", color: C.muted }}>
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* CARD 1 — Personal Details */}
         <Card number="1" title="Applicant Details" accent={C.green}
@@ -527,51 +612,37 @@ export default function PurchaseSiteClient() {
         </motion.div>
 
         {/* ── Submit ── */}
-        <AnimatePresence mode="wait">
-          {submitted ? (
-            <motion.div key="success"
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-              className="flex flex-col items-center gap-4 py-10 rounded-2xl"
-              style={{ background: C.greenLight, border: `2px solid ${C.green}` }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ background: C.green }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5} className="w-8 h-8">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              </div>
-              <div className="text-center">
-                <h3 className="font-extrabold text-xl mb-1" style={{ color: C.greenDark }}>Application Submitted!</h3>
-                <p className="text-[14px]" style={{ color: C.green }}>
-                  Our team will contact you within 2 business days. Thank you!
-                </p>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div key="btn" className="flex flex-col sm:flex-row gap-4">
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.03, boxShadow: `0 14px 40px ${C.green}50` }}
-                whileTap={{ scale: 0.97 }}
-                className="flex-1 flex items-center justify-center gap-2 py-4 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group"
-                style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
-              >
-                <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100"
-                  style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%)" }}
-                  animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 0.8 }} />
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5 shrink-0">
-                  <path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/>
-                </svg>
-                Submit Application for Purchase of Site
-              </motion.button>
-              <motion.a href="/home-v1/membership"
-                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-[14px] font-bold"
-                style={{ background: C.bgWhite, border: `2px solid ${C.border}`, color: C.green }}>
-                Apply for Membership →
-              </motion.a>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div className="flex flex-col sm:flex-row gap-4">
+          <motion.button
+            type="submit"
+            disabled={loading}
+            whileHover={{ scale: 1.03, boxShadow: `0 14px 40px ${C.green}50` }}
+            whileTap={{ scale: 0.97 }}
+            className="flex-1 flex items-center justify-center gap-2 py-4 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group"
+            style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})`, opacity: loading ? 0.75 : 1 }}
+          >
+            <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100"
+              style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%)" }}
+              animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 0.8 }} />
+            {loading ? (
+              <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                <circle cx="12" cy="12" r="10" strokeDasharray="32" strokeDashoffset="32" style={{ opacity: 0.3 }}/>
+                <path d="M12 2a10 10 0 0 1 10 10" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-5 h-5 shrink-0">
+                <path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/>
+              </svg>
+            )}
+            {loading ? "Submitting…" : "Submit Application for Purchase of Site"}
+          </motion.button>
+          <motion.a href="/home-v1/membership"
+            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+            className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-[14px] font-bold"
+            style={{ background: C.bgWhite, border: `2px solid ${C.border}`, color: C.green }}>
+            Apply for Membership →
+          </motion.a>
+        </motion.div>
 
         {/* Office reference */}
         <div className="text-center pb-4">
