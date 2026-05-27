@@ -243,9 +243,9 @@ export default function PurchaseSiteClient() {
             style={{ color: "#86efac" }}>
             ನಿವೇಶನ ಖರೀದಿಗಾಗಿ ಅರ್ಜಿ
           </motion.h1>
-          {/* English — smaller, below */}
+          {/* English — smaller, below — one line */}
           <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.18 }}
-            className="font-extrabold text-2xl md:text-3xl lg:text-4xl tracking-tight mb-5 text-white leading-tight">
+            className="font-extrabold text-xl md:text-2xl lg:text-3xl tracking-tight mb-5 text-white whitespace-nowrap leading-tight">
             Application for{" "}
             <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Purchase of Site

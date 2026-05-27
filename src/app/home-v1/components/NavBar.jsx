@@ -43,7 +43,7 @@ function DropdownPanel({ items, align = "left" }) {
           key={item.label}
           href={item.href || "#"}
           className="flex flex-col gap-0.5 px-4 py-3.5 hover:bg-green-50 transition-colors group border-b last:border-b-0"
-          style={{ borderColor: C.border, display: "block" }}
+          style={{ borderColor: C.border }}
         >
           <span className="text-[13px] font-semibold group-hover:text-green-700 transition-colors" style={{ color: C.text }}>{item.label}</span>
           <span className="text-[11px]" style={{ color: C.muted }}>{item.sub}</span>
