@@ -23,8 +23,8 @@ const NAV_MENUS = {
     { label: "All Projects",         sub: "Explore our full portfolio",     href: "/home-v1/our-projects" },
   ],
   apply: [
-    { label: "Membership Registration",  sub: "Join the co-operative society", href: "/home-v1/membership" },
-    { label: "Application Registration", sub: "Submit your application form",  href: "/home-v1/application-registration" },
+    { label: "Application for Purchase of Site", sub: "Apply for a residential plot",       href: "/home-v1/purchase-site" },
+    { label: "Application for Membership",       sub: "Join the co-operative society",      href: "/home-v1/membership" },
   ],
 };
 
@@ -323,7 +323,7 @@ export default function NavBar({ activePage = "" }) {
                 <div className="my-3 h-px" style={{ background: C.border }} />
 
                 {/* Apply Now links */}
-                <p className="px-4 text-[10px] font-bold tracking-[0.2em] uppercase mb-2" style={{ color: C.muted }}>Apply</p>
+                <p className="px-4 text-[10px] font-bold tracking-[0.2em] uppercase mb-2" style={{ color: C.muted }}>Apply Now</p>
                 {NAV_MENUS.apply.map((item, i) => (
                   <motion.a
                     key={item.label}
