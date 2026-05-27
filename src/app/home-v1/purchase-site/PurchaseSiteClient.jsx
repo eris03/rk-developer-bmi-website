@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -225,7 +225,7 @@ export default function PurchaseSiteClient() {
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="flex items-center justify-center gap-2 text-[12px] mb-5"
             style={{ color: "rgba(255,255,255,0.45)" }}>
-            <a href="/home-v1" className="hover:text-green-400 transition-colors">Home</a>
+            <a href="/" className="hover:text-green-400 transition-colors">Home</a>
             <span>/</span>
             <span style={{ color: C.greenMid }}>Purchase of Site</span>
           </motion.div>
@@ -636,7 +636,7 @@ export default function PurchaseSiteClient() {
             )}
             {loading ? "Submitting…" : "Submit Application for Purchase of Site"}
           </motion.button>
-          <motion.a href="/home-v1/membership"
+          <motion.a href="/membership"
             whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
             className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-[14px] font-bold"
             style={{ background: C.bgWhite, border: `2px solid ${C.border}`, color: C.green }}>

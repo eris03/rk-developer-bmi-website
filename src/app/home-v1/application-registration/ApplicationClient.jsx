@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -104,7 +104,7 @@ export default function ApplicationClient() {
           <motion.div initial={{ opacity:0, y:-8 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.5 }}
             className="flex items-center justify-center gap-2 text-[12px] mb-5"
             style={{ color:"rgba(255,255,255,0.45)" }}>
-            <a href="/home-v1" className="hover:text-green-400 transition-colors">Home</a>
+            <a href="/" className="hover:text-green-400 transition-colors">Home</a>
             <span>/</span>
             <span style={{ color: C.greenMid }}>Application Registration</span>
           </motion.div>

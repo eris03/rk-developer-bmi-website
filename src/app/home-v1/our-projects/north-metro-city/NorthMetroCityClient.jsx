@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,7 +38,7 @@ function Navbar() {
       style={{ background: "rgba(255,255,255,0.93)", backdropFilter: "blur(16px)", boxShadow: "0 2px 20px rgba(0,0,0,0.07)" }}
     >
       <div className="px-6 lg:px-10 py-3 flex items-center justify-between gap-4">
-        <a href="/home-v1" className="flex items-center gap-2.5 shrink-0">
+        <a href="/" className="flex items-center gap-2.5 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img
             src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
@@ -53,10 +53,10 @@ function Navbar() {
 
         <nav className="hidden lg:flex items-center gap-0.5">
           {[
-            { label: "Home",         href: "/home-v1" },
-            { label: "E Brochure",   href: "/home-v1/e-brochure" },
-            { label: "Our Projects", href: "/home-v1/our-projects", active: true },
-            { label: "About Us",     href: "/home-v1/our-projects#about" },
+            { label: "Home",         href: "/" },
+            { label: "E Brochure",   href: "/e-brochure" },
+            { label: "Our Projects", href: "/our-projects", active: true },
+            { label: "About Us",     href: "/our-projects#about" },
           ].map((lk) => (
             <motion.a
               key={lk.label}
@@ -72,7 +72,7 @@ function Navbar() {
         </nav>
 
         <motion.a
-          href="/home-v1/membership"
+          href="/membership"
           whileHover={{ scale: 1.05, boxShadow: `0 6px 20px ${C.orangeMid}50` }}
           whileTap={{ scale: 0.96 }}
           className="shrink-0 flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-[13px] font-bold text-white relative overflow-hidden group"
@@ -134,7 +134,7 @@ export default function NorthMetroCityClient() {
             className="flex items-center justify-center gap-2 text-[12px] mb-6"
             style={{ color: "rgba(255,255,255,0.45)" }}
           >
-            <a href="/home-v1/our-projects" className="hover:text-orange-300 transition-colors">Our Projects</a>
+            <a href="/our-projects" className="hover:text-orange-300 transition-colors">Our Projects</a>
             <span>/</span>
             <span style={{ color: "#fdba74" }}>North Metro City</span>
           </motion.div>
@@ -457,7 +457,7 @@ export default function NorthMetroCityClient() {
             style={{ background: `linear-gradient(135deg, ${C.orangeMid}, ${C.orange})` }}>
             Call: 7710556677
           </motion.a>
-          <motion.a href="/home-v1/our-projects/garden-city"
+          <motion.a href="/our-projects/garden-city"
             whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}
             className="px-8 py-3.5 rounded-xl text-[14px] font-bold"
             style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}>

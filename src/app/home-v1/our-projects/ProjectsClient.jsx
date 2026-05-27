@@ -447,7 +447,7 @@ export default function ProjectsClient() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Garden City Card */}
             <motion.a
-              href="/home-v1/our-projects/garden-city"
+              href="/our-projects/garden-city"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -504,7 +504,7 @@ export default function ProjectsClient() {
 
             {/* North Metro City Card */}
             <motion.a
-              href="/home-v1/our-projects/north-metro-city"
+              href="/our-projects/north-metro-city"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -829,10 +829,10 @@ export default function ProjectsClient() {
               <h4 className="font-bold text-[16px] mb-5" style={{ color: C.greenDark }}>Important Links</h4>
               <div className="flex flex-col gap-3">
                 {[
-                  { label: "Home",                    href: "/home-v1" },
-                  { label: "E Brochure",              href: "/home-v1/e-brochure" },
+                  { label: "Home",                    href: "/" },
+                  { label: "E Brochure",              href: "/e-brochure" },
                   { label: "About Us",                href: "#about" },
-                  { label: "Membership Registration", href: "/home-v1/membership" },
+                  { label: "Membership Registration", href: "/membership" },
                   { label: "Contact",                 href: "#" },
                 ].map((l, i) => (
                   <motion.a key={l.label} href={l.href}

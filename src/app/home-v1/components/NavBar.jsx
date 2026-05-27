@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,13 +18,13 @@ const C = {
 
 const NAV_MENUS = {
   projects: [
-    { label: "BMI Garden City",      sub: "Off NH 207, Devanahalli",       href: "/home-v1/our-projects/garden-city" },
-    { label: "BMI North Metro City", sub: "Adjacent to Amity University",  href: "/home-v1/our-projects/north-metro-city" },
-    { label: "All Projects",         sub: "Explore our full portfolio",     href: "/home-v1/our-projects" },
+    { label: "BMI Garden City",      sub: "Off NH 207, Devanahalli",       href: "/our-projects/garden-city" },
+    { label: "BMI North Metro City", sub: "Adjacent to Amity University",  href: "/our-projects/north-metro-city" },
+    { label: "All Projects",         sub: "Explore our full portfolio",     href: "/our-projects" },
   ],
   apply: [
-    { label: "Application for Purchase of Site", sub: "Apply for a residential plot",       href: "/home-v1/purchase-site" },
-    { label: "Application for Membership",       sub: "Join the co-operative society",      href: "/home-v1/membership" },
+    { label: "Application for Purchase of Site", sub: "Apply for a residential plot",       href: "/purchase-site" },
+    { label: "Application for Membership",       sub: "Join the co-operative society",      href: "/membership" },
   ],
 };
 
@@ -65,10 +65,10 @@ export default function NavBar({ activePage = "" }) {
   }, []);
 
   const navLinks = [
-    { label: "Home",         href: "/home-v1" },
-    { label: "E Brochure",   href: "/home-v1/e-brochure" },
-    { label: "Our Projects", href: "/home-v1/our-projects", menu: "projects" },
-    { label: "About Us",     href: "/home-v1/our-projects#about" },
+    { label: "Home",         href: "/" },
+    { label: "E Brochure",   href: "/e-brochure" },
+    { label: "Our Projects", href: "/our-projects", menu: "projects" },
+    { label: "About Us",     href: "/our-projects#about" },
   ];
 
   return (
@@ -89,7 +89,7 @@ export default function NavBar({ activePage = "" }) {
         <div className="px-5 lg:px-10 py-3 flex items-center justify-between gap-4">
 
           {/* Logo */}
-          <a href="/home-v1" className="flex items-center gap-2.5 shrink-0 group">
+          <a href="/" className="flex items-center gap-2.5 shrink-0 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <motion.img
               src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
@@ -275,10 +275,10 @@ export default function NavBar({ activePage = "" }) {
               {/* Nav Links */}
               <div className="flex-1 px-4 py-5 flex flex-col gap-1">
                 {[
-                  { label: "Home",         href: "/home-v1" },
-                  { label: "E Brochure",   href: "/home-v1/e-brochure" },
-                  { label: "Our Projects", href: "/home-v1/our-projects" },
-                  { label: "About Us",     href: "/home-v1/our-projects#about" },
+                  { label: "Home",         href: "/" },
+                  { label: "E Brochure",   href: "/e-brochure" },
+                  { label: "Our Projects", href: "/our-projects" },
+                  { label: "About Us",     href: "/our-projects#about" },
                 ].map((lk, i) => (
                   <motion.a
                     key={lk.label}
@@ -301,8 +301,8 @@ export default function NavBar({ activePage = "" }) {
                 {/* Projects sub-links */}
                 <p className="px-4 text-[10px] font-bold tracking-[0.2em] uppercase mb-2" style={{ color: C.muted }}>Projects</p>
                 {[
-                  { label: "BMI Garden City",      href: "/home-v1/our-projects/garden-city" },
-                  { label: "BMI North Metro City",  href: "/home-v1/our-projects/north-metro-city" },
+                  { label: "BMI Garden City",      href: "/our-projects/garden-city" },
+                  { label: "BMI North Metro City",  href: "/our-projects/north-metro-city" },
                 ].map((lk, i) => (
                   <motion.a
                     key={lk.label}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 
@@ -110,14 +110,14 @@ export default function SiteFooter() {
             <h4 className="font-bold text-[16px] mb-5" style={{ color: C.greenDark }}>Important Links</h4>
             <div className="flex flex-col gap-3">
               {[
-                { label: "Home",                     href: "/home-v1" },
-                { label: "E Brochure",               href: "/home-v1/e-brochure" },
-                { label: "Our Projects",              href: "/home-v1/our-projects" },
-                { label: "BMI Garden City",           href: "/home-v1/our-projects/garden-city" },
-                { label: "BMI North Metro City",      href: "/home-v1/our-projects/north-metro-city" },
-                { label: "About Us",                  href: "/home-v1/our-projects#about" },
-                { label: "Membership Registration",   href: "/home-v1/membership" },
-                { label: "Application Registration",  href: "/home-v1/application-registration" },
+                { label: "Home",                     href: "/" },
+                { label: "E Brochure",               href: "/e-brochure" },
+                { label: "Our Projects",              href: "/our-projects" },
+                { label: "BMI Garden City",           href: "/our-projects/garden-city" },
+                { label: "BMI North Metro City",      href: "/our-projects/north-metro-city" },
+                { label: "About Us",                  href: "/our-projects#about" },
+                { label: "Membership Registration",   href: "/membership" },
+                { label: "Application Registration",  href: "/application-registration" },
               ].map((l, i) => (
                 <motion.a
                   key={l.label}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import SideActions from "../components/SideActions";
@@ -190,7 +190,7 @@ export default function HomeV1Client() {
             className="flex flex-wrap items-center justify-center gap-4 mb-14"
           >
             <motion.a
-              href="/home-v1/our-projects"
+              href="/our-projects"
               whileHover={{ scale: 1.06, boxShadow: "0 12px 36px rgba(22,163,74,0.55)" }}
               whileTap={{ scale: 0.96 }}
               className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group"
@@ -209,7 +209,7 @@ export default function HomeV1Client() {
               Explore Projects
             </motion.a>
             <motion.a
-              href="/home-v1/membership"
+              href="/membership"
               whileHover={{ scale: 1.06, backgroundColor: "rgba(255,255,255,0.18)" }}
               whileTap={{ scale: 0.96 }}
               className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white"

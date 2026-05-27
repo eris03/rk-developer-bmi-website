@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import {
@@ -125,7 +125,7 @@ export default function EBrochureClient() {
         style={{ background: "rgba(255,255,255,0.93)", backdropFilter: "blur(16px)", boxShadow: "0 2px 20px rgba(0,0,0,0.07)" }}
       >
         <div className="px-6 lg:px-10 py-3 flex items-center justify-between gap-4">
-          <a href="/home-v1" className="flex items-center gap-2.5 shrink-0 group">
+          <a href="/" className="flex items-center gap-2.5 shrink-0 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <motion.img
               src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
@@ -140,9 +140,9 @@ export default function EBrochureClient() {
 
           <nav className="hidden lg:flex items-center gap-0.5">
             {[
-              { label: "Home",         href: "/home-v1" },
-              { label: "E Brochure",   href: "/home-v1/e-brochure", active: true },
-              { label: "Our Projects", href: "/home-v1/our-projects", menu: "projects" },
+              { label: "Home",         href: "/" },
+              { label: "E Brochure",   href: "/e-brochure", active: true },
+              { label: "Our Projects", href: "/our-projects", menu: "projects" },
             ].map((lk) => (
               <div key={lk.label} className="relative" onClick={lk.menu ? (e) => e.stopPropagation() : undefined}>
                 {lk.menu ? (
@@ -439,7 +439,7 @@ export default function EBrochureClient() {
             transition={{ delay: 0.3, duration: 0.6 }}
           >
             <motion.a
-              href="/home-v1/our-projects#about"
+              href="/our-projects#about"
               whileHover={{ scale: 1.05, boxShadow: `0 8px 24px ${C.green}44` }}
               whileTap={{ scale: 0.96 }}
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-[14px] font-bold text-white"
@@ -460,8 +460,8 @@ export default function EBrochureClient() {
             © 2024–2025 BMI Housing Co-Operative Society. All rights reserved.
           </div>
           <div className="flex items-center gap-5 text-[12px]" style={{ color: "rgba(255,255,255,0.35)" }}>
-            <a href="/home-v1" className="hover:text-white transition-colors">Home</a>
-            <a href="/home-v1/our-projects" className="hover:text-white transition-colors">Our Projects</a>
+            <a href="/" className="hover:text-white transition-colors">Home</a>
+            <a href="/our-projects" className="hover:text-white transition-colors">Our Projects</a>
             <a href="tel:+917710556677" className="hover:text-white transition-colors">7710556677</a>
           </div>
         </div>
