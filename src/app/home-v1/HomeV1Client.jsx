@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef } from "react";
 import SideActions from "../components/SideActions";
@@ -17,24 +17,163 @@ import {
 const C = {
   bg:         "#ffffff",
   bgSection:  "#f8fef8",
-  bgGray:     "#f3f4f6",
-  bgDark:     "#071a0e",
+  bgDark:     "#030d07",
+  bgDark2:    "#071a0e",
   green:      "#16a34a",
   greenDark:  "#14532d",
   greenLight: "#dcfce7",
   greenMid:   "#22c55e",
   yellow:     "#d97706",
-  yellowLight:"#fef9c3",
+  orange:     "#ea580c",
   red:        "#dc2626",
-  blue:       "#1e3a8a",
   text:       "#1c3a1c",
   body:       "#374151",
   muted:      "#6b7280",
   border:     "#d1fae5",
   borderGray: "#e5e7eb",
-  shadowMd:   "0 4px 12px rgba(0,0,0,0.08)",
-  shadowLg:   "0 10px 30px rgba(0,0,0,0.12)",
 };
+
+/* ═══════════════════════════════════════
+   3D PROJECT CARD
+═══════════════════════════════════════ */
+function ProjectCard3D({ href, image, locationTag, nameKannada, nameEnglish, price, tags, accentColor, ctaLabel, delay = 0 }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 140, damping: 20 });
+  const sy = useSpring(y, { stiffness: 140, damping: 20 });
+  const rotateX = useTransform(sy, [-100, 100], [7, -7]);
+  const rotateY = useTransform(sx, [-100, 100], [-7, 7]);
+
+  return (
+    <motion.a
+      href={href}
+      initial={{ opacity: 0, y: 70, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        rotateX, rotateY,
+        transformStyle: "preserve-3d",
+        perspective: 1200,
+        textDecoration: "none",
+        display: "block",
+      }}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        x.set(e.clientX - r.left - r.width / 2);
+        y.set(e.clientY - r.top - r.height / 2);
+      }}
+      onMouseLeave={() => { x.set(0); y.set(0); }}
+      className="group relative rounded-[28px] overflow-hidden cursor-pointer"
+      style={{ height: "520px", boxShadow: `0 24px 80px rgba(0,0,0,0.5)` }}
+    >
+      {/* ── Background image with zoom ── */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={image}
+        alt={nameEnglish}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+      />
+
+      {/* ── Multi-layer gradient overlays ── */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.1) 75%, transparent 100%)" }} />
+      {/* Colored tint on hover */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ background: `linear-gradient(135deg, ${accentColor}25 0%, transparent 60%)` }}
+      />
+
+      {/* ── Glowing border ring on hover ── */}
+      <div
+        className="absolute inset-0 rounded-[28px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ boxShadow: `inset 0 0 0 2px ${accentColor}99, 0 0 80px ${accentColor}33` }}
+      />
+
+      {/* ── Floating glow blob ── */}
+      <motion.div
+        className="absolute -top-20 -right-20 w-56 h-56 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+        style={{ background: accentColor, filter: "blur(60px)", opacity: 0 }}
+        whileHover={{ opacity: 0.18 }}
+      />
+
+      {/* ── Location badge (top-left) ── */}
+      <div
+        className="absolute top-5 left-5 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold text-white"
+        style={{
+          background: `${accentColor}dd`,
+          backdropFilter: "blur(10px)",
+          boxShadow: `0 4px 16px ${accentColor}55`,
+        }}
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+        {locationTag}
+      </div>
+
+      {/* ── Arrow button (top-right) ── */}
+      <div
+        className="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center text-white text-[16px] font-bold opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-400"
+        style={{ background: "rgba(255,255,255,0.18)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.3)" }}
+      >
+        →
+      </div>
+
+      {/* ── Content panel (bottom) ── */}
+      <div className="absolute bottom-0 left-0 right-0 p-7 translate-y-1 group-hover:translate-y-0 transition-transform duration-400">
+        {/* Price badge */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: delay + 0.4, duration: 0.5 }}
+          className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-[12px] font-extrabold mb-4"
+          style={{
+            background: `${accentColor}`,
+            color: "#fff",
+            boxShadow: `0 6px 20px ${accentColor}66`,
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+          {price}
+        </motion.div>
+
+        {/* Kannada name */}
+        <div className="text-[13px] font-semibold mb-1 leading-snug" style={{ color: accentColor }}>
+          {nameKannada}
+        </div>
+
+        {/* English name */}
+        <h3 className="font-extrabold text-[22px] md:text-[26px] text-white mb-3 leading-tight">{nameEnglish}</h3>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {tags.map((t) => (
+            <span
+              key={t}
+              className="px-2.5 py-1 rounded-full text-[10px] font-semibold"
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                color: "rgba(255,255,255,0.82)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                backdropFilter: "blur(6px)",
+              }}
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="flex items-center gap-2 font-bold text-[14px] group-hover:gap-3 transition-all duration-300" style={{ color: accentColor }}>
+          {ctaLabel}
+          <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.4, repeat: Infinity }}>→</motion.span>
+        </div>
+      </div>
+    </motion.a>
+  );
+}
 
 /* ─── FEATURE CARD (3D tilt) ─── */
 function FeatureCard({ icon, title, desc, accent, delay = 0 }) {
@@ -109,7 +248,6 @@ function StatBadge({ value, label, delay = 0 }) {
   );
 }
 
-
 /* ═══════════════════════════════════════════
    MAIN
 ═══════════════════════════════════════════ */
@@ -128,93 +266,61 @@ export default function HomeV1Client() {
         style={{ scaleX: scrollYProgress, background: `linear-gradient(90deg, ${C.green}, ${C.greenMid}, ${C.yellow})` }}
       />
 
-      {/* ── Shared Nav ── */}
       <NavBar activePage="home" />
 
       {/* ════════════════════════════════════
-          HERO — fullscreen video + overlay
+          HERO — fullscreen video
       ════════════════════════════════════ */}
       <section className="relative w-full overflow-hidden" style={{ height: "100svh" }}>
-        {/* Video */}
-        <video
-          src="/hero.mp4"
-          autoPlay loop muted playsInline preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Dark overlay */}
+        <video src="/hero.mp4" autoPlay loop muted playsInline preload="auto"
+          className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(3,13,7,0.55) 0%, rgba(3,13,7,0.35) 40%, rgba(3,13,7,0.72) 100%)" }} />
 
-        {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center" style={{ paddingTop: "100px" }}>
-          {/* Tag */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+          <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-bold mb-6"
-            style={{ background: "rgba(34,197,94,0.18)", border: "1px solid rgba(34,197,94,0.4)", color: "#86efac" }}
-          >
+            style={{ background: "rgba(34,197,94,0.18)", border: "1px solid rgba(34,197,94,0.4)", color: "#86efac" }}>
             <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#22c55e" }} />
-            North Bengaluru's #1 Co-Op Society
+            North Bengaluru&apos;s #1 Co-Op Society
           </motion.div>
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
+          <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-extrabold text-4xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.08] mb-6 max-w-5xl"
-          >
+            className="font-extrabold text-4xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.08] mb-6 max-w-5xl">
             Your Dream Plot in{" "}
             <span style={{ background: "linear-gradient(90deg, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               North Bengaluru
             </span>
           </motion.h1>
 
-          {/* Sub-headline */}
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.7 }}
             className="text-[16px] md:text-[18px] max-w-2xl mb-10 leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.65)" }}
-          >
+            style={{ color: "rgba(255,255,255,0.65)" }}>
             Premium residential plots starting at ₹1,175/sqft — near Kempegowda Airport, ITIR Tech Park &amp; top universities.
           </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.85, duration: 0.7 }}
-            className="flex flex-wrap items-center justify-center gap-4 mb-14"
-          >
-            <motion.a
-              href="/our-projects"
+            className="flex flex-wrap items-center justify-center gap-4 mb-14">
+            <motion.a href="/our-projects"
               whileHover={{ scale: 1.06, boxShadow: "0 12px 36px rgba(22,163,74,0.55)" }}
               whileTap={{ scale: 0.96 }}
               className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group"
-              style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
-            >
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100"
+              style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}>
+              <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100"
                 style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
-                animate={{ x: ["-100%", "100%"] }}
-                transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 0.7 }}
-              />
+                animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 0.7 }} />
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4 shrink-0">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                 <polyline points="9 22 9 12 15 12 15 22"/>
               </svg>
               Explore Projects
             </motion.a>
-            <motion.a
-              href="/membership"
-              whileHover={{ scale: 1.06, backgroundColor: "rgba(255,255,255,0.18)" }}
-              whileTap={{ scale: 0.96 }}
+            <motion.a href="/membership"
+              whileHover={{ scale: 1.06, backgroundColor: "rgba(255,255,255,0.18)" }} whileTap={{ scale: 0.96 }}
               className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white"
-              style={{ background: "rgba(255,255,255,0.1)", border: "1.5px solid rgba(255,255,255,0.35)", backdropFilter: "blur(8px)" }}
-            >
+              style={{ background: "rgba(255,255,255,0.1)", border: "1.5px solid rgba(255,255,255,0.35)", backdropFilter: "blur(8px)" }}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4 shrink-0">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                 <circle cx="9" cy="7" r="4"/>
@@ -223,34 +329,23 @@ export default function HomeV1Client() {
             </motion.a>
           </motion.div>
 
-          {/* Stats Row */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.7 }}
-            className="flex flex-wrap items-center justify-center gap-3"
-          >
-            <StatBadge value="500+"  label="Members"      delay={1.05} />
-            <StatBadge value="2"     label="Projects"      delay={1.12} />
-            <StatBadge value="90%"   label="Bank Loan"     delay={1.19} />
-            <StatBadge value="Govt." label="Registered"    delay={1.26} />
-            <StatBadge value="₹1,175" label="Starting/sqft" delay={1.33} />
+            className="flex flex-wrap items-center justify-center gap-3">
+            <StatBadge value="500+"   label="Members"       delay={1.05} />
+            <StatBadge value="2"      label="Projects"       delay={1.12} />
+            <StatBadge value="90%"    label="Bank Loan"      delay={1.19} />
+            <StatBadge value="Govt."  label="Registered"     delay={1.26} />
+            <StatBadge value="₹1,175" label="Starting/sqft"  delay={1.33} />
           </motion.div>
         </div>
 
         {/* Scroll hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
             className="w-6 h-9 rounded-full flex items-start justify-center p-1.5"
-            style={{ border: "2px solid rgba(255,255,255,0.35)" }}
-          >
+            style={{ border: "2px solid rgba(255,255,255,0.35)" }}>
             <div className="w-1.5 h-1.5 rounded-full bg-white" />
           </motion.div>
           <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.4)" }}>Scroll</span>
@@ -258,18 +353,150 @@ export default function HomeV1Client() {
       </section>
 
       {/* ════════════════════════════════════
-          FEATURE CARDS
+          OUR PROJECTS — 3D SHOWCASE
+      ════════════════════════════════════ */}
+      <section className="relative py-28 px-6 lg:px-10 overflow-hidden"
+        style={{ background: `linear-gradient(180deg, ${C.bgDark} 0%, #0a1f10 50%, ${C.bgDark} 100%)` }}>
+
+        {/* ── Animated background mesh ── */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.07]"
+          style={{ backgroundImage: "linear-gradient(rgba(34,197,94,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.6) 1px, transparent 1px)", backgroundSize: "70px 70px" }} />
+
+        {/* ── Floating blobs ── */}
+        {[
+          { top: "-8%",  left: "-5%",  size: 500, color: C.greenMid, dur: 16 },
+          { top: "40%",  left: "70%",  size: 420, color: C.yellow,   dur: 22 },
+          { top: "70%",  left: "5%",   size: 380, color: C.green,    dur: 18 },
+          { top: "15%",  left: "45%",  size: 300, color: "#6366f1",  dur: 24 },
+        ].map((b, i) => (
+          <motion.div key={i}
+            animate={{ x: [0, 25*(i%2===0?1:-1), -15, 0], y: [0, -20*(i%2===0?1:-1), 15, 0] }}
+            transition={{ duration: b.dur, repeat: Infinity, ease: "easeInOut", delay: i * 0.8 }}
+            style={{
+              position: "absolute", top: b.top, left: b.left,
+              width: b.size, height: b.size, borderRadius: "50%",
+              background: b.color, opacity: 0.07, filter: "blur(80px)",
+              pointerEvents: "none", zIndex: 0,
+            }}
+          />
+        ))}
+
+        {/* ── Rotating rings (decorative) ── */}
+        {[
+          { size: 480, dur: 28, top: "10%", left: "2%", dir: 1 },
+          { size: 320, dur: 20, top: "55%", left: "75%", dir: -1 },
+        ].map((r, i) => (
+          <motion.div key={i}
+            animate={{ rotate: r.dir * 360 }}
+            transition={{ duration: r.dur, repeat: Infinity, ease: "linear" }}
+            style={{
+              position: "absolute", top: r.top, left: r.left,
+              width: r.size, height: r.size, borderRadius: "50%",
+              border: "1px dashed rgba(34,197,94,0.15)",
+              pointerEvents: "none", zIndex: 0,
+            }}
+          />
+        ))}
+
+        <div className="relative max-w-7xl mx-auto z-10">
+
+          {/* ── Section heading ── */}
+          <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenMid }}>
+                ನಮ್ಮ ಯೋಜನೆಗಳು · Our Projects
+              </span>
+              <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
+            </div>
+
+            {/* Kannada — large */}
+            <h2 className="font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-snug mb-3"
+              style={{ background: "linear-gradient(90deg, #86efac, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              ನಿಮ್ಮ ಕನಸಿನ ನಿವೇಶನ ಆಯ್ಕೆ ಮಾಡಿ
+            </h2>
+            {/* English — smaller */}
+            <h3 className="font-extrabold text-2xl md:text-3xl text-white tracking-tight mb-5">
+              Choose Your{" "}
+              <span style={{ background: "linear-gradient(90deg, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Dream Plot
+              </span>
+            </h3>
+            <p className="text-[15px] max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
+              Two premium layouts in North Bengaluru&apos;s fastest-growing corridors
+            </p>
+          </motion.div>
+
+          {/* ── 3D Project Cards ── */}
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+            <ProjectCard3D
+              href="/our-projects/garden-city"
+              image="/garden-overview.png"
+              locationTag="Off NH 207, Devanahalli"
+              nameKannada="ಬಿಎಂಐ ಗಾರ್ಡನ್ ಸಿಟಿ"
+              nameEnglish="BMI Garden City"
+              price="₹1,175/sqft"
+              accentColor={C.greenMid}
+              ctaLabel="Explore Garden City"
+              tags={["Bank Loan 90%", "4-EMI Plan", "80ft Road", "Club House", "Pool"]}
+              delay={0}
+            />
+            <ProjectCard3D
+              href="/our-projects/north-metro-city"
+              image="/north-metro-overview.png"
+              locationTag="Adjacent to Amity University"
+              nameKannada="ಬಿಎಂಐ ನಾರ್ತ್ ಮೆಟ್ರೋ ಸಿಟಿ"
+              nameEnglish="BMI North Metro City"
+              price="₹1,199/sqft"
+              accentColor="#fb923c"
+              ctaLabel="Explore North Metro City"
+              tags={["Bank Loan 90%", "4-EMI Plan", "60ft Road", "Near Airport", "Amity Univ"]}
+              delay={0.15}
+            />
+          </div>
+
+          {/* ── Bottom CTA strip ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.7 }}
+            className="mt-14 text-center"
+          >
+            <motion.a
+              href="/our-projects"
+              whileHover={{ scale: 1.05, boxShadow: `0 16px 48px ${C.green}55` }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-3 px-10 py-4 rounded-2xl text-[15px] font-bold text-white relative overflow-hidden group"
+              style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})`, boxShadow: `0 4px 24px ${C.green}44` }}
+            >
+              <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
+                style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%)" }}
+                animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 0.6 }} />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5 shrink-0">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              View All Projects &amp; Details
+            </motion.a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════
+          WHY BMI HOUSING — Feature Cards
       ════════════════════════════════════ */}
       <section className="relative px-6 lg:px-10 py-28 overflow-hidden" style={{ background: C.bgSection }}>
-        {/* Rotating wireframe circles */}
+        {/* Rotating wireframe rings */}
         {[
           { top: "8%",  left: "4%",  w: 320, dur: 22, rx: [0, 360], ry: [0, 180], delay: 0 },
           { top: "60%", left: "72%", w: 260, dur: 18, rx: [0, -360], ry: [0, 360], delay: 1.5 },
           { top: "20%", left: "82%", w: 180, dur: 30, rx: [0, 180], ry: [0, 360], delay: 0.8 },
           { top: "70%", left: "10%", w: 200, dur: 35, rx: [0, 360], ry: [0, -180], delay: 2 },
         ].map((s, i) => (
-          <motion.div
-            key={i}
+          <motion.div key={i}
             animate={{ rotateX: s.rx, rotateY: s.ry }}
             transition={{ duration: s.dur, repeat: Infinity, ease: "linear", delay: s.delay }}
             style={{
@@ -289,11 +516,9 @@ export default function HomeV1Client() {
               <span className="w-8 h-px" style={{ background: C.green }} />
               <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>ಬಿಎಂಐ ಹೌಸಿಂಗ್ ಏಕೆ? / Why BMI Housing</span>
             </div>
-            {/* Kannada — large, on top */}
             <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.green }}>
               ನಗರ ಜೀವನದ ಭವಿಷ್ಯಕ್ಕಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ
             </h2>
-            {/* English — smaller, below */}
             <h3 className="font-extrabold text-xl md:text-2xl lg:text-3xl tracking-tight" style={{ color: C.text }}>
               Built for the Future of{" "}
               <span style={{ background: `linear-gradient(90deg, ${C.green}, ${C.greenMid})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -319,7 +544,6 @@ export default function HomeV1Client() {
         </div>
       </section>
 
-      {/* ── Shared Footer ── */}
       <SiteFooter />
     </div>
   );

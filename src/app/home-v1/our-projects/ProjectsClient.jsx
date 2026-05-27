@@ -1,14 +1,11 @@
 ﻿"use client";
 
-import { useState } from "react";
 import { useRef } from "react";
 import {
   motion,
   useMotionValue,
   useSpring,
   useTransform,
-  useInView,
-  AnimatePresence,
 } from "framer-motion";
 import NavBar from "../components/NavBar";
 import SiteFooter from "../components/SiteFooter";
@@ -42,37 +39,6 @@ const C = {
   shadowLg:   "0 10px 30px rgba(0,0,0,0.12)",
 };
 
-/* ─── NAV MENUS ─── */
-const NAV_MENUS = {
-  projects: [
-    { label: "BMI Garden City",      sub: "Off NH 207, Devanahalli",        href: "#garden-city" },
-    { label: "BMI North Metro City", sub: "Adjacent to Amity University",   href: "#north-metro-city" },
-    { label: "Upcoming Projects",    sub: "Coming soon — North Bengaluru",  href: "#" },
-  ],
-};
-
-/* ─── DROPDOWN PANEL ─── */
-function DropdownPanel({ items }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 6, scale: 0.97 }}
-      transition={{ duration: 0.16 }}
-      className="absolute top-full left-0 mt-2 w-64 rounded-xl overflow-hidden z-50"
-      style={{ background: C.bgWhite, border: `1px solid ${C.border}`, boxShadow: C.shadowLg }}
-    >
-      {items.map((item) => (
-        <a key={item.label} href={item.href || "#"}
-          className="w-full flex flex-col gap-0.5 px-4 py-3.5 text-left hover:bg-green-50 transition-colors group border-b last:border-b-0"
-          style={{ borderColor: C.border, display: "block" }}>
-          <span className="text-[13px] font-semibold group-hover:text-green-700 transition-colors" style={{ color: C.text }}>{item.label}</span>
-          <span className="text-[11px]" style={{ color: C.muted }}>{item.sub}</span>
-        </a>
-      ))}
-    </motion.div>
-  );
-}
 
 /* ─── ORBITAL LOGO ─── */
 function OrbitalLogo() {
@@ -430,155 +396,6 @@ export default function ProjectsClient() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════
-          SECTION 2 — PROJECT SHOWCASE CARDS
-      ════════════════════════════════════ */}
-      <section id="projects" className="px-6 lg:px-10 py-24" style={{ background: C.bgWhite }}>
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="w-8 h-px" style={{ background: C.green }} />
-              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>Explore</span>
-              <span className="w-8 h-px" style={{ background: C.green }} />
-            </div>
-            {/* Kannada — large, on top */}
-            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.green }}>
-              ನಮ್ಮ ಯೋಜನೆಗಳು
-            </h2>
-            {/* English — smaller, below */}
-            <h3 className="font-extrabold text-2xl md:text-3xl lg:text-4xl tracking-tight" style={{ color: C.bgDark2 }}>
-              Our{" "}
-              <span style={{ background: `linear-gradient(90deg, ${C.green}, ${C.greenMid})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                Projects
-              </span>
-            </h3>
-            <p className="mt-4 text-[15px] max-w-xl mx-auto" style={{ color: C.body }}>
-              Click on a project to explore full details, pricing, amenities and more.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Garden City Card */}
-            <motion.a
-              href="/our-projects/garden-city"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6, boxShadow: `0 24px 60px rgba(22,163,74,0.18)` }}
-              className="group relative rounded-3xl overflow-hidden cursor-pointer block"
-              style={{ boxShadow: C.shadowLg, textDecoration: "none" }}
-            >
-              {/* Image */}
-              <div className="relative h-64 overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://www.bmihousing.com/wp-content/uploads/2023/07/Garden-City.jpg"
-                  alt="BMI Garden City"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80"; }}
-                />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(7,26,14,0.85) 0%, transparent 50%)" }} />
-                <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[11px] font-bold text-white"
-                  style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}>
-                  Off NH 207, Devanahalli
-                </div>
-                <div className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0"
-                  style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>
-                  →
-                </div>
-              </div>
-              {/* Content */}
-              <div className="p-7" style={{ background: "#ffffff", borderTop: `3px solid ${C.green}` }}>
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="font-extrabold text-2xl mb-1" style={{ color: C.text }}>BMI Garden City</h3>
-                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · Govt. Registered</p>
-                  </div>
-                  <span className="px-3 py-1 rounded-full text-[11px] font-bold" style={{ background: C.greenLight, color: C.greenDark }}>
-                    ₹1,175/sqft
-                  </span>
-                </div>
-                <p className="text-[13px] leading-relaxed mb-5" style={{ color: C.body }}>
-                  Premium plots near Kempegowda Airport, ITIR Tech Park, Metro Phase 2A and top educational institutions.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {["Bank Loan 90%", "4-EMI Plan", "80ft Road", "Club House"].map((t) => (
-                    <span key={t} className="px-3 py-1 rounded-full text-[11px]"
-                      style={{ background: C.bgSection, color: C.body, border: `1px solid ${C.border}` }}>{t}</span>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2 font-bold text-[14px] group-hover:gap-3 transition-all" style={{ color: C.green }}>
-                  Explore Garden City
-                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.2, repeat: Infinity }}>→</motion.span>
-                </div>
-              </div>
-            </motion.a>
-
-            {/* North Metro City Card */}
-            <motion.a
-              href="/our-projects/north-metro-city"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.75, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(234,88,12,0.18)" }}
-              className="group relative rounded-3xl overflow-hidden cursor-pointer block"
-              style={{ boxShadow: C.shadowLg, textDecoration: "none" }}
-            >
-              {/* Image */}
-              <div className="relative h-64 overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://www.bmihousing.com/wp-content/uploads/2023/07/North-Metro-City.jpg"
-                  alt="BMI North Metro City"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80"; }}
-                />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(67,20,7,0.85) 0%, transparent 50%)" }} />
-                <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[11px] font-bold text-white"
-                  style={{ background: "linear-gradient(135deg, #ea580c, #c2410c)" }}>
-                  Adjacent to Amity University
-                </div>
-                <div className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0"
-                  style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>
-                  →
-                </div>
-              </div>
-              {/* Content */}
-              <div className="p-7" style={{ background: "#ffffff", borderTop: "3px solid #ea580c" }}>
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="font-extrabold text-2xl mb-1" style={{ color: C.text }}>BMI North Metro City</h3>
-                    <p className="text-[13px]" style={{ color: C.muted }}>North Bengaluru · Govt. Registered</p>
-                  </div>
-                  <span className="px-3 py-1 rounded-full text-[11px] font-bold" style={{ background: "#ffedd5", color: "#c2410c" }}>
-                    ₹1,199/sqft
-                  </span>
-                </div>
-                <p className="text-[13px] leading-relaxed mb-5" style={{ color: C.body }}>
-                  Prime plots adjacent to Amity University, Harrow International School, ITIR Tech Park and Padukone-Dravid Academy.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {["Bank Loan 90%", "4-EMI Plan", "60ft Road", "Swimming Pool"].map((t) => (
-                    <span key={t} className="px-3 py-1 rounded-full text-[11px]"
-                      style={{ background: "#fff7ed", color: C.body, border: "1px solid #fed7aa" }}>{t}</span>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2 font-bold text-[14px] group-hover:gap-3 transition-all" style={{ color: "#ea580c" }}>
-                  Explore North Metro City
-                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }}>→</motion.span>
-                </div>
-              </div>
-            </motion.a>
-          </div>
-        </div>
-      </section>
 
       {/* ════════════════════════════════════
           SECTION 4 — WHAT MAKES US BETTER
