@@ -1,12 +1,10 @@
 ﻿"use client";
 
-import { useState } from "react";
 import {
   motion,
-  useMotionValue,
-  useSpring,
-  AnimatePresence,
 } from "framer-motion";
+import NavBar from "../components/NavBar";
+import SiteFooter from "../components/SiteFooter";
 
 /* ─── COLOR TOKENS ─── */
 const C = {
@@ -45,42 +43,9 @@ const CHECKLIST = [
   "Bank loan information up to 90%",
 ];
 
-/* ─── NAV MENUS ─── */
-const NAV_MENUS = {
-  projects: [
-    { label: "BMI Garden City",      sub: "Off NH 207, Devanahalli" },
-    { label: "BMI North Metro City", sub: "Adjacent to Amity University" },
-    { label: "Upcoming Projects",    sub: "Coming soon — North Bengaluru" },
-  ],
-};
-
-function DropdownPanel({ items }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 6, scale: 0.97 }}
-      transition={{ duration: 0.16 }}
-      className="absolute top-full left-0 mt-2 w-64 rounded-xl overflow-hidden z-50"
-      style={{ background: C.bgWhite, border: `1px solid ${C.border}`, boxShadow: C.shadowLg }}
-    >
-      {items.map((item) => (
-        <button key={item.label}
-          className="w-full flex flex-col gap-0.5 px-4 py-3.5 text-left hover:bg-green-50 transition-colors group border-b last:border-b-0"
-          style={{ borderColor: C.border }}>
-          <span className="text-[13px] font-semibold group-hover:text-green-700 transition-colors" style={{ color: C.text }}>{item.label}</span>
-          <span className="text-[11px]" style={{ color: C.muted }}>{item.sub}</span>
-        </button>
-      ))}
-    </motion.div>
-  );
-}
-
 export default function EBrochureClient() {
-  const [openMenu, setOpenMenu] = useState(null);
-
   return (
-    <div style={{ background: C.bg, minHeight: "100vh" }} onClick={() => setOpenMenu(null)}>
+    <div style={{ background: C.bg, minHeight: "100vh" }}>
 
       {/* ── Floating animated background blobs ── */}
       {[
@@ -115,92 +80,9 @@ export default function EBrochureClient() {
       ))}
 
       {/* ════════════════════════════════════
-          NAVIGATION
+          NAVIGATION — shared NavBar
       ════════════════════════════════════ */}
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{ background: "rgba(255,255,255,0.93)", backdropFilter: "blur(16px)", boxShadow: "0 2px 20px rgba(0,0,0,0.07)" }}
-      >
-        <div className="px-6 lg:px-10 py-3 flex items-center justify-between gap-4">
-          <a href="/" className="flex items-center gap-2.5 shrink-0 group">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <motion.img
-              src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
-              alt="BMI" className="w-10 h-10 rounded-full object-contain"
-              whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }}
-            />
-            <div className="hidden sm:block leading-none">
-              <div className="font-bold text-[14px]" style={{ color: C.greenDark }}>BMI Housing</div>
-              <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5" style={{ color: C.muted }}>Co-Op Society · Est. 2022</div>
-            </div>
-          </a>
-
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {[
-              { label: "Home",         href: "/" },
-              { label: "E Brochure",   href: "/e-brochure", active: true },
-              { label: "Our Projects", href: "/our-projects", menu: "projects" },
-            ].map((lk) => (
-              <div key={lk.label} className="relative" onClick={lk.menu ? (e) => e.stopPropagation() : undefined}>
-                {lk.menu ? (
-                  <motion.button
-                    onClick={() => setOpenMenu(openMenu === lk.menu ? null : lk.menu)}
-                    whileHover={{ backgroundColor: "#f0fdf4" }}
-                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors hover:text-green-700"
-                    style={{ color: C.text }}
-                  >
-                    {lk.label}
-                    <motion.svg
-                      animate={{ rotate: openMenu === lk.menu ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
-                    >
-                      <path d="M6 9l6 6 6-6" />
-                    </motion.svg>
-                  </motion.button>
-                ) : (
-                  <motion.a
-                    href={lk.href}
-                    whileHover={{ backgroundColor: "#f0fdf4" }}
-                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors"
-                    style={{ color: lk.active ? C.green : C.text }}
-                  >
-                    {lk.label}
-                    {lk.active && (
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: C.green }} />
-                    )}
-                  </motion.a>
-                )}
-                <AnimatePresence>
-                  {lk.menu && openMenu === lk.menu && <DropdownPanel items={NAV_MENUS[lk.menu]} />}
-                </AnimatePresence>
-              </div>
-            ))}
-          </nav>
-
-          <motion.button
-            whileHover={{ scale: 1.04, boxShadow: `0 8px 24px ${C.green}55` }}
-            whileTap={{ scale: 0.96 }}
-            className="shrink-0 px-6 py-2.5 rounded-lg text-[13px] font-bold text-white"
-            style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})`, boxShadow: `0 2px 10px ${C.green}33` }}
-          >
-            Contact Us
-          </motion.button>
-        </div>
-        {/* Sub-row */}
-        <div className="px-6 lg:px-10 py-1.5 flex items-center gap-1 text-[11px]"
-          style={{ borderTop: `1px solid ${C.border}`, background: C.bgSection }}>
-          <a href="#" className="hover:underline" style={{ color: C.green }}>Disclaimer</a>
-          <span style={{ color: C.muted }}>/</span>
-          <a href="#" className="hover:underline" style={{ color: C.green }}>Privacy Policy</a>
-          <span className="ml-auto text-[10px] tracking-[0.2em] uppercase" style={{ color: C.muted }}>
-            Reg. No: JRB/RGN/CR-13/51578/2022-23
-          </span>
-        </div>
-      </motion.header>
+      <NavBar activePage="e-brochure" />
 
       {/* ════════════════════════════════════
           HERO — full screen two-column
@@ -452,20 +334,9 @@ export default function EBrochureClient() {
       </section>
 
       {/* ════════════════════════════════════
-          MINIMAL FOOTER
+          FOOTER — shared SiteFooter
       ════════════════════════════════════ */}
-      <footer className="relative z-10" style={{ borderTop: "1px solid rgba(34,197,94,0.1)" }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-[12px]" style={{ color: "rgba(255,255,255,0.3)" }}>
-            © 2024–2025 BMI Housing Co-Operative Society. All rights reserved.
-          </div>
-          <div className="flex items-center gap-5 text-[12px]" style={{ color: "rgba(255,255,255,0.35)" }}>
-            <a href="/" className="hover:text-white transition-colors">Home</a>
-            <a href="/our-projects" className="hover:text-white transition-colors">Our Projects</a>
-            <a href="tel:+917710556677" className="hover:text-white transition-colors">7710556677</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
     </div>
   );

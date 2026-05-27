@@ -150,17 +150,28 @@ export default function NorthMetroCityClient() {
             Adjacent to Amity University
           </motion.div>
 
+          {/* Kannada — large, on top */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-extrabold text-5xl md:text-6xl lg:text-7xl tracking-tight mb-6 text-white"
+            className="font-extrabold text-3xl md:text-4xl tracking-tight mb-2 leading-snug"
+            style={{ color: "#fdba74" }}
+          >
+            ಬಿಎಂಐ ನಾರ್ತ್ ಮೆಟ್ರೋ ಸಿಟಿ
+          </motion.h1>
+          {/* English — smaller, below */}
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.18 }}
+            className="font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-6 text-white"
           >
             BMI{" "}
             <span style={{ background: `linear-gradient(90deg, #fdba74, ${C.orangeBright})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               North Metro City
             </span>
-          </motion.h1>
+          </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}

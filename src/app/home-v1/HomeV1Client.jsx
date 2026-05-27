@@ -287,14 +287,19 @@ export default function HomeV1Client() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
             <div className="flex items-center gap-3 mb-5">
               <span className="w-8 h-px" style={{ background: C.green }} />
-              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>Why BMI Housing</span>
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>ಬಿಎಂಐ ಹೌಸಿಂಗ್ ಏಕೆ? / Why BMI Housing</span>
             </div>
-            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight" style={{ color: C.text }}>
+            {/* Kannada — large, on top */}
+            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.green }}>
+              ನಗರ ಜೀವನದ ಭವಿಷ್ಯಕ್ಕಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ
+            </h2>
+            {/* English — smaller, below */}
+            <h3 className="font-extrabold text-xl md:text-2xl lg:text-3xl tracking-tight" style={{ color: C.text }}>
               Built for the Future of{" "}
               <span style={{ background: `linear-gradient(90deg, ${C.green}, ${C.greenMid})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Urban Living
               </span>
-            </h2>
+            </h3>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">

@@ -237,13 +237,20 @@ export default function PurchaseSiteClient() {
             BMI Housing Co-Op Society
           </motion.div>
 
+          {/* Kannada — large, on top */}
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-5 text-white leading-tight">
+            className="font-extrabold text-3xl md:text-4xl tracking-tight mb-2 leading-snug"
+            style={{ color: "#86efac" }}>
+            ನಿವೇಶನ ಖರೀದಿಗಾಗಿ ಅರ್ಜಿ
+          </motion.h1>
+          {/* English — smaller, below */}
+          <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.18 }}
+            className="font-extrabold text-2xl md:text-3xl lg:text-4xl tracking-tight mb-5 text-white leading-tight">
             Application for{" "}
             <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Purchase of Site
             </span>
-          </motion.h1>
+          </motion.h2>
 
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
             className="text-[15px] max-w-2xl mx-auto mb-8 leading-relaxed"

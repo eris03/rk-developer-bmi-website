@@ -316,12 +316,25 @@ export default function ProjectsClient() {
               <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenMid }}>About Us</span>
             </motion.div>
 
+            {/* Kannada — large, on top */}
             <motion.h2
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.08 }}
-              className="font-extrabold text-3xl md:text-4xl lg:text-[2.7rem] leading-[1.15] mb-4"
+              className="font-extrabold text-2xl md:text-3xl leading-snug mb-2"
+              style={{ color: "#86efac" }}
+            >
+              ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್<br />
+              ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ ಲಿ.
+            </motion.h2>
+            {/* English — smaller, below */}
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.14 }}
+              className="font-extrabold text-xl md:text-2xl lg:text-[1.8rem] leading-[1.15] mb-4"
               style={{ color: "#ffffff" }}
             >
               Bengaluru Metro City{" "}
@@ -333,7 +346,7 @@ export default function ProjectsClient() {
               <span style={{ background: `linear-gradient(90deg, ${C.yellow}, #fbbf24)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Society LTD.
               </span>
-            </motion.h2>
+            </motion.h3>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
@@ -433,12 +446,17 @@ export default function ProjectsClient() {
               <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>Explore</span>
               <span className="w-8 h-px" style={{ background: C.green }} />
             </div>
-            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight" style={{ color: C.bgDark2 }}>
+            {/* Kannada — large, on top */}
+            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.green }}>
+              ನಮ್ಮ ಯೋಜನೆಗಳು
+            </h2>
+            {/* English — smaller, below */}
+            <h3 className="font-extrabold text-2xl md:text-3xl lg:text-4xl tracking-tight" style={{ color: C.bgDark2 }}>
               Our{" "}
               <span style={{ background: `linear-gradient(90deg, ${C.green}, ${C.greenMid})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Projects
               </span>
-            </h2>
+            </h3>
             <p className="mt-4 text-[15px] max-w-xl mx-auto" style={{ color: C.body }}>
               Click on a project to explore full details, pricing, amenities and more.
             </p>

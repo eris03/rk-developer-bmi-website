@@ -16,7 +16,7 @@
 html, body {
   background: var(--slate);
   color: var(--pearl);
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 ::selection { background: var(--gold); color: #fff; }
