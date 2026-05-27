@@ -23,8 +23,8 @@ const NAV_MENUS = {
     { label: "All Projects",         sub: "Explore our full portfolio",     href: "/our-projects" },
   ],
   apply: [
-    { label: "Application for Purchase of Site", sub: "Apply for a residential plot",       href: "/purchase-site" },
     { label: "Application for Membership",       sub: "Join the co-operative society",      href: "/membership" },
+    { label: "Application for Purchase of Site", sub: "Apply for a residential plot",       href: "/purchase-site" },
   ],
 };
 

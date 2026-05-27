@@ -567,41 +567,12 @@ export default function ProjectsClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.55 }}
-                className="mt-6 flex flex-col sm:flex-row items-center gap-6 pt-6"
+                className="mt-6 pt-6"
                 style={{ borderTop: `1px solid ${C.border}` }}
               >
-                {/* QR placeholder */}
-                <div className="w-24 h-24 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ border: `2px dashed ${C.border}`, background: C.bgSection }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth={1.5} className="w-8 h-8">
-                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-                    <path d="M14 14h3v3h-3z"/><path d="M17 17h3v3h-3z"/><path d="M14 17h0"/><path d="M17 14h0"/>
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="text-[13px] mb-4" style={{ color: C.body }}>
-                    Scan the QR code with any UPI app or use the bank details above to transfer funds directly.
-                  </p>
-                  <motion.button
-                    whileHover={{ scale: 1.05, boxShadow: `0 8px 24px ${C.green}44` }}
-                    whileTap={{ scale: 0.96 }}
-                    className="relative flex items-center gap-2 px-6 py-2.5 rounded-lg text-[12px] font-bold text-white overflow-hidden group"
-                    style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100"
-                      style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
-                      animate={{ x: ["-100%", "100%"] }}
-                      transition={{ duration: 1, repeat: Infinity, repeatDelay: 0.5 }}
-                    />
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4 shrink-0">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="7 10 12 15 17 10"/>
-                      <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                    Download Scanner
-                  </motion.button>
-                </div>
+                <p className="text-[13px] text-center" style={{ color: C.muted }}>
+                  Use the bank details above to transfer funds directly via NEFT / RTGS / UPI.
+                </p>
               </motion.div>
             </div>
           </motion.div>

@@ -209,12 +209,12 @@ export default function GardenCityClient() {
             className="relative rounded-2xl overflow-hidden"
             style={{ boxShadow: C.shadowLg }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/garden-overview.png"
-              alt="BMI Garden City Overview"
+            <video
+              src="/garden-city.mp4"
+              autoPlay loop muted playsInline
+              poster="/garden-overview.png"
               className="w-full h-auto object-cover"
-              style={{ minHeight: "320px" }}
+              style={{ minHeight: "320px", display: "block" }}
             />
             <div className="absolute bottom-4 left-4 px-4 py-2 rounded-xl text-[12px] font-bold text-white"
               style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})`, boxShadow: "0 4px 14px rgba(22,163,74,0.4)" }}>

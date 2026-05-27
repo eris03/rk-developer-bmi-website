@@ -340,6 +340,37 @@ export default function HomeV1Client() {
           </motion.div>
         </div>
 
+        {/* ── Scrolling Ticker Strip ── */}
+        <div className="absolute bottom-[72px] left-0 right-0 z-20 overflow-hidden"
+          style={{ borderTop: "1px solid rgba(34,197,94,0.25)", borderBottom: "1px solid rgba(34,197,94,0.25)", background: "rgba(7,26,14,0.7)", backdropFilter: "blur(8px)" }}>
+          <motion.div
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+            className="flex items-center gap-0 py-2.5"
+            style={{ width: "200%", willChange: "transform" }}
+          >
+            {[0, 1].map((i) => (
+              <div key={i} className="flex items-center gap-10 shrink-0 w-1/2">
+                <span className="flex items-center gap-2.5 text-[11.5px] font-semibold whitespace-nowrap"
+                  style={{ color: "#86efac" }}>
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse" style={{ background: "#22c55e" }} />
+                  Bengaluru Metro City Infrastructure Housing Co-operative Society Ltd. accepts payments only through: Cheque, Money Order, RTGS Transfer, NEFT Transfer, or Electronic Transfer
+                </span>
+                <span className="flex items-center gap-2.5 text-[11.5px] font-semibold whitespace-nowrap"
+                  style={{ color: "#fde68a" }}>
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#d97706" }} />
+                  The price of sites in North Metro City Layout will be revised to ₹1,399 per Sqft, effective from 1st January 2026
+                </span>
+                <span className="flex items-center gap-2.5 text-[11.5px] font-semibold whitespace-nowrap"
+                  style={{ color: "#86efac" }}>
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse" style={{ background: "#22c55e" }} />
+                  Premium residential plots in North Bengaluru · Starting ₹1,175/sqft · Bank Loan up to 90% · Govt. Registered Co-Op Society
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
         {/* Scroll hint */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10">

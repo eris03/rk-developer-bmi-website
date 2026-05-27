@@ -212,12 +212,12 @@ export default function NorthMetroCityClient() {
             className="relative rounded-2xl overflow-hidden"
             style={{ boxShadow: C.shadowLg }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/north-metro-overview.png"
-              alt="BMI North Metro City Overview"
+            <video
+              src="/north-metro-city.mp4"
+              autoPlay loop muted playsInline
+              poster="/north-metro-overview.png"
               className="w-full h-auto object-cover"
-              style={{ minHeight: "320px" }}
+              style={{ minHeight: "320px", display: "block" }}
             />
             <div className="absolute bottom-4 left-4 px-4 py-2 rounded-xl text-[12px] font-bold text-white"
               style={{ background: `linear-gradient(135deg, ${C.orangeMid}, ${C.orange})`, boxShadow: `0 4px 14px ${C.orangeMid}66` }}>
