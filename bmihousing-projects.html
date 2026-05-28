@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO - BMI Projects -->
+  <title>BMI Housing Projects | Apartments & Plots Bangalore</title>
+  <meta name="description" content="View all BMI Housing projects: Luxury apartments in Whitefield, premium plots on Sarjapur Road, gated villas. Photos, prices, site visits." />
+  <meta name="keywords" content="BMI Housing projects, apartments Whitefield, plots Sarjapur, Bangalore real estate projects" />
+
+  <link rel="canonical" href="https://www.bmihousing.com/projects" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Fonts & Libs -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+  <!-- Components from index -->
+  <div id="scroll-progress"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div id="page-transition">
+    <div class="pt-logo-wrap">
+      <img src="assets/bmi-logo.png" alt="BMI Housing" class="pt-logo-img" />
+      <span class="pt-logo-text" style="display:none">BMI</span>
+    </div>
+    <div class="pt-bar-wrap"><div class="pt-bar-fill" id="ptBarFill"></div></div>
+    <p class="pt-tagline">BMI Housing</p>
+  </div>
+
+  <div id="preloader">
+    <div class="preloader-inner">
+      <img src="assets/bmi-logo.png" alt="BMI" class="preloader-logo-img" />
+      <div class="preloader-text">BMI</div>
+      <div class="preloader-bar"><div class="preloader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/bmi-logo.png" alt="BMI Housing" class="nav-logo-img" />
+        <span class="nav-logo-fallback">
+          <span class="logo-rk">BMI</span><span class="logo-text">Housing</span>
+        </span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-dropdown-wrap">
+          <button class="nav-link nav-dropdown-trigger active" id="projectsDropdownBtn">
+            Projects <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="nav-dropdown open" id="projectsDropdown">
+            <div class="dropdown-header">All Projects</div>
+            <a href="bmihousing.html#apartments" class="dropdown-item">
+              <i class="fas fa-building" style="font-size:1.3rem;color:#F97316;background:#FFEDD5;padding:8px;border-radius:6px;"></i>
+              <span>Luxury Apartments</span><i class="fas fa-arrow-right dd-arrow"></i>
+            </a>
+            <a href="bmihousing.html#plots" class="dropdown-item">
+              <i class="fas fa-map" style="font-size:1.3rem;color:#22C55E;background:#DCFCE7;padding:8px;border-radius:6px;"></i>
+              <span>Premium Plots</span><i class="fas fa-arrow-right dd-arrow"></i>
+            </a>
+            <a href="#villas" class="dropdown-item">
+              <i class="fas fa-home" style="font-size:1.3rem;color:#3B82F6;background:#DBEAFE;padding:8px;border-radius:6px;"></i>
+              <span>Gated Villas</span><i class="fas fa-arrow-right dd-arrow"></i>
+            </a>
+          </div>
+        </li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        <li><a href="contact.html" class="nav-cta-btn">Enquire Now <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- PROJECTS PAGE HERO -->
+  <section class="page-hero" style="background-image:url('assets/hero-video.mp4');">
+    <div class="hero-overlay"></div>
+    <div class="page-hero-content">
+      <nav class="breadcrumb" data-aos="fade-up">
+        <a href="index.html"><i class="fas fa-home"></i></a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Our Projects</span>
+      </nav>
+      <h1 data-aos="fade-up" data-aos-delay="100">All <span>Projects</span></h1>
+      <p data-aos="fade-up" data-aos-delay="200">Comprehensive portfolio of apartments, plots & villas across Bangalore</p>
+    </div>
+  </section>
+
+  <!-- PROJECTS LISTING -->
+  <section class="our-projects" style="padding:88px 0;background:#F8FAFF;">
+    <div class="container">
+      
+      <!-- Filters (Swiper Tabs) -->
+      <div class="swiper project-tabs" data-aos="fade-up">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><button class="tab-active">All Projects</button></div>
+          <div class="swiper-slide"><button>Apartments</button></div>
+          <div class="swiper-slide"><button>Plots</button></div>
+          <div class="swiper-slide"><button>Villas</button></div>
+        </div>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid swiper" data-aos="fade-up" data-aos-delay="100">
+        <div class="swiper-wrapper">
+          
+          <!-- Project Card 1: Signature Towers -->
+          <div class="swiper-slide">
+            <a href="#" class="psc-card psc-card-link">
+              <div class="psc-image">
+                <img src="assets/metro green hero section.png" alt="Signature Towers" />
+                <span class="psc-badge green">New Launch</span>
+              </div>
+              <div class="psc-body">
+                <div class="psc-type green">Luxury Apartments</div>
+                <h3>Signature Towers</h3>
+                <p class="psc-loc">Whitefield • ITPL Road</p>
+                <p>3 & 4 BHK with panoramic city views and infinity pool.</p>
+                <div class="psc-features">
+                  <span>3-4 BHK</span>
+                  <span>₹1.2 Cr onwards</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Project Card 2: Lakeview Greens -->
+          <div class="swiper-slide">
+            <a href="#" class="psc-card psc-card-link">
+              <div class="psc-image">
+                <img src="assets/rk avenue/avunue 104.png" alt="Lakeview Greens" />
+                <span class="psc-badge orange">Plots</span>
+              </div>
+              <div class="psc-body">
+                <div class="psc-type orange">Premium Plots</div>
+                <h3>Lakeview Greens</h3>
+                <p class="psc-loc">Sarjapur • Near ORR</p>
+                <p>Gated plots with 80% open space & lake proximity.</p>
+                <div class="psc-features">
+                  <span>2400-4800 sq.ft</span>
+                  <span>₹8500/sq.ft</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- More project cards... (repeat pattern) -->
+          <div class="swiper-slide">
+            <a href="#" class="psc-card psc-card-link">
+              <div class="psc-image">
+                <img src="assets/metro greens/10.png" alt="Hillview Villas" />
+                <span class="psc-badge blue">Villas</span>
+              </div>
+              <div class="psc-body">
+                <div class="psc-type blue">Gated Villas</div>
+                <h3>Hillview Villas</h3>
+                <p class="psc-loc">Devanhalli • Near Airport</p>
+                <p>4 BHK independent villas with private gardens.</p>
+                <div class="psc-features">
+                  <span>4 BHK Villas</span>
+                  <span>₹2.5 Cr</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Gallery viewers (reuse RK gallery system) -->
+          <div class="swiper-slide proj-gallery-card" onclick="openLightbox('reality')" data-aos="fade-up">
+            <div class="psc-image"><img src="assets/sj layout/s5.jpeg" alt="Past Projects" /></div>
+            <div class="psc-body">
+              <h3>Past Projects Gallery</h3>
+              <p>View completed projects</p>
+              <span style="font-size:0.68rem;color:#22C55E;"><i class="fas fa-images"></i> Photos</span>
+            </div>
+          </div>
+
+        </div>
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section style="background:linear-gradient(135deg,#1E293B 0%,#0F172A 100%);padding:64px 0;color:#fff;text-align:center;">
+    <div style="max-width:700px;margin:0 auto;padding:0 24px;">
+      <h2 style="font-size:2.2rem;margin-bottom:16px;">Ready to Explore?</h2>
+      <p style="font-size:1.1rem;opacity:0.9;margin-bottom:32px;">Contact our experts for site visits & investment guidance</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" style="background:linear-gradient(135deg,#F97316,#DC2626);color:#fff;padding:14px 32px;border-radius:50px;font-weight:600;text-decoration:none;">Book Site Visit</a>
+        <a href="tel:+918012345678" style="border:2px solid #F97316;color:#F97316;padding:14px 32px;border-radius:50px;font-weight:600;">Call: +91 80 1234 5678</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (same as index) -->
+  <footer class="footer">
+    <!-- Same footer content as index.html -->
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col footer-brand">
+            <a href="index.html" class="footer-logo-wrap">
+              <img src="assets/bmi-logo.png" alt="BMI Housing" class="footer-logo-img" />
+            </a>
+            <p>Bangalore's premier real estate developer.</p>
+            <div class="footer-socials">
+              <a href="https://www.facebook.com/rkdevelopers" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Projects</h4>
+            <ul>
+              <li><a href="bmihousing.html">Apartments</a></li>
+              <li><a href="bmihousing-projects.html">Plots</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <div class="footer-contact-item"><i class="fas fa-phone-alt"></i><a href="tel:+918012345678">+91 80 1234 5678</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> BMI Housing. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/transitions.js"></script>
+  <script src="js/widgets.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+    
+    // Projects Swiper
+    new Swiper('.projects-grid', {
+      slidesPerView: 1,
+      spaceBetween: 24,
+      loop: true,
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      breakpoints: {
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 }
+      }
+    });
+    
+    // Active nav link
+    document.querySelector('.nav-link.active')?.classList.remove('active');
+    document.getElementById('projectsDropdownBtn')?.classList.add('active');
+  </script>
+
+  <!-- Gallery JS (reuse from index) -->
+  <!-- ... (same gallery script as index.html) ... -->
+</body>
+</html>

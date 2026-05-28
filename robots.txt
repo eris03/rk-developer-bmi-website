@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://therkdevelopers.com/sitemap.xml
+
+# Block unnecessary files
+Disallow: /assets/animation 1.mp4
+Disallow: /rk-site.zip

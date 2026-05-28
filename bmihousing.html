@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO - BMI Housing Branded -->
+  <title>BMI Housing | Premium Real Estate in Bangalore - Apartments, Plots & Villas</title>
+  <meta name="description" content="BMI Housing – Bangalore's premier real estate developer. Luxury apartments, premium plots & villas across prime locations. Trusted excellence since 2005." />
+  <meta name="keywords" content="BMI Housing, BMI Housing Bangalore, apartments Bangalore, plots Bangalore, villas Bangalore, real estate Bangalore, luxury homes Bangalore" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://www.bmihousing.com/" />
+
+  <!-- Geo / Local SEO -->
+  <meta name="geo.region" content="IN-KA" />
+  <meta name="geo.placename" content="Bangalore" />
+  <meta name="geo.position" content="12.9716;77.5946" />
+  <meta name="ICBM" content="12.9716, 77.5946" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="BMI Housing" />
+  <meta property="og:title" content="BMI Housing | Premium Real Estate Developer Bangalore" />
+  <meta property="og:description" content="Discover luxury apartments, plots & villas by BMI Housing – Bangalore's trusted real estate experts." />
+  <meta property="og:url" content="https://www.bmihousing.com/" />
+  <meta property="og:image" content="assets/bmi-logo.png" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BMI Housing | Premium Real Estate Developer Bangalore" />
+  <meta name="twitter:description" content="Discover luxury apartments, plots & villas by BMI Housing – Bangalore's trusted real estate experts." />
+  <meta name="twitter:image" content="assets/bmi-logo.png" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <!-- BMI Housing Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "BMI Housing",
+    "alternateName": ["BMI Housing Bangalore"],
+    "url": "https://www.bmihousing.com",
+    "logo": "https://www.bmihousing.com/assets/bmi-logo.png",
+    "description": "BMI Housing – Bangalore's premier real estate developer offering luxury apartments, plots and villas in prime locations.",
+    "telephone": "+918012345678",
+    "email": "info@bmihousing.com",
+    "foundingDate": "2005",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "No. 123, Main Road",
+      "addressLocality": "Indiranagar",
+      "addressRegion": "Karnataka",
+      "postalCode": "560038",
+      "addressCountry": "IN"
+    },
+    "areaServed": ["Bangalore", "Bengaluru"],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Residential Properties",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Luxury Apartments"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Premium Plots"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Villas"}}
+      ]
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- Scroll Progress Bar -->
+  <div id="scroll-progress"></div>
+  <!-- Cursor Glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <!-- Page Transition Overlay -->
+  <div id="page-transition">
+    <div class="pt-logo-wrap">
+      <img src="assets/bmi-logo.png" alt="BMI Housing" class="pt-logo-img" onerror="this.nextElementSibling.style.display='block'" />
+      <span class="pt-logo-text" style="display:none">BMI</span>
+    </div>
+    <div class="pt-bar-wrap"><div class="pt-bar-fill" id="ptBarFill"></div></div>
+    <p class="pt-tagline">BMI Housing</p>
+  </div>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-inner">
+      <img src="assets/bmi-logo.png" alt="BMI" class="preloader-logo-img" onerror="this.nextElementSibling.style.display='block'" />
+      <div class="preloader-text" style="display:none">BMI</div>
+      <div class="preloader-bar"><div class="preloader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR - BMI Branded -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/bmi-logo.png" alt="BMI Housing" class="nav-logo-img"
+             onerror="this.style.display='none';document.querySelector('.nav-logo-fallback').style.display='flex'" />
+        <span class="nav-logo-fallback" style="display:none">
+          <span class="logo-rk">BMI</span><span class="logo-text">Housing</span>
+        </span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-dropdown-wrap">
+          <button class="nav-link nav-dropdown-trigger" id="projectsDropdownBtn">
+            Projects <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="nav-dropdown" id="projectsDropdown">
+            <div class="dropdown-header">Explore Our Projects</div>
+            <a href="bmihousing.html" class="dropdown-item">
+              <i class="fas fa-building" style="font-size:1.3rem;color:#F97316;background:#FFEDD5;padding:8px;border-radius:6px;"></i>
+              <div class="dropdown-info">
+                <span>Luxury Apartments</span>
+              </div>
+              <i class="fas fa-arrow-right dd-arrow"></i>
+            </a>
+            <a href="bmihousing-projects.html" class="dropdown-item">
+              <i class="fas fa-map" style="font-size:1.3rem;color:#22C55E;background:#DCFCE7;padding:8px;border-radius:6px;"></i>
+              <div class="dropdown-info">
+                <span>Premium Plots</span>
+              </div>
+              <i class="fas fa-arrow-right dd-arrow"></i>
+            </a>
+          </div>
+        </li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        <li><a href="contact.html" class="nav-cta-btn">Enquire Now <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- BMI Housing HERO -->
+  <section class="hero" id="hero">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="assets/hero-video.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+    <!-- Floating shapes -->
+    <div class="hero-float hf1"></div>
+    <div class="hero-float hf2"></div>
+    <div class="hero-float hf3"></div>
+    <div class="hero-float hf4"></div>
+    <div class="hero-float hf5"></div>
+    <div class="hero-float hf6"></div>
+
+    <div class="hero-content">
+      <div class="hero-logo-wrap" data-aos="fade-down" data-aos-delay="100">
+        <img src="assets/bmi-logo.png" alt="BMI Housing" class="hero-logo-img"
+             onerror="this.style.display='none'" />
+      </div>
+
+      <div class="hero-badge" data-aos="fade-down" data-aos-delay="280">
+        <span>🏆</span> Bangalore's Premier Real Estate Developer
+      </div>
+
+      <h1 class="hero-title" data-aos="fade-up" data-aos-delay="420">
+        Luxury Homes &amp;<br />
+        <span class="hero-gradient-text">Prime Investments</span>
+      </h1>
+
+      <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="560">
+        Discover premium apartments, plots & villas in Bangalore's most sought-after locations.
+      </p>
+
+      <div class="hero-actions" data-aos="fade-up" data-aos-delay="700">
+        <a href="bmihousing-projects.html" class="btn-hero-primary">
+          <i class="fas fa-th-large"></i> Explore Projects
+        </a>
+        <a href="contact.html" class="btn-hero-secondary">
+          <i class="fas fa-calendar-check"></i> Book Site Visit
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-stats" data-aos="fade-up" data-aos-delay="900">
+      <div class="hero-stat">
+        <span class="stat-number" data-count="18">0</span><span class="stat-sfx">+</span>
+        <span class="stat-label">Years</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="hero-stat">
+        <span class="stat-number" data-count="25">0</span><span class="stat-sfx">+</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="hero-stat">
+        <span class="stat-number" data-count="5000">0</span><span class="stat-sfx">+</span>
+        <span class="stat-label">Happy Families</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BMI PROJECTS OVERVIEW -->
+  <section class="our-projects">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag orange">Signature Projects</div>
+        <h2 class="section-title">Discover Our <span>Developments</span></h2>
+        <p class="section-desc">Premium residential & commercial properties across Bangalore's growth corridors</p>
+      </div>
+
+      <!-- BMI Projects Grid - Reusing RK structure with BMI content -->
+      <div class="projects-duo">
+        <!-- Luxury Apartments -->
+        <a href="bmihousing.html#apartments" class="psc-card psc-card-link" data-aos="fade-right" data-aos-delay="100">
+          <div class="psc-image">
+            <img src="assets/metro green hero section.png" alt="BMI Luxury Apartments" />
+            <span class="psc-badge green">New Launch</span>
+            <div class="psc-hover-overlay"><i class="fas fa-arrow-right"></i> Explore Apartments</div>
+          </div>
+          <div class="psc-body">
+            <div class="psc-type green"><i class="fas fa-building"></i> Luxury Apartments</div>
+            <h3>BMI Signature Towers</h3>
+            <p class="psc-loc"><i class="fas fa-map-marker-alt"></i> Whitefield · ITPL Road</p>
+            <p class="psc-desc">3 & 4 BHK luxury residences with world-class amenities in Bangalore's IT hub.</p>
+            <div class="psc-features">
+              <span><i class="fas fa-expand-arrows-alt"></i> 3-4 BHK</span>
+              <span><i class="fas fa-rupee-sign"></i> From ₹1.2 Cr</span>
+              <span><i class="fas fa-swimming-pool"></i> Clubhouse & Pool</span>
+            </div>
+            <span class="btn-primary green">View Details <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <!-- Premium Plots -->
+        <a href="bmihousing-projects.html" class="psc-card psc-card-link" data-aos="fade-left" data-aos-delay="100">
+          <div class="psc-image">
+            <img src="assets/rk avenue/avunue 104.png" alt="BMI Premium Plots" />
+            <span class="psc-badge orange">Ready to Book</span>
+            <div class="psc-hover-overlay"><i class="fas fa-arrow-right"></i> Explore Plots</div>
+          </div>
+          <div class="psc-body">
+            <div class="psc-type orange"><i class="fas fa-map"></i> Premium Plots</div>
+            <h3>BMI Lakeview Greens</h3>
+            <p class="psc-loc"><i class="fas fa-map-marker-alt"></i> Sarjapur Road · Near ORR</p>
+            <p class="psc-desc">Gated community plots with lake views, 40/60/80% open area. A+ location.</p>
+            <div class="psc-features">
+              <span><i class="fas fa-home"></i> 2400-4800 sq.ft</span>
+              <span><i class="fas fa-rupee-sign"></i> ₹8500/sq.ft</span>
+              <span><i class="fas fa-tree"></i> 80% Green Cover</span>
+            </div>
+            <span class="btn-primary orange">View Plots <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+
+      <!-- BMI CTA Section -->
+      <div style="text-align:center;margin-top:64px;" data-aos="fade-up" data-aos-delay="200">
+        <a href="contact.html" class="btn-primary orange" style="font-size:1.1rem;padding:16px 36px;">
+          Ready to Start? <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY BMI HOUSING -->
+  <section class="why-us-v2" id="why-bmi">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag blue">Why BMI Housing?</div>
+        <h2 class="section-title">Unmatched <span>Excellence</span></h2>
+        <p class="section-desc">18+ years of delivering Bangalore's finest real estate with transparency & quality</p>
+      </div>
+
+      <div class="wu-cards">
+        <div class="wu-card wu-card-orange" data-aos="fade-up" data-aos-delay="80">
+          <span class="wu-num">01</span>
+          <div class="wu-card-icon"><i class="fas fa-crown"></i></div>
+          <div class="wu-card-body">
+            <h4>Premium Locations</h4>
+            <p>IT hubs, ORR proximity, metro connectivity — future-proof investments.</p>
+          </div>
+        </div>
+        <div class="wu-card wu-card-green" data-aos="fade-up" data-aos-delay="140">
+          <span class="wu-num">02</span>
+          <div class="wu-card-icon"><i class="fas fa-certificate"></i></div>
+          <div class="wu-card-body">
+            <h4>RERA Approved</h4>
+            <p>100% legally clear titles with complete documentation transparency.</p>
+          </div>
+        </div>
+        <div class="wu-card wu-card-blue" data-aos="fade-up" data-aos-delay="200">
+          <span class="wu-num">03</span>
+          <div class="wu-card-icon"><i class="fas fa-handshake"></i></div>
+          <div class="wu-card-body">
+            <h4>Bank Loans Available</h4>
+            <p>Seamless financing with all major banks. Flexible payment plans.</p>
+          </div>
+        </div>
+        <div class="wu-card wu-card-orange" data-aos="fade-up" data-aos-delay="260">
+          <span class="wu-num">04</span>
+          <div class="wu-card-icon"><i class="fas fa-users"></i></div>
+          <div class="wu-card-body">
+            <h4>5000+ Families</h4>
+            <p>Lifetime customer support & community management.</p>
+          </div>
+        </div>
+        <div class="wu-card wu-card-green" data-aos="fade-up" data-aos-delay="320">
+          <span class="wu-num">05</span>
+          <div class="wu-card-icon"><i class="fas fa-infinity"></i></div>
+          <div class="wu-card-body">
+            <h4>Zero Hidden Costs</h4>
+            <p>Transparent pricing from day one. No surprises.</p>
+          </div>
+        </div>
+        <div class="wu-card wu-card-blue" data-aos="fade-up" data-aos-delay="380">
+          <span class="wu-num">06</span>
+          <div class="wu-card-icon"><i class="fas fa-trophy"></i></div>
+          <div class="wu-card-body">
+            <h4>Award Winning</h4>
+            <p>Multiple RERA & CREDAI awards for excellence in delivery.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BMI STATS -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card" style="--card-color:#F97316" data-aos="zoom-in" data-aos-delay="100">
+          <i class="fas fa-building stat-icon"></i>
+          <div class="stat-num" data-count="25">0</div><span class="stat-plus">+</span>
+          <div class="stat-lbl">Projects Delivered</div>
+        </div>
+        <div class="stat-card" style="--card-color:#22C55E" data-aos="zoom-in" data-aos-delay="200">
+          <i class="fas fa-home stat-icon"></i>
+          <div class="stat-num" data-count="5000">0</div><span class="stat-plus">+</span>
+          <div class="stat-lbl">Happy Customers</div>
+        </div>
+        <div class="stat-card" style="--card-color:#3B82F6" data-aos="zoom-in" data-aos-delay="300">
+          <i class="fas fa-award stat-icon"></i>
+          <div class="stat-num" data-count="18">0</div><span class="stat-plus">+</span>
+          <div class="stat-lbl">Years Excellence</div>
+        </div>
+        <div class="stat-card" style="--card-color:#22C55E" data-aos="zoom-in" data-aos-delay="400">
+          <i class="fas fa-expand-arrows-alt stat-icon"></i>
+          <div class="stat-num" data-count="1000">0</div><span class="stat-plus">+</span>
+          <div class="stat-lbl">Acres Developed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-content" data-aos="fade-up">
+        <h2>Ready to Own Your Dream Home?</h2>
+        <p>Schedule your FREE site visit with our experts today</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-primary orange">Book Site Visit <i class="fas fa-arrow-right"></i></a>
+          <a href="tel:+918012345678" class="btn-outline-white">
+            <i class="fas fa-phone-alt"></i> +91 80 1234 5678
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER - BMI Branded -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col footer-brand">
+            <a href="index.html" class="footer-logo-wrap">
+              <img src="assets/bmi-logo.png" alt="BMI Housing" class="footer-logo-img" />
+              <span class="footer-logo-text" style="display:none">
+                <span class="logo-rk">BMI</span><span class="logo-text">Housing</span>
+              </span>
+            </a>
+            <p>Bangalore's trusted real estate developer since 2005.</p>
+            <div class="footer-socials">
+              <a href="https://www.facebook.com/rkdevelopers" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="bmihousing.html">Projects</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact Info</h4>
+            <div class="footer-contact-item"><i class="fas fa-phone-alt"></i><a href="tel:+918012345678">+91 80 1234 5678</a></div>
+            <div class="footer-contact-item"><i class="fas fa-envelope"></i><a href="mailto:info@bmihousing.com">info@bmihousing.com</a></div>
+            <div class="footer-contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>#123, Main Road, Indiranagar, Bangalore - 560038</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© <span id="year"></span> BMI Housing. All Rights Reserved | RERA Registered</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/transitions.js"></script>
+  <script src="js/widgets.js"></script>
+
+  <!-- BMI-specific inline scripts -->
+  <script>
+    // Update contact details in widgets.js CFG (if needed)
+    // Enhanced BMI animations
+    AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true });
+    
+    // BMI hero parallax effect
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const heroVideo = document.querySelector('.hero-video');
+      if (heroVideo) {
+        heroVideo.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
