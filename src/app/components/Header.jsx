@@ -43,7 +43,7 @@ export default function Header() {
         <button data-jump="0" className="flex items-center gap-3 group cursor-pointer shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
+            src="/bmi-logo.png"
             alt="BMI Housing"
             className="w-10 h-10 rounded-full object-contain shrink-0 drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
           />
@@ -60,7 +60,7 @@ export default function Header() {
                 onHero ? "text-white/45" : "text-pearl/40"
               }`}
             >
-              Co-Operative Society · Est. 2022
+              Co-Operative Society
             </div>
           </div>
         </button>

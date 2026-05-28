@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const projects = [
   {
     title: "BMI Garden City",
-    location: "Off NH 207, Channahalli, Airlines Dhaba Gate, Devanahalli",
+    location: "Off NH 648, Channahalli, Airlines Dhaba Gate, Devanahalli",
     tag: "Active",
     tagColor: "#f59e0b",
     tagBg: "rgba(245,158,11,0.15)",

@@ -24,15 +24,14 @@ export default function SiteFooter() {
           <div>
             <div className="flex items-center gap-3 mb-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
-                alt="BMI Housing"
-                className="w-14 h-14 rounded-full object-contain bg-white p-1"
-                style={{ border: "2px solid rgba(255,255,255,0.65)" }}
-              />
-              <div>
+              <div className="w-14 h-14 rounded-full bg-white shrink-0 flex items-center justify-center overflow-hidden"
+                style={{ border: "2px solid rgba(255,255,255,0.65)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/bmi-logo.png" alt="BMI Housing" className="w-12 h-12 object-contain object-center" />
+              </div>
+              <div className="flex flex-col justify-center">
                 <div className="font-bold text-[15px]" style={{ color: C.greenDark }}>BMI Housing</div>
-                <div className="text-[10px] tracking-[0.22em] uppercase" style={{ color: "#3a6b3a" }}>Co-Op Society · Est. 2022</div>
+                <div className="text-[10px] tracking-[0.22em] uppercase" style={{ color: "#3a6b3a" }}>Co-Op Society</div>
               </div>
             </div>
 
@@ -184,12 +183,12 @@ export default function SiteFooter() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.4)" }}
         >
           <div className="text-[11px] tracking-[0.12em]" style={{ color: "rgba(20,50,20,0.65)" }}>
-            © 2024–2025 BMI Housing Co-Operative Society. All rights reserved.
+            © 2024–2025 Bengaluru Metro City Infrastructure (BMI) Housing Co-Operative Society. All rights reserved.
           </div>
           <div className="flex items-center gap-4 text-[11px]" style={{ color: "rgba(20,50,20,0.65)" }}>
-            <a href="#" className="hover:text-green-900 transition-colors">Disclaimer</a>
+            <a href="/disclaimer" className="hover:text-green-900 transition-colors">Disclaimer</a>
             <span>/</span>
-            <a href="#" className="hover:text-green-900 transition-colors">Privacy Policy</a>
+            <a href="/disclaimer" className="hover:text-green-900 transition-colors">Privacy Policy</a>
           </div>
         </div>
       </div>

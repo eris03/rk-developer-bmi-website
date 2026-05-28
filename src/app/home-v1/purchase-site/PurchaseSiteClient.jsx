@@ -262,7 +262,7 @@ export default function PurchaseSiteClient() {
           {/* Quick info chips */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
             className="flex flex-wrap items-center justify-center gap-2">
-            {["₹100 Form Fee", "DTCP & BMRDA Approved", "Bank Loan Available", "Govt. Registered"].map(tag => (
+            {["₹100 Form Fee", "DTCP & BMRDA Approved", "4-EMI Plan", "Govt. Registered"].map(tag => (
               <span key={tag} className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white"
                 style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}>
                 {tag}
@@ -539,7 +539,7 @@ export default function PurchaseSiteClient() {
           <div className="grid md:grid-cols-3 gap-5">
             <Select label="Preferred Project" required options={["BMI Garden City", "BMI North Metro City"]} />
             <Select label="Plot Size Preference" options={["30×40 (1200 sqft)", "30×50 (1500 sqft)", "40×60 (2400 sqft)", "50×80 (4000 sqft)"]} />
-            <Select label="Payment Plan" options={["Full Payment", "4-EMI Plan", "Bank Loan"]} />
+            <Select label="Payment Plan" options={["Full Payment", "4-EMI Plan"]} />
             <Textarea label="Any Special Requirements / Remarks" placeholder="Additional requirements…" rows={3} className="md:col-span-3" />
           </div>
         </Card>

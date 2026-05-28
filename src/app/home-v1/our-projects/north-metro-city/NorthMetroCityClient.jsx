@@ -4,6 +4,59 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "../../components/NavBar";
 import SiteFooter from "../../components/SiteFooter";
+import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+
+/* ── Click-to-play video player ── */
+function VideoPlayer({ src, poster }) {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div className="relative w-full rounded-2xl overflow-hidden bg-black" style={{ aspectRatio: "16/9" }}>
+      {playing ? (
+        /* eslint-disable-next-line jsx-a11y/media-has-caption */
+        <video
+          src={src}
+          autoPlay
+          playsInline
+          controls
+          className="absolute inset-0 w-full h-full object-contain"
+          style={{ background: "#000" }}
+        />
+      ) : (
+        <div
+          className="absolute inset-0 cursor-pointer group"
+          onClick={() => setPlaying(true)}
+          role="button"
+          aria-label="Play virtual tour"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={poster} alt="Virtual Tour Thumbnail" className="w-full h-full object-cover" />
+          {/* dark overlay */}
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+          {/* play button */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              whileHover={{ scale: 1.12 }}
+              whileTap={{ scale: 0.94 }}
+              className="flex items-center justify-center w-20 h-20 rounded-full"
+              style={{ background: "rgba(255,255,255,0.18)", backdropFilter: "blur(8px)", border: "2px solid rgba(255,255,255,0.5)", boxShadow: "0 8px 40px rgba(0,0,0,0.5)" }}
+            >
+              <svg viewBox="0 0 24 24" fill="white" className="w-9 h-9 ml-1.5 drop-shadow">
+                <polygon points="5,3 19,12 5,21" />
+              </svg>
+            </motion.div>
+          </div>
+          {/* label */}
+          <div
+            className="absolute bottom-5 left-1/2 -translate-x-1/2 px-5 py-2 rounded-full text-[12px] font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.15)" }}
+          >
+            ▶ Play Virtual Tour
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 const C = {
   bg:          "#fff7ed",
@@ -40,14 +93,17 @@ function Navbar() {
       <div className="px-6 lg:px-10 py-3 flex items-center justify-between gap-4">
         <a href="/" className="flex items-center gap-2.5 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <motion.img
-            src="https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png"
-            alt="BMI" className="w-10 h-10 rounded-full object-contain"
+          <motion.div
+            className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0"
+            style={{ border: "1.5px solid #fed7aa" }}
             whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }}
-          />
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/bmi-logo.png" alt="BMI" className="w-8 h-8 object-contain object-center" />
+          </motion.div>
           <div className="hidden sm:block leading-none">
             <div className="font-bold text-[14px]" style={{ color: C.orange }}>BMI Housing</div>
-            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5" style={{ color: C.muted }}>Co-Op Society · Est. 2022</div>
+            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5" style={{ color: C.muted }}>Co-Op Society</div>
           </div>
         </a>
 
@@ -93,9 +149,9 @@ function Navbar() {
       </div>
       <div className="px-6 lg:px-10 py-1.5 flex items-center gap-1 text-[11px]"
         style={{ borderTop: `1px solid ${C.border}`, background: C.bgSection }}>
-        <a href="#" className="hover:underline" style={{ color: C.orangeMid }}>Disclaimer</a>
+        <a href="/disclaimer" className="hover:underline" style={{ color: C.orangeMid }}>Disclaimer</a>
         <span style={{ color: C.muted }}>/</span>
-        <a href="#" className="hover:underline" style={{ color: C.orangeMid }}>Privacy Policy</a>
+        <a href="/disclaimer" className="hover:underline" style={{ color: C.orangeMid }}>Privacy Policy</a>
         <span className="ml-auto text-[10px] tracking-[0.2em] uppercase" style={{ color: C.muted }}>
           Reg. No: JRB/RGN/CR-13/51578/2022-23
         </span>
@@ -105,6 +161,7 @@ function Navbar() {
 }
 
 export default function NorthMetroCityClient() {
+  const [activeDevIdx, setActiveDevIdx] = useState(null);
   return (
     <div style={{ background: C.bgWhite }}>
       <NavBar activePage="north-metro-city" />
@@ -150,17 +207,7 @@ export default function NorthMetroCityClient() {
             Adjacent to Amity University
           </motion.div>
 
-          {/* Kannada — large, on top */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-extrabold text-3xl md:text-4xl tracking-tight mb-2 leading-snug"
-            style={{ color: "#fdba74" }}
-          >
-            ಬಿಎಂಐ ನಾರ್ತ್ ಮೆಟ್ರೋ ಸಿಟಿ
-          </motion.h1>
-          {/* English — smaller, below */}
+          {/* English heading */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -190,7 +237,7 @@ export default function NorthMetroCityClient() {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            {["Govt. Registered", "Bank Loan 90%", "Amity University Nearby", "4-EMI Plan", "₹1,199/sqft"].map((tag) => (
+            {["Govt. Registered", "Amity University Nearby", "4-EMI Plan", "₹1,399/sqft"].map((tag) => (
               <span key={tag}
                 className="px-4 py-1.5 rounded-full text-[12px] font-semibold text-white"
                 style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}>
@@ -250,9 +297,8 @@ export default function NorthMetroCityClient() {
             {/* Quick stats */}
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: "Price", value: "₹1,199/sqft" },
+                { label: "Price", value: "₹1,399/sqft" },
                 { label: "Location", value: "Near Amity Univ." },
-                { label: "Loan", value: "Up to 90%" },
                 { label: "Payment", value: "4-EMI Plan" },
               ].map((s, i) => (
                 <motion.div key={s.label}
@@ -302,10 +348,10 @@ export default function NorthMetroCityClient() {
               </thead>
               <tbody>
                 {[
-                  { dim: "30×40", sqft: "1200sqft", price: "1199/-sqft", total: "14,38,800/-", down: "4,31,640",  i1: "3,35,720",  i2: "3,35,720",  i3: "3,35,720"  },
-                  { dim: "30×50", sqft: "1500sqft", price: "1199/-sqft", total: "17,98,500/-", down: "5,39,550",  i1: "4,19,650",  i2: "4,19,650",  i3: "4,19,650"  },
-                  { dim: "40×60", sqft: "2400sqft", price: "1199/-sqft", total: "28,77,600/-", down: "8,63,280",  i1: "6,71,440",  i2: "6,71,440",  i3: "6,71,440"  },
-                  { dim: "50×80", sqft: "4000sqft", price: "1199/-sqft", total: "47,96,000/-", down: "14,38,800", i1: "11,19,067", i2: "11,19,067", i3: "11,19,067" },
+                  { dim: "30×40", sqft: "1200sqft", price: "1399/-sqft", total: "16,78,800/-", down: "5,03,640",  i1: "3,91,720",  i2: "3,91,720",  i3: "3,91,720"  },
+                  { dim: "30×50", sqft: "1500sqft", price: "1399/-sqft", total: "20,98,500/-", down: "6,29,550",  i1: "4,89,650",  i2: "4,89,650",  i3: "4,89,650"  },
+                  { dim: "40×60", sqft: "2400sqft", price: "1399/-sqft", total: "33,57,600/-", down: "10,07,280", i1: "7,83,440",  i2: "7,83,440",  i3: "7,83,440"  },
+                  { dim: "50×80", sqft: "4000sqft", price: "1399/-sqft", total: "55,96,000/-", down: "16,78,800", i1: "13,05,734", i2: "13,05,734", i3: "13,05,734" },
                 ].map((row, i) => (
                   <motion.tr key={row.dim}
                     initial={{ opacity: 0, x: -16 }}
@@ -344,23 +390,7 @@ export default function NorthMetroCityClient() {
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="rounded-2xl p-8 grid md:grid-cols-2 gap-8"
             style={{ background: C.bgSection, border: `1px solid ${C.border}` }}>
-            {/* English */}
-            <div>
-              <h4 className="font-bold text-[15px] mb-5 pb-2" style={{ color: C.orangeMid, borderBottom: `2px solid ${C.border}` }}>English</h4>
-              <ol className="flex flex-col gap-3">
-                {["Four (4) passport-size photographs","Address proof","Government ID Proof","Nominee ID Proof & 1 Passport Size photo","Payment Mode: Cheque, DD, NEFT, RTGS, or IMPS"].map((doc, i) => (
-                  <li key={i} className="flex items-start gap-3 text-[13px]" style={{ color: C.body }}>
-                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5"
-                      style={{ background: C.orangeLight, color: C.orangeMid }}>{i + 1}</span>
-                    {doc}
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-5 text-[12px]" style={{ color: C.muted }}>
-                In favor of: <strong style={{ color: C.text }}>"BENGALURU METRO CITY INFRASTRUCTURE HOUSING CO-OPERATIVE SOCIETY"</strong>
-              </p>
-            </div>
-            {/* Kannada */}
+            {/* Kannada — first */}
             <div>
               <h4 className="kannada font-bold text-[15px] mb-5 pb-2" style={{ color: C.orangeMid, borderBottom: `2px solid ${C.border}` }}>
                 ಅರ್ಜಿಗೆ ಸೇರಿಸಬೇಕಾದ ಆವಶ್ಯಕ ಆವೃತ್ತಿಗಳು:
@@ -378,69 +408,228 @@ export default function NorthMetroCityClient() {
                 ಮುಖ್ಯ ವ್ಯಾಜ್ಯ: <strong style={{ color: C.text }}>"ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್ ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ"</strong>
               </p>
             </div>
+            {/* English — second */}
+            <div>
+              <ol className="flex flex-col gap-3">
+                {["Four (4) passport-size photographs","Address proof","Government ID Proof","Nominee ID Proof & 1 Passport Size photo","Payment Mode: Cheque, DD, NEFT, RTGS, or IMPS"].map((doc, i) => (
+                  <li key={i} className="flex items-start gap-3 text-[13px]" style={{ color: C.body }}>
+                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5"
+                      style={{ background: C.orangeLight, color: C.orangeMid }}>{i + 1}</span>
+                    {doc}
+                  </li>
+                ))}
+              </ol>
+              <p className="mt-5 text-[12px]" style={{ color: C.muted }}>
+                In favor of: <strong style={{ color: C.text }}>"BENGALURU METRO CITY INFRASTRUCTURE HOUSING CO-OPERATIVE SOCIETY"</strong>
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── Developments & Amenities ── */}
-      <section className="px-6 lg:px-10 py-20" style={{ background: C.bgSection }}>
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+      {/* ── Developments ── */}
+      <section className="relative px-6 lg:px-10 py-20 overflow-hidden" style={{ background: C.bgWhite }}>
+
+        {/* ── Left side decoration (xl+) ── */}
+        <div className="absolute left-0 top-0 bottom-0 w-52 pointer-events-none overflow-hidden hidden xl:block" aria-hidden="true">
+          <div style={{ position:"absolute", inset:0, backgroundImage:`radial-gradient(circle, ${C.orangeMid}55 1.5px, transparent 1.5px)`, backgroundSize:"22px 22px" }} />
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease:"linear" }}
+            style={{ position:"absolute", top:"14%", left:"-28%", width:200, height:200, borderRadius:"50%", border:`2px dashed ${C.orangeMid}90` }} />
+          <motion.div animate={{ rotate: -360 }} transition={{ duration: 28, repeat: Infinity, ease:"linear" }}
+            style={{ position:"absolute", top:"55%", left:"-18%", width:140, height:140, borderRadius:"50%", border:`1.5px dashed ${C.orangeBright}70` }} />
+          <motion.div animate={{ scale:[1,1.3,1], opacity:[0.18,0.38,0.18] }} transition={{ duration:5, repeat:Infinity, ease:"easeInOut" }}
+            style={{ position:"absolute", top:"50%", left:"0%", width:110, height:110, borderRadius:"50%", background:C.orangeMid, filter:"blur(24px)" }} />
+          <motion.div animate={{ y:[0,-12,0] }} transition={{ duration:4, repeat:Infinity, ease:"easeInOut" }}
+            style={{ position:"absolute", top:"34%", left:"22%" }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke={C.orangeBright} strokeWidth={2} style={{ width:36, height:36, opacity:0.7 }}>
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </motion.div>
+          {[0,1,2,3].map((i) => (
+            <motion.div key={i}
+              animate={{ y:[0,-(9+i*5),0], opacity:[0.35,0.75,0.35] }}
+              transition={{ duration:3.2+i*0.9, repeat:Infinity, ease:"easeInOut", delay:i*0.7 }}
+              style={{ position:"absolute", top:`${18+i*17}%`, left:`${10+(i%2)*28}%`, width:7+i*2, height:7+i*2, borderRadius:"50%", background:C.orangeBright }} />
+          ))}
+        </div>
+
+        {/* ── Right side decoration (xl+) ── */}
+        <div className="absolute right-0 top-0 bottom-0 w-52 pointer-events-none overflow-hidden hidden xl:block" aria-hidden="true">
+          <div style={{ position:"absolute", inset:0, backgroundImage:`radial-gradient(circle, ${C.orangeMid}55 1.5px, transparent 1.5px)`, backgroundSize:"22px 22px" }} />
+          <motion.div animate={{ rotate:-360 }} transition={{ duration:32, repeat:Infinity, ease:"linear" }}
+            style={{ position:"absolute", top:"20%", right:"-26%", width:175, height:175, borderRadius:"50%", border:`2px dashed ${C.orangeBright}85` }} />
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 22, repeat: Infinity, ease:"linear" }}
+            style={{ position:"absolute", top:"58%", right:"-15%", width:130, height:130, borderRadius:"50%", border:`1.5px dashed ${C.orangeMid}60` }} />
+          <motion.div animate={{ scale:[1,1.25,1], opacity:[0.18,0.40,0.18] }} transition={{ duration:6, repeat:Infinity, ease:"easeInOut", delay:2 }}
+            style={{ position:"absolute", top:"38%", right:"0%", width:120, height:120, borderRadius:"50%", background:C.orangeBright, filter:"blur(26px)" }} />
+          <motion.div animate={{ y:[0,-11,0] }} transition={{ duration:5, repeat:Infinity, ease:"easeInOut", delay:0.8 }}
+            style={{ position:"absolute", top:"58%", right:"20%" }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke={C.orangeMid} strokeWidth={2} style={{ width:34, height:34, opacity:0.65 }}>
+              <line x1="3" y1="22" x2="21" y2="22"/>
+              <rect x="5" y="2" width="14" height="20" rx="1"/>
+              <line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="13" x2="15" y2="13"/>
+            </svg>
+          </motion.div>
+          {[0,1,2,3].map((i) => (
+            <motion.div key={i}
+              animate={{ y:[0,-(8+i*4),0], opacity:[0.35,0.72,0.35] }}
+              transition={{ duration:3.8+i*0.6, repeat:Infinity, ease:"easeInOut", delay:i*0.5 }}
+              style={{ position:"absolute", top:`${14+i*20}%`, right:`${14+(i%2)*22}%`, width:6+i*2, height:6+i*2, borderRadius:"50%", background:C.orangeMid }} />
+          ))}
+        </div>
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-8 h-px" style={{ background: C.orangeBright }} />
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.orangeMid }}>Nearby</span>
+              <span className="w-8 h-px" style={{ background: C.orangeBright }} />
+            </div>
             <h2 className="font-extrabold text-3xl md:text-4xl" style={{ color: C.text }}>
-              Developments &amp;{" "}
+              Nearby{" "}
               <span style={{ background: `linear-gradient(90deg,${C.orangeMid},${C.orangeBright})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                Amenities
+                Developments
               </span>
             </h2>
           </motion.div>
-          <div className="grid md:grid-cols-2 gap-8 mb-10">
-            {/* Developments */}
-            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="rounded-2xl p-8" style={{ background: "#fff7ed", border: `1px solid ${C.border}` }}>
-              <h4 className="font-extrabold text-[15px] mb-6 tracking-[0.12em] uppercase flex items-center gap-2" style={{ color: C.orange }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                Developments
-              </h4>
-              <ol className="flex flex-col gap-2.5">
-                {["Devanahalli DC Office","ITIR Tech park (12,000 Acres)","Amity University","Harrow International School","Gitam University","Doddaballapura Industrial Area","Padukone – Dravid Sport Academy","Vihaan Public School Cambridge University","Stonehill International School"].map((item, i) => (
-                  <motion.li key={i} initial={{ opacity: 0, x: -8 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                    className="flex items-center gap-3 text-[13px]" style={{ color: C.body }}>
-                    <span className="text-[11px] font-bold w-6 shrink-0" style={{ color: C.muted }}>{i + 1}.</span>
-                    {item}
-                  </motion.li>
-                ))}
-              </ol>
-            </motion.div>
 
-            {/* Amenities */}
-            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="rounded-2xl p-8" style={{ background: "#fffbeb", border: "1px solid #fde68a" }}>
-              <h4 className="font-extrabold text-[15px] mb-6 tracking-[0.12em] uppercase flex items-center gap-2" style={{ color: "#92400e" }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-                Amenities
-              </h4>
-              <ol className="flex flex-col gap-2.5">
-                {["60ft Main Road","Water Connection","Underground Sewage Connection","Drainage System","Underground Electricity","Entrance Arch","Sewage Treatment Plant","Street Lights","Amphitheater","Theme Parks","Club House","Swimming Pool"].map((item, i) => (
-                  <motion.li key={i} initial={{ opacity: 0, x: 8 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }}
-                    className="flex items-center gap-3 text-[13px]" style={{ color: C.body }}>
-                    <span className="text-[11px] font-bold w-6 shrink-0" style={{ color: "#d97706" }}>{i + 1}.</span>
-                    {item}
-                  </motion.li>
-                ))}
-              </ol>
-            </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="rounded-2xl p-8 grid sm:grid-cols-2 gap-3"
+            style={{ background: C.bgSection, border: `1px solid ${C.border}`, perspective: "1200px" }}>
+            {[
+              "Devanahalli DC Office",
+              "ITIR Tech Park (12,000 Acres)",
+              "Amity University",
+              "Harrow International School",
+              "Gitam University",
+              "Doddaballapura Industrial Area",
+              "Padukone–Dravid Sport Academy",
+              "Vihaan Public School (Cambridge)",
+              "Stonehill International School",
+            ].map((item, i) => {
+              const isActive = activeDevIdx === i;
+              return (
+                <motion.div key={i}
+                  initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                  <motion.div
+                    animate={isActive
+                      ? { scale: 1.07, rotateX: -10, rotateY: 2, y: -7 }
+                      : { scale: 1,    rotateX: 0,   rotateY: 0, y: 0  }}
+                    whileHover={!isActive ? { scale: 1.04, y: -4, rotateX: -5 } : {}}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: "spring", stiffness: 320, damping: 22 }}
+                    onClick={() => setActiveDevIdx(isActive ? null : i)}
+                    className="flex items-center gap-3 py-3 px-4 rounded-xl"
+                    style={{
+                      background: isActive ? C.orangeLight : "#ffffff",
+                      border: isActive ? `1.5px solid ${C.orangeBright}` : `1px solid ${C.border}`,
+                      boxShadow: isActive
+                        ? `0 20px 45px rgba(234,88,12,0.28), 0 0 0 3px ${C.orangeBright}30`
+                        : "0 1px 4px rgba(0,0,0,0.05)",
+                      transformStyle: "preserve-3d",
+                      cursor: "pointer",
+                      userSelect: "none",
+                      transition: "background 0.25s, border 0.25s, box-shadow 0.25s",
+                    }}>
+                    <span className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
+                      style={{
+                        background: isActive ? C.orangeBright : C.orangeLight,
+                        color: isActive ? "#ffffff" : C.orange,
+                        transition: "background 0.25s, color 0.25s",
+                      }}>{i + 1}</span>
+                    <span className="text-[13px] font-semibold flex-1"
+                      style={{ color: isActive ? C.orange : C.text, transition: "color 0.25s" }}>
+                      {item}
+                    </span>
+                    {isActive && (
+                      <motion.svg
+                        initial={{ opacity: 0, scale: 0.4, rotate: -20 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        viewBox="0 0 24 24" fill="none" stroke={C.orangeBright} strokeWidth={2.5}
+                        className="w-4 h-4 shrink-0">
+                        <polyline points="20 6 9 17 4 12" />
+                      </motion.svg>
+                    )}
+                  </motion.div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Amenities ── */}
+      <section className="relative overflow-hidden py-24" style={{ background: "#fff7ed" }}>
+        {/* Header */}
+        <div className="max-w-3xl mx-auto px-6 mb-14 text-center">
+          <div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.3em] uppercase mb-5"
+            style={{ background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.35)", color: "#f97316" }}
+          >
+            Amenities
           </div>
+          <h2 className="font-extrabold text-4xl md:text-5xl tracking-tight mb-4" style={{ color: C.text }}>
+            Every Comfort,{" "}
+            <span style={{ background: "linear-gradient(90deg,#f97316,#fb923c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Thoughtfully Planned
+            </span>
+          </h2>
+          <p className="text-[15px]" style={{ color: C.muted }}>
+            BMI North Metro City is equipped with modern infrastructure and world-class amenities for a premium lifestyle.
+          </p>
+        </div>
 
-          {/* Notes */}
+        {/* Scrolling columns */}
+        <div
+          className="flex justify-center gap-5 overflow-hidden"
+          style={{
+            maskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+            maxHeight: "700px",
+          }}
+        >
+          <TestimonialsColumn duration={16} testimonials={[
+            { name: "60ft Main Road",            role: "Infrastructure", text: "Wide 60-foot roads ensuring smooth traffic flow and easy accessibility throughout the layout.", image: "/amenities/road.jpg", accent: "#f97316" },
+            { name: "Water Connection",           role: "Utilities",      text: "24/7 freshwater supply with dedicated pipeline connections to every plot in the layout.", image: "/amenities/water.jpg", accent: "#f97316" },
+            { name: "Underground Electricity",    role: "Utilities",      text: "Safe underground electrical cabling eliminating overhead wires for a cleaner, safer environment.", image: "/amenities/electricity.jpg", accent: "#f97316" },
+            { name: "Entrance Arch",              role: "Infrastructure", text: "Grand entrance arch with 24/7 security, giving your home a prestigious and welcoming address.", image: "/nmc-amenities-hero.png", accent: "#f97316" },
+          ]} />
+          <TestimonialsColumn duration={20} className="hidden md:block" testimonials={[
+            { name: "Swimming Pool",              role: "Recreation",     text: "Premium swimming pool for residents to relax, exercise, and enjoy leisure time with family.", image: "/amenities/swimming-pool.jpg", accent: "#fb923c" },
+            { name: "Club House",                 role: "Recreation",     text: "Modern club house with premium facilities for community gatherings, events, and leisure.", image: "/amenities/clubhouse.jpg", accent: "#fb923c" },
+            { name: "Amphitheater",               role: "Community",      text: "Open-air amphitheater for community events, cultural programs, and outdoor entertainment.", image: "/amenities/amphitheater.jpg", accent: "#fb923c" },
+            { name: "Theme Park & Gardens",       role: "Recreation",     text: "Landscaped parks with seating, walking paths, and play areas for all ages.", image: "/amenities/park.jpg", accent: "#fb923c" },
+          ]} />
+          <TestimonialsColumn duration={18} className="hidden lg:block" testimonials={[
+            { name: "Street Lights",              role: "Infrastructure", text: "Solar-powered street lights ensuring safety and clear visibility throughout the night.", image: "/amenities/street-lights.jpg", accent: "#f97316" },
+            { name: "Underground Sewage",         role: "Sanitation",     text: "Modern underground sewage system ensuring a clean, hygienic, and odour-free environment.", image: "/amenities/sewage.jpg", accent: "#f97316" },
+            { name: "Outdoor Gym",                role: "Recreation",     text: "Open-air fitness station with modern equipment for a healthy and active lifestyle.", image: "/amenities/gym.jpg", accent: "#f97316" },
+            { name: "CCTV Surveillance",          role: "Security",       text: "24/7 CCTV surveillance across the entire layout for complete peace of mind.", image: "/amenities/cctv.jpg", accent: "#f97316" },
+          ]} />
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-12">
+          <a
+            href="/purchase-site"
+            className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[13px] font-bold text-white"
+            style={{ background: "linear-gradient(135deg,#f97316,#c2410c)", boxShadow: "0 6px 24px rgba(249,115,22,0.4)" }}
+          >
+            Apply for a Site →
+          </a>
+        </div>
+      </section>
+
+      {/* ── Notes ── */}
+      <section className="px-6 lg:px-10 pb-16" style={{ background: "#fff7ed" }}>
+        <div className="max-w-3xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="rounded-2xl px-8 py-6" style={{ background: "#fef9c3", border: "1px solid #fde68a" }}>
             <h4 className="font-bold text-[12px] tracking-[0.25em] uppercase mb-3" style={{ color: "#92400e" }}>Note:</h4>
             <ul className="flex flex-col gap-2">
-              {["Loan Facility will be available after layout plan approval from the Concerned Authorities.","Corner sites will be charged extra at the time of Allotment.","Registration Charges should be borne by Members.",'Allotment will be done on "FIRST COME FIRST SERVE BASES".'].map((note, i) => (
+              {["Corner sites will be charged extra at the time of Allotment.","Registration Charges should be borne by Members.",'Allotment will be done on "FIRST COME FIRST SERVE BASES".'].map((note, i) => (
                 <li key={i} className="flex items-start gap-2 text-[13px]" style={{ color: "#78350f" }}>
                   <span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full" style={{ background: "#d97706" }} />
                   {note}
@@ -448,6 +637,59 @@ export default function NorthMetroCityClient() {
               ))}
             </ul>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── Project Video ── */}
+      <section className="px-6 lg:px-10 py-20 overflow-hidden"
+        style={{ background: "linear-gradient(180deg, #050a1a 0%, #1a0a00 100%)" }}>
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-10"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-10 h-px" style={{ background: "rgba(251,146,60,0.4)" }} />
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.orangeBright }}>
+                ಯೋಜನಾ ವಿಡಿಯೋ · Project Video
+              </span>
+              <span className="w-10 h-px" style={{ background: "rgba(251,146,60,0.4)" }} />
+            </div>
+            <h2 className="font-extrabold text-3xl md:text-4xl text-white mb-3">
+              BMI{" "}
+              <span style={{ background: `linear-gradient(90deg, ${C.orangeBright}, #fbbf24)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                North Metro City
+              </span>{" "}
+              — Virtual Tour
+            </h2>
+            <p className="text-[14px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Experience the layout, amenities and location of BMI North Metro City
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{ boxShadow: "0 24px 80px rgba(0,0,0,0.6)", border: "1px solid rgba(251,146,60,0.2)", borderRadius: "1rem", overflow: "hidden" }}
+          >
+            <VideoPlayer src="/north-metro-city.mp4" poster="/north-metro-overview.png" />
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="text-center text-[11px] mt-5"
+            style={{ color: "rgba(255,255,255,0.25)" }}
+          >
+            Adjacent to Amity University · North Bengaluru · ₹1,399/sqft
+          </motion.p>
         </div>
       </section>
 

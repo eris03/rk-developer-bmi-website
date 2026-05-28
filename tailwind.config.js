@@ -40,9 +40,10 @@ module.exports = {
         ultra:  ".35em"
       },
       animation: {
-        "slow-zoom": "slowZoom 22s ease-in-out infinite alternate",
-        "shimmer":   "shimmer 4s linear infinite",
-        "float":     "float 4s ease-in-out infinite"
+        "slow-zoom":             "slowZoom 22s ease-in-out infinite alternate",
+        "shimmer":               "shimmer 4s linear infinite",
+        "float":                 "float 4s ease-in-out infinite",
+        "perspective-blur-in":   "perspectiveBlurIn 0.7s ease both"
       },
       keyframes: {
         slowZoom: {
@@ -56,6 +57,10 @@ module.exports = {
         float: {
           "0%,100%": { transform: "translateY(0px)" },
           "50%":     { transform: "translateY(-8px)" }
+        },
+        perspectiveBlurIn: {
+          from: { opacity: "0", filter: "blur(10px)", transform: "translateY(6px)" },
+          to:   { opacity: "1", filter: "blur(0px)",  transform: "translateY(0px)" }
         }
       }
     }

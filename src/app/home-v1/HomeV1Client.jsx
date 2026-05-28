@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import SideActions from "../components/SideActions";
 import NavBar from "./components/NavBar";
 import SiteFooter from "./components/SiteFooter";
+import { Perspective, Highlight } from "@/components/ui/perspective-highlight";
 import {
   motion,
   useScroll,
@@ -34,128 +35,102 @@ const C = {
 };
 
 /* ═══════════════════════════════════════
-   3D PROJECT CARD
+   3D PROJECT CARD  — Perspective Highlight edition
+   highlightColor: "green" | "orange" | "yellow" | "red"
 ═══════════════════════════════════════ */
-function ProjectCard3D({ href, image, locationTag, nameKannada, nameEnglish, price, tags, accentColor, ctaLabel, delay = 0 }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 140, damping: 20 });
-  const sy = useSpring(y, { stiffness: 140, damping: 20 });
-  const rotateX = useTransform(sy, [-100, 100], [7, -7]);
-  const rotateY = useTransform(sx, [-100, 100], [-7, 7]);
-
+function ProjectCard3D({ href, image, locationTag, nameEnglish, price, tags, accentColor, highlightColor = "green", ctaLabel, delay = 0 }) {
   return (
-    <motion.a
-      href={href}
-      initial={{ opacity: 0, y: 70, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
-      style={{
-        rotateX, rotateY,
-        transformStyle: "preserve-3d",
-        perspective: 1200,
-        textDecoration: "none",
-        display: "block",
-      }}
-      onMouseMove={(e) => {
-        const r = e.currentTarget.getBoundingClientRect();
-        x.set(e.clientX - r.left - r.width / 2);
-        y.set(e.clientY - r.top - r.height / 2);
-      }}
-      onMouseLeave={() => { x.set(0); y.set(0); }}
-      className="group relative rounded-[28px] overflow-hidden cursor-pointer"
-      style={{ height: "520px", boxShadow: `0 24px 80px rgba(0,0,0,0.5)` }}
+    /* Perspective wraps the full card so --rx/--ry/--lift are set here */
+    <Perspective
+      maxRotateX={9}
+      maxRotateY={14}
+      smoothing={0.09}
+      className="rounded-[28px] overflow-hidden group cursor-pointer"
+      cardClassName="relative w-full h-full will-change-transform"
+      style={{ height: "420px", boxShadow: "0 24px 80px rgba(0,0,0,0.5)" }}
     >
-      {/* ── Background image with zoom ── */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={image}
-        alt={nameEnglish}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-      />
-
-      {/* ── Multi-layer gradient overlays ── */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.1) 75%, transparent 100%)" }} />
-      {/* Colored tint on hover */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: `linear-gradient(135deg, ${accentColor}25 0%, transparent 60%)` }}
-      />
-
-      {/* ── Glowing border ring on hover ── */}
-      <div
-        className="absolute inset-0 rounded-[28px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ boxShadow: `inset 0 0 0 2px ${accentColor}99, 0 0 80px ${accentColor}33` }}
-      />
-
-      {/* ── Floating glow blob ── */}
-      <motion.div
-        className="absolute -top-20 -right-20 w-56 h-56 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-        style={{ background: accentColor, filter: "blur(60px)", opacity: 0 }}
-        whileHover={{ opacity: 0.18 }}
-      />
-
-      {/* ── Location badge (top-left) ── */}
-      <div
-        className="absolute top-5 left-5 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold text-white"
-        style={{
-          background: `${accentColor}dd`,
-          backdropFilter: "blur(10px)",
-          boxShadow: `0 4px 16px ${accentColor}55`,
-        }}
+      {/* Entry animation wrapper */}
+      <motion.a
+        href={href}
+        initial={{ opacity: 0, y: 70, scale: 0.9 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute inset-0"
+        style={{ textDecoration: "none" }}
       >
-        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-        {locationTag}
-      </div>
+        {/* ── Background image with zoom ── */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image}
+          alt={nameEnglish}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+        />
 
-      {/* ── Arrow button (top-right) ── */}
-      <div
-        className="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center text-white text-[16px] font-bold opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-400"
-        style={{ background: "rgba(255,255,255,0.18)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.3)" }}
-      >
-        →
-      </div>
+        {/* ── Multi-layer gradient overlays ── */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.1) 75%, transparent 100%)" }} />
+        {/* Colored tint on hover */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{ background: `linear-gradient(135deg, ${accentColor}25 0%, transparent 60%)` }}
+        />
 
-      {/* ── Content panel (bottom) ── */}
-      <div className="absolute bottom-0 left-0 right-0 p-7 translate-y-1 group-hover:translate-y-0 transition-transform duration-400">
-        {/* Price badge */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: delay + 0.4, duration: 0.5 }}
-          className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-[12px] font-extrabold mb-4"
+        {/* ── Glowing border ring on hover ── */}
+        <div
+          className="absolute inset-0 rounded-[28px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{ boxShadow: `inset 0 0 0 2px ${accentColor}99, 0 0 80px ${accentColor}33` }}
+        />
+
+        {/* ── Location badge (top-left) ── */}
+        <div
+          className="absolute top-5 left-5 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold text-white z-10"
           style={{
-            background: `${accentColor}`,
-            color: "#fff",
-            boxShadow: `0 6px 20px ${accentColor}66`,
+            background: `${accentColor}dd`,
+            backdropFilter: "blur(10px)",
+            boxShadow: `0 4px 16px ${accentColor}55`,
           }}
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-            <line x1="7" y1="7" x2="7.01" y2="7"/>
-          </svg>
-          {price}
-        </motion.div>
-
-        {/* Kannada name */}
-        <div className="text-[13px] font-semibold mb-1 leading-snug" style={{ color: accentColor }}>
-          {nameKannada}
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          {locationTag}
         </div>
 
-        {/* English name */}
-        <h3 className="font-extrabold text-[22px] md:text-[26px] text-white mb-3 leading-tight">{nameEnglish}</h3>
+        {/* ── Arrow button (top-right) ── */}
+        <div
+          className="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center text-white text-[16px] font-bold opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300 z-10"
+          style={{ background: "rgba(255,255,255,0.18)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.3)" }}
+        >
+          →
+        </div>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {tags.map((t) => (
-            <span
-              key={t}
-              className="px-2.5 py-1 rounded-full text-[10px] font-semibold"
-              style={{
-                background: "rgba(255,255,255,0.1)",
-                color: "rgba(255,255,255,0.82)",
+        {/* ── Content panel (bottom) ── */}
+        <div className="absolute bottom-0 left-0 right-0 p-7 translate-y-1 group-hover:translate-y-0 transition-transform duration-300 z-10">
+          {/* Price badge — floats on Highlight */}
+          <div className="mb-4">
+            <Highlight color={highlightColor} className="inline-flex items-center gap-1.5 text-[12px] font-extrabold px-3 py-1.5 rounded-full">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5 shrink-0">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+              {price}
+            </Highlight>
+          </div>
+
+          {/* English name — floats on Highlight */}
+          <h3 className="font-extrabold text-[22px] md:text-[26px] mb-3 leading-tight">
+            <Highlight color={highlightColor} className="text-[22px] md:text-[26px] font-extrabold leading-tight px-2 py-1 rounded-[6px]">
+              {nameEnglish}
+            </Highlight>
+          </h3>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1.5 mb-5">
+            {tags.map((t) => (
+              <span
+                key={t}
+                className="px-2.5 py-1 rounded-full text-[10px] font-semibold"
+                style={{
+                  background: "rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.82)",
                 border: "1px solid rgba(255,255,255,0.18)",
                 backdropFilter: "blur(6px)",
               }}
@@ -171,7 +146,8 @@ function ProjectCard3D({ href, image, locationTag, nameKannada, nameEnglish, pri
           <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.4, repeat: Infinity }}>→</motion.span>
         </div>
       </div>
-    </motion.a>
+      </motion.a>
+    </Perspective>
   );
 }
 
@@ -256,6 +232,19 @@ export default function HomeV1Client() {
   const { scrollYProgress } = useScroll();
   useMotionValueEvent(scrollYProgress, "change", (v) => { scrollProgressRef.current = v; });
 
+  const [navHeight, setNavHeight] = useState(148);
+  useLayoutEffect(() => {
+    const el = document.getElementById("site-navbar");
+    if (!el) return;
+    // ResizeObserver fires whenever the navbar changes height (ticker appears, window resize, etc.)
+    const ro = new ResizeObserver(() => {
+      setNavHeight(el.offsetHeight + 8); // +8px breathing room
+    });
+    ro.observe(el);
+    setNavHeight(el.offsetHeight + 8); // immediate read
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <div style={{ background: C.bg }}>
       <SideActions />
@@ -266,17 +255,20 @@ export default function HomeV1Client() {
         style={{ scaleX: scrollYProgress, background: `linear-gradient(90deg, ${C.green}, ${C.greenMid}, ${C.yellow})` }}
       />
 
-      <NavBar activePage="home" />
+      <NavBar activePage="home" showTicker={true} />
+
+      {/* ── Spacer = dynamic navbar height ── */}
+      <div style={{ height: navHeight }} />
 
       {/* ════════════════════════════════════
           HERO — fullscreen video
       ════════════════════════════════════ */}
-      <section className="relative w-full overflow-hidden" style={{ height: "100svh" }}>
+      <section className="relative w-full overflow-hidden" style={{ height: "calc(100svh - 134px)" }}>
         <video src="/hero.mp4" autoPlay loop muted playsInline preload="auto"
           className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(3,13,7,0.55) 0%, rgba(3,13,7,0.35) 40%, rgba(3,13,7,0.72) 100%)" }} />
 
-        <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center" style={{ paddingTop: "100px" }}>
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center" style={{ paddingTop: "20px" }}>
           <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-bold mb-6"
             style={{ background: "rgba(34,197,94,0.18)", border: "1px solid rgba(34,197,94,0.4)", color: "#86efac" }}>
@@ -297,7 +289,7 @@ export default function HomeV1Client() {
             transition={{ delay: 0.7, duration: 0.7 }}
             className="text-[16px] md:text-[18px] max-w-2xl mb-10 leading-relaxed"
             style={{ color: "rgba(255,255,255,0.65)" }}>
-            Premium residential plots starting at ₹1,175/sqft — near Kempegowda Airport, ITIR Tech Park &amp; top universities.
+            Premium residential plots starting at ₹1,249/sqft — near Kempegowda Airport, ITIR Tech Park &amp; top universities.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
@@ -332,62 +324,20 @@ export default function HomeV1Client() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.7 }}
             className="flex flex-wrap items-center justify-center gap-3">
-            <StatBadge value="500+"   label="Members"       delay={1.05} />
-            <StatBadge value="2"      label="Projects"       delay={1.12} />
-            <StatBadge value="90%"    label="Bank Loan"      delay={1.19} />
-            <StatBadge value="Govt."  label="Registered"     delay={1.26} />
-            <StatBadge value="₹1,175" label="Starting/sqft"  delay={1.33} />
+            <StatBadge value="2,500+" label="Members"       delay={1.05} />
+            <StatBadge value="2"     label="Projects"       delay={1.12} />
+            <StatBadge value="Govt." label="Registered"     delay={1.19} />
+            <StatBadge value="₹1,249" label="Starting/sqft" delay={1.26} />
           </motion.div>
         </div>
 
-        {/* ── Scrolling Ticker Strip ── */}
-        <div className="absolute bottom-[72px] left-0 right-0 z-20 overflow-hidden"
-          style={{ borderTop: "1px solid rgba(34,197,94,0.25)", borderBottom: "1px solid rgba(34,197,94,0.25)", background: "rgba(7,26,14,0.7)", backdropFilter: "blur(8px)" }}>
-          <motion.div
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-            className="flex items-center gap-0 py-2.5"
-            style={{ width: "200%", willChange: "transform" }}
-          >
-            {[0, 1].map((i) => (
-              <div key={i} className="flex items-center gap-10 shrink-0 w-1/2">
-                <span className="flex items-center gap-2.5 text-[11.5px] font-semibold whitespace-nowrap"
-                  style={{ color: "#86efac" }}>
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse" style={{ background: "#22c55e" }} />
-                  Bengaluru Metro City Infrastructure Housing Co-operative Society Ltd. accepts payments only through: Cheque, Money Order, RTGS Transfer, NEFT Transfer, or Electronic Transfer
-                </span>
-                <span className="flex items-center gap-2.5 text-[11.5px] font-semibold whitespace-nowrap"
-                  style={{ color: "#fde68a" }}>
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#d97706" }} />
-                  The price of sites in North Metro City Layout will be revised to ₹1,399 per Sqft, effective from 1st January 2026
-                </span>
-                <span className="flex items-center gap-2.5 text-[11.5px] font-semibold whitespace-nowrap"
-                  style={{ color: "#86efac" }}>
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse" style={{ background: "#22c55e" }} />
-                  Premium residential plots in North Bengaluru · Starting ₹1,175/sqft · Bank Loan up to 90% · Govt. Registered Co-Op Society
-                </span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Scroll hint */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10">
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            className="w-6 h-9 rounded-full flex items-start justify-center p-1.5"
-            style={{ border: "2px solid rgba(255,255,255,0.35)" }}>
-            <div className="w-1.5 h-1.5 rounded-full bg-white" />
-          </motion.div>
-          <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.4)" }}>Scroll</span>
-        </motion.div>
       </section>
 
       {/* ════════════════════════════════════
           OUR PROJECTS — 3D SHOWCASE
       ════════════════════════════════════ */}
       <section className="relative py-28 px-6 lg:px-10 overflow-hidden"
-        style={{ background: `linear-gradient(180deg, ${C.bgDark} 0%, #0a1f10 50%, ${C.bgDark} 100%)` }}>
+        style={{ background: `linear-gradient(180deg, #050a1a 0%, #0b1535 50%, #050a1a 100%)` }}>
 
         {/* ── Animated background mesh ── */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.07]"
@@ -435,29 +385,36 @@ export default function HomeV1Client() {
           <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.8 }}
             className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
-              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenMid }}>
-                ನಮ್ಮ ಯೋಜನೆಗಳು · Our Projects
-              </span>
-              <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
-            </div>
+            <Perspective maxRotateX={10} maxRotateY={18} className="inline-block w-full max-w-3xl">
+              <div className="text-center px-8 py-10 rounded-3xl"
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(34,197,94,0.1)" }}>
 
-            {/* Kannada — large */}
-            <h2 className="font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-snug mb-3"
-              style={{ background: "linear-gradient(90deg, #86efac, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              ನಿಮ್ಮ ಕನಸಿನ ನಿವೇಶನ ಆಯ್ಕೆ ಮಾಡಿ
-            </h2>
-            {/* English — smaller */}
-            <h3 className="font-extrabold text-2xl md:text-3xl text-white tracking-tight mb-5">
-              Choose Your{" "}
-              <span style={{ background: "linear-gradient(90deg, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                Dream Plot
-              </span>
-            </h3>
-            <p className="text-[15px] max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
-              Two premium layouts in North Bengaluru&apos;s fastest-growing corridors
-            </p>
+                <div className="flex items-center justify-center gap-3 mb-5">
+                  <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
+                  <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenMid }}>
+                    ನಮ್ಮ ಯೋಜನೆಗಳು · Our Projects
+                  </span>
+                  <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
+                </div>
+
+                {/* Kannada — large */}
+                <h2 className="font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-snug mb-3"
+                  style={{ background: "linear-gradient(90deg, #86efac, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  ನಿಮ್ಮ ಕನಸಿನ ನಿವೇಶನ ಆಯ್ಕೆ ಮಾಡಿ
+                </h2>
+
+                {/* English — with Highlight */}
+                <h3 className="font-extrabold text-2xl md:text-3xl text-white tracking-tight mb-5">
+                  Choose Your{" "}
+                  <Highlight color="green">Dream Plot</Highlight>
+                </h3>
+
+                <p className="text-[15px] max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  Two premium layouts in North Bengaluru&apos;s fastest-growing corridors — starting at{" "}
+                  <Highlight color="yellow">₹1,249/sqft</Highlight>
+                </p>
+              </div>
+            </Perspective>
           </motion.div>
 
           {/* ── 3D Project Cards ── */}
@@ -465,25 +422,25 @@ export default function HomeV1Client() {
             <ProjectCard3D
               href="/our-projects/garden-city"
               image="/garden-overview.png"
-              locationTag="Off NH 207, Devanahalli"
-              nameKannada="ಬಿಎಂಐ ಗಾರ್ಡನ್ ಸಿಟಿ"
+              locationTag="Off NH 648, Devanahalli"
               nameEnglish="BMI Garden City"
-              price="₹1,175/sqft"
+              price="₹1,249/sqft"
               accentColor={C.greenMid}
+              highlightColor="green"
               ctaLabel="Explore Garden City"
-              tags={["Bank Loan 90%", "4-EMI Plan", "80ft Road", "Club House", "Pool"]}
+              tags={["4-EMI Plan", "60ft Road", "Club House", "Pool", "Govt. Registered"]}
               delay={0}
             />
             <ProjectCard3D
               href="/our-projects/north-metro-city"
               image="/north-metro-overview.png"
               locationTag="Adjacent to Amity University"
-              nameKannada="ಬಿಎಂಐ ನಾರ್ತ್ ಮೆಟ್ರೋ ಸಿಟಿ"
               nameEnglish="BMI North Metro City"
-              price="₹1,199/sqft"
+              price="₹1,399/sqft"
               accentColor="#fb923c"
+              highlightColor="orange"
               ctaLabel="Explore North Metro City"
-              tags={["Bank Loan 90%", "4-EMI Plan", "60ft Road", "Near Airport", "Amity Univ"]}
+              tags={["4-EMI Plan", "60ft Road", "Near Airport", "Amity Univ", "Govt. Registered"]}
               delay={0.15}
             />
           </div>
@@ -568,7 +525,7 @@ export default function HomeV1Client() {
               icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
             />
             <FeatureCard delay={0.24} accent={C.red} title="Secure Co-Op Investment"
-              desc="Government-registered co-operative society. Bank loans up to 90%. Layouts approved by DTCP &amp; BMRDA in North Bengaluru's fastest-appreciating zone."
+              desc="Government-registered co-operative society. Flexible 4-EMI payment plan. Layouts approved by DTCP &amp; BMRDA in North Bengaluru's fastest-appreciating zone."
               icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>}
             />
           </div>

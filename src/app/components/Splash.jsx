@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const LOGO = "https://www.bmihousing.com/wp-content/uploads/2023/07/11111-1024x1024.png";
+const LOGO = "/bmi-logo.png";
 
 export default function Splash() {
   const [show, setShow]   = useState(true);
@@ -93,7 +93,7 @@ export default function Splash() {
               Bengaluru Metro City Infrastructure
             </p>
             <p className="text-pearl/35 text-[9px] tracking-[0.28em] uppercase mt-0.5">
-              Co-Operative Society Ltd. · Est. 2022
+              Co-Operative Society Ltd.
             </p>
           </motion.div>
 

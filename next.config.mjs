@@ -19,6 +19,7 @@ const nextConfig = {
       { source: "/home-v1/purchase-site",                      destination: "/purchase-site",                 permanent: true },
       { source: "/home-v1/e-brochure",                         destination: "/e-brochure",                    permanent: true },
       { source: "/home-v1/application-registration",           destination: "/application-registration",      permanent: true },
+      { source: "/home-v1/disclaimer",                         destination: "/disclaimer",                    permanent: true },
     ];
   },
 };
