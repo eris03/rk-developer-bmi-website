@@ -259,10 +259,10 @@ export default function NorthMetroCityClient() {
             className="relative rounded-2xl overflow-hidden"
             style={{ boxShadow: C.shadowLg }}
           >
-            <video
-              src="/north-metro-city.mp4"
-              autoPlay loop muted playsInline
-              poster="/north-metro-overview.png"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/north-metro-overview.png"
+              alt="BMI North Metro City"
               className="w-full h-auto object-cover"
               style={{ minHeight: "320px", display: "block" }}
             />

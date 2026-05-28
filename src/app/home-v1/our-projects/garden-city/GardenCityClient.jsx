@@ -256,10 +256,10 @@ export default function GardenCityClient() {
             className="relative rounded-2xl overflow-hidden"
             style={{ boxShadow: C.shadowLg }}
           >
-            <video
-              src="/garden-city.mp4"
-              autoPlay loop muted playsInline
-              poster="/garden-overview.png"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/garden-overview.png"
+              alt="BMI Garden City"
               className="w-full h-auto object-cover"
               style={{ minHeight: "320px", display: "block" }}
             />
