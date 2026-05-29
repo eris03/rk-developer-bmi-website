@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | RK Developers Bangalore</title>
+  <meta name="description" content="Contact RK Developers – schedule a site visit, call us, or send us a message for all property inquiries in Bangalore." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://therkdevelopers.com/contact.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contact RK Developers | Property Enquiry Bangalore" />
+  <meta property="og:description" content="Get in touch with RK Developers – Bangalore's trusted real estate developer." />
+  <meta property="og:url" content="https://therkdevelopers.com/contact.html" />
+  <meta property="og:image" content="https://therkdevelopers.com/assets/rk-logo.png" />
+  <link rel="icon" type="image/x-icon" href="assets/rk-favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/rk-fav16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/rk-fav32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/rk-apple-icon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#F97316" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+    .contact-hero{background:linear-gradient(135deg,#0F172A 0%,#1E293B 60%,#0F172A 100%);min-height:400px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding-top:80px;padding-bottom:0;position:relative;overflow:hidden;}
+    .contact-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%,rgba(249,115,22,0.12) 0%,transparent 70%);}
+    .contact-hero .page-hero-content{position:relative;z-index:1;text-align:center;width:100%;}
+    .contact-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);color:#fff;margin-bottom:10px;}
+    .contact-hero h1 span{color:#F97316;}
+    .contact-hero p{color:#94A3B8;font-size:1rem;}
+    .breadcrumb{display:flex;align-items:center;justify-content:center;gap:8px;font-size:0.85rem;color:#64748B;margin-bottom:14px;}
+    .breadcrumb a{color:#94A3B8;text-decoration:none;}
+    .breadcrumb a:hover{color:#F97316;}
+    .contact-section{padding:80px 0;background:#fff;}
+    .contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:start;}
+    @media(max-width:900px){.contact-grid{grid-template-columns:1fr;gap:36px;}}
+    .contact-info .section-tag{display:inline-block;background:rgba(249,115,22,0.1);color:#F97316;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:30px;margin-bottom:14px;}
+    .contact-info .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.5vw,2.2rem);color:#1E293B;line-height:1.3;margin-bottom:14px;}
+    .contact-info .section-title span{color:#F97316;}
+    .contact-info .section-body{color:#64748B;font-size:0.95rem;line-height:1.7;margin-bottom:28px;}
+    .contact-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+    .contact-card{display:flex;align-items:flex-start;gap:16px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:18px 20px;transition:box-shadow 0.2s,border-color 0.2s;}
+    .contact-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);border-color:rgba(249,115,22,0.3);}
+    .contact-card-icon{width:44px;height:44px;border-radius:12px;background:#111827;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0;}
+    .contact-card h4{font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94A3B8;margin-bottom:4px;}
+    .contact-card a,.contact-card p{color:#1E293B;font-size:0.9rem;font-weight:500;text-decoration:none;line-height:1.5;margin:0;}
+    .contact-card a:hover{color:#F97316;}
+    .whatsapp-cta{display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;padding:14px 28px;border-radius:50px;font-weight:600;font-size:0.95rem;text-decoration:none;width:100%;transition:background 0.2s,transform 0.2s;}
+    .whatsapp-cta:hover{background:#1ebe5a;transform:translateY(-2px);}
+    .form-card{background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.08);}
+    @media(max-width:560px){.form-card{padding:24px 18px;}}
+    .form-card h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:#1E293B;margin-bottom:6px;}
+    .form-card>p{color:#64748B;font-size:0.88rem;margin-bottom:24px;line-height:1.6;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    @media(max-width:560px){.form-row{grid-template-columns:1fr;}}
+    .form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+    .form-group label{font-size:0.82rem;font-weight:600;color:#475569;}
+    .input-wrap{position:relative;display:flex;align-items:center;}
+    .input-wrap .icon-left{position:absolute;left:13px;color:#94A3B8;font-size:0.82rem;pointer-events:none;z-index:1;}
+    .input-wrap input,.input-wrap select,.input-wrap textarea{width:100%;padding:11px 14px 11px 38px;border:1.5px solid #E2E8F0;border-radius:10px;font-family:'Inter',sans-serif;font-size:0.88rem;color:#1E293B;background:#F8FAFC;outline:none;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none;}
+    .input-wrap input:focus,.input-wrap select:focus,.input-wrap textarea:focus{border-color:#F97316;box-shadow:0 0 0 3px rgba(249,115,22,0.12);background:#fff;}
+    .input-wrap input::placeholder,.input-wrap textarea::placeholder{color:#CBD5E1;}
+    .input-wrap textarea{resize:vertical;min-height:110px;padding-top:12px;}
+    .select-arrow{position:absolute;right:13px;color:#94A3B8;font-size:0.7rem;pointer-events:none;}
+    .field-error{font-size:0.75rem;color:#EF4444;min-height:14px;display:block;}
+    .form-checkbox{display:flex;align-items:flex-start;gap:10px;margin:6px 0 14px;}
+    .form-checkbox input[type="checkbox"]{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:#F97316;cursor:pointer;}
+    .form-checkbox label{font-size:0.82rem;color:#64748B;line-height:1.55;cursor:pointer;}
+    .form-checkbox label a{color:#F97316;text-decoration:none;font-weight:600;}
+    .form-checkbox label a:hover{text-decoration:underline;}
+    .btn-submit{width:100%;padding:14px 24px;background:linear-gradient(135deg,#F97316,#DC2626);color:#fff;border:none;border-radius:50px;font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,0.35);}
+    .form-success{text-align:center;padding:32px 0;}
+    .success-icon{font-size:3rem;color:#22C55E;margin-bottom:10px;}
+    .form-success h3{font-family:'Playfair Display',serif;color:#1E293B;margin-bottom:8px;}
+    .form-success p{color:#64748B;margin-bottom:18px;}
+    .site-visit-cta{background:linear-gradient(135deg,#0F172A,#1E293B);padding:40px 0;}
+    .site-visit-grid{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+    .site-visit-info h3{font-family:'Playfair Display',serif;font-size:1.25rem;color:#fff;margin-bottom:6px;}
+    .site-visit-info p{color:#94A3B8;font-size:0.88rem;}
+    .cta-call-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#F97316,#DC2626);color:#fff;padding:14px 28px;border-radius:50px;font-weight:700;font-size:0.95rem;text-decoration:none;white-space:nowrap;transition:transform 0.2s,box-shadow 0.2s;}
+    .cta-call-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,0.35);}
+    .privacy-section{background:#F8FAFC;padding:72px 0;border-top:1px solid #E2E8F0;}
+    .privacy-header{text-align:center;margin-bottom:48px;}
+    .privacy-tag{display:inline-block;background:rgba(249,115,22,0.1);color:#F97316;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:30px;margin-bottom:12px;}
+    .privacy-header h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.5vw,2.2rem);color:#1E293B;margin-bottom:12px;}
+    .privacy-header h2 span{color:#F97316;}
+    .privacy-intro{color:#64748B;font-size:0.95rem;line-height:1.7;max-width:620px;margin:0 auto;}
+    .privacy-content{max-width:800px;margin:0 auto;background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:44px 52px;box-shadow:0 4px 20px rgba(0,0,0,0.05);}
+    @media(max-width:640px){.privacy-content{padding:28px 20px;}}
+    .privacy-content h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:#1E293B;margin:28px 0 10px;padding-bottom:8px;border-bottom:2px solid rgba(249,115,22,0.15);}
+    .privacy-content h3:first-child{margin-top:0;}
+    .privacy-content p,.privacy-content li{color:#475569;font-size:0.9rem;line-height:1.8;margin-bottom:8px;}
+    .privacy-content ul{padding-left:20px;margin-bottom:10px;}
+    .privacy-content ul li::marker{color:#F97316;}
+    .privacy-content a{color:#F97316;text-decoration:none;}
+    .privacy-content a:hover{text-decoration:underline;}
+    .privacy-updated{text-align:center;margin-top:28px;font-size:0.78rem;color:#94A3B8;}
+  </style>
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div id="page-transition">
+    <div class="pt-logo-wrap">
+      <img src="assets/rk-logo.png" alt="RK Developers" class="pt-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <span class="pt-logo-text" style="display:none">RK</span>
+    </div>
+    <div class="pt-bar-wrap"><div class="pt-bar-fill" id="ptBarFill"></div></div>
+    <p class="pt-tagline">RK Developers</p>
+  </div>
+
+  <div class="preloader" id="preloader">
+    <div class="preloader-logo">
+      <img src="assets/rk-logo.png" alt="RK Developers" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <span style="display:none;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;"><span style="color:#F97316;">RK</span><span style="color:#fff;margin-left:6px;">Developers</span></span>
+    </div>
+    <div class="preloader-bar"><div class="preloader-fill"></div></div>
+  </div>
+
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/rk-logo.png" alt="RK Developers" class="nav-logo-img" onerror="this.style.display='none';document.querySelector('.nav-logo-fallback').style.display='flex'" />
+        <span class="nav-logo-fallback" style="display:none"><span class="logo-rk">RK</span><span class="logo-text">Developers</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-dropdown-wrap">
+          <button class="nav-link nav-dropdown-trigger" id="projectsDropdownBtn">
+            Our Projects <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="nav-dropdown" id="projectsDropdown">
+            <div class="dropdown-header">Choose a Project</div>
+            <a href="metro-greens.html" class="dropdown-item">
+              <img src="assets/metro green logo.png" alt="Metro Greens" style="height:36px;width:36px;object-fit:contain;border-radius:6px;flex-shrink:0;" />
+              <div class="dropdown-info"><span>Metro Greens</span></div>
+              <i class="fas fa-arrow-right dd-arrow"></i>
+            </a>
+            <a href="rk-avenue.html" class="dropdown-item">
+              <img src="assets/rk-logo.png" alt="RK Developers" style="height:36px;width:36px;object-fit:contain;border-radius:6px;flex-shrink:0;mix-blend-mode:multiply;" />
+              <div class="dropdown-info"><span>RK Avenue</span></div>
+              <i class="fas fa-arrow-right dd-arrow"></i>
+            </a>
+          </div>
+        </li>
+        <li><a href="about.html" class="nav-link" onclick="window.location.href='about.html';event.stopPropagation();event.preventDefault();" style="cursor:pointer;">About Us</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        <li><a href="contact.html" class="nav-cta-btn">Enquire Now <i class="fas fa-arrow-right"></i></a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="contact-hero page-hero">
+    <div class="page-hero-overlay"></div>
+    <div class="container" style="width:100%;">
+      <div class="page-hero-content" data-aos="fade-up">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <i class="fas fa-chevron-right"></i>
+          Contact
+        </div>
+        <h1>Get In <span>Touch</span></h1>
+        <p>Our team of property experts is ready to help you find your perfect home</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="contact-info" data-aos="fade-right">
+          <div class="section-tag">Reach Us</div>
+          <h2 class="section-title">Let's Start Your<br /><span>Home Journey</span></h2>
+          <p class="section-body">Whether you're looking for your first home, upgrading to luxury, or exploring investment opportunities — we're here to guide you every step of the way.</p>
+
+          <div class="contact-cards">
+            <div class="contact-card">
+              <div class="contact-card-icon"><i class="fas fa-phone-alt"></i></div>
+              <div>
+                <h4>Call Us</h4>
+                <a href="tel:+919663108999">+91 9663108999</a>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <h4>Email Us</h4>
+                <a href="mailto:rkdeveloper12345@gmail.com">rkdeveloper12345@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div>
+                <h4>Visit Our Office</h4>
+                <p>RK Developers,<br />3rd Floor, 1st Cross,<br />15th Main, E Block,<br />Beside Nandana Palace,<br />Sahakarnagar, Bengaluru - 560092</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-icon"><i class="fas fa-clock"></i></div>
+              <div>
+                <h4>Office Hours</h4>
+                <p>Monday – Sunday<br />9:30 AM – 7:00 PM IST</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://wa.me/919663108999?text=Hi%2C%20I'm%20interested%20in%20RK%20Developers%20projects" target="_blank" rel="noopener" class="whatsapp-cta">
+            <i class="fab fa-whatsapp"></i>
+            <span>Chat with us on WhatsApp</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="contact-form-wrap" data-aos="fade-left">
+          <div class="form-card">
+            <h3>Send Us a Message</h3>
+            <p>Fill in the form below and one of our property advisors will contact you within 24 hours.</p>
+
+            <form class="contact-form" id="contactForm" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Full Name *</label>
+                  <div class="input-wrap">
+                    <i class="fas fa-user icon-left"></i>
+                    <input type="text" id="name" name="name" placeholder="Your full name" required />
+                  </div>
+                  <span class="field-error" id="nameError"></span>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number *</label>
+                  <div class="input-wrap">
+                    <i class="fas fa-phone icon-left"></i>
+                    <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" required />
+                  </div>
+                  <span class="field-error" id="phoneError"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrap">
+                  <i class="fas fa-envelope icon-left"></i>
+                  <input type="email" id="email" name="email" placeholder="your@email.com" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="interest">I'm Interested In *</label>
+                  <div class="input-wrap">
+                    <i class="fas fa-home icon-left"></i>
+                    <select id="interest" name="interest" required>
+                      <option value="">Select property type</option>
+                      <option>Luxury Apartments</option>
+                      <option>Premium Villas</option>
+                      <option>Penthouses</option>
+                      <option>Plotted Development</option>
+                      <option>Commercial Spaces</option>
+                      <option>General Inquiry</option>
+                    </select>
+                    <i class="fas fa-chevron-down select-arrow"></i>
+                  </div>
+                  <span class="field-error" id="interestError"></span>
+                </div>
+                <div class="form-group">
+                  <label for="budget">Budget Range</label>
+                  <div class="input-wrap">
+                    <i class="fas fa-rupee-sign icon-left"></i>
+                    <select id="budget" name="budget">
+                      <option value="">Select budget</option>
+                      <option>Under &#8377;50 Lakhs</option>
+                      <option>&#8377;50L &#8211; &#8377;1 Crore</option>
+                      <option>&#8377;1 Crore &#8211; &#8377;2 Crore</option>
+                      <option>&#8377;2 Crore &#8211; &#8377;5 Crore</option>
+                      <option>Above &#8377;5 Crore</option>
+                    </select>
+                    <i class="fas fa-chevron-down select-arrow"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message *</label>
+                <div class="input-wrap" style="align-items:flex-start;">
+                  <i class="fas fa-comment-alt icon-left" style="top:13px;position:absolute;"></i>
+                  <textarea id="message" name="message" rows="4" placeholder="Tell us about your requirements&#8230;" required></textarea>
+                </div>
+                <span class="field-error" id="messageError"></span>
+              </div>
+
+              <div class="form-checkbox">
+                <input type="checkbox" id="consent" name="consent" required />
+                <label for="consent">I agree to be contacted by RK Developers regarding my inquiry. I understand my information will be handled as per the <a href="#privacy-policy">Privacy Policy</a>.</label>
+              </div>
+              <span class="field-error" id="consentError"></span>
+
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <span class="btn-text">Send Inquiry <i class="fas fa-paper-plane"></i></span>
+                <span class="btn-loading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Sending&#8230;</span>
+              </button>
+            </form>
+
+            <div class="form-success" id="formSuccess" style="display:none;">
+              <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+              <h3>Thank You!</h3>
+              <p>Your inquiry has been received. Our team will contact you within 24 hours.</p>
+              <button onclick="resetForm()" style="background:linear-gradient(135deg,#F97316,#DC2626);color:#fff;border:none;padding:12px 28px;border-radius:50px;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;font-size:0.9rem;">Send Another Inquiry</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="site-visit-cta">
+    <div class="container">
+      <div class="site-visit-grid" data-aos="fade-up">
+        <div class="site-visit-info">
+          <h3>&#129309; Schedule a Free Site Visit</h3>
+          <p>Experience our projects in person. Our experts will give you a personalized tour at your convenience.</p>
+        </div>
+        <a href="tel:+919663108999" class="cta-call-btn">
+          <i class="fas fa-phone-alt"></i> Call Now for Site Visit
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy-section" id="privacy-policy">
+    <div class="container">
+      <div class="privacy-header" data-aos="fade-up">
+        <div class="privacy-tag">Legal</div>
+        <h2>Privacy <span>Policy</span></h2>
+        <p class="privacy-intro">Your privacy is important to us. This policy explains how RK Developers collects, uses, and protects your personal information.</p>
+      </div>
+      <div class="privacy-content" data-aos="fade-up" data-aos-delay="100">
+
+        <h3>1. Information We Collect</h3>
+        <p>When you contact us, fill in our inquiry form, or interact with our website, we may collect the following information:</p>
+        <ul>
+          <li>Full name, phone number, and email address</li>
+          <li>Property interests and budget preferences</li>
+          <li>Messages and requirements submitted through our contact form</li>
+          <li>Technical data such as IP address, browser type, and pages visited (via cookies and analytics)</li>
+        </ul>
+
+        <h3>2. How We Use Your Information</h3>
+        <p>We use the information you provide to:</p>
+        <ul>
+          <li>Respond to your property inquiries and schedule site visits</li>
+          <li>Send you relevant updates about our projects and offers</li>
+          <li>Improve our website and customer experience</li>
+          <li>Comply with legal obligations</li>
+        </ul>
+        <p>We will never sell, rent, or trade your personal information to third parties.</p>
+
+        <h3>3. Data Security</h3>
+        <p>We take appropriate technical and organizational measures to safeguard your personal data against unauthorized access, alteration, disclosure, or destruction. All form submissions are transmitted securely and stored with restricted access.</p>
+
+        <h3>4. Cookies</h3>
+        <p>Our website uses cookies to enhance your browsing experience and to analyze site traffic. You may disable cookies through your browser settings; however, some features of our website may not function correctly without them.</p>
+
+        <h3>5. Third-Party Services</h3>
+        <p>We may use trusted third-party services such as Google Analytics and FormSubmit to process data on our behalf. These services are bound by strict data protection agreements and are not permitted to use your data for their own purposes.</p>
+
+        <h3>6. Your Rights</h3>
+        <p>You have the right to:</p>
+        <ul>
+          <li>Access the personal information we hold about you</li>
+          <li>Request correction of inaccurate information</li>
+          <li>Request deletion of your personal data</li>
+          <li>Opt out of marketing communications at any time</li>
+        </ul>
+        <p>To exercise any of these rights, please contact us at <a href="mailto:rkdeveloper12345@gmail.com">rkdeveloper12345@gmail.com</a>.</p>
+
+        <h3>7. Changes to This Policy</h3>
+        <p>We may update this Privacy Policy from time to time. Continued use of our website after any changes constitutes your acceptance of the updated policy.</p>
+
+        <h3>8. Contact Us</h3>
+        <p>If you have any questions about this Privacy Policy, please get in touch:</p>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:rkdeveloper12345@gmail.com">rkdeveloper12345@gmail.com</a></li>
+          <li><strong>Phone:</strong> <a href="tel:+919663108999">+91 9663108999</a></li>
+          <li><strong>Address:</strong> RK Developers, 3rd Floor, 1st Cross, 15th Main, E Block, Beside Nandana Palace, Sahakarnagar, Bengaluru &#8211; 560092</li>
+        </ul>
+
+        <p class="privacy-updated">Last updated: April 2026</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col footer-brand">
+            <a href="index.html" class="footer-logo-wrap">
+              <img src="assets/rk-logo.png" alt="RK Developers" class="footer-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+              <span style="display:none" class="footer-logo-text"><span class="logo-rk">RK</span><span class="logo-text">Developers</span></span>
+            </a>
+            <p>Building Karnataka's most trusted land communities since 2016.</p>
+            <div class="footer-socials">
+              <a href="https://www.facebook.com/rkdevelopers" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/rkdevelopers_sahakarnagar/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html"><i class="fas fa-chevron-right" style="font-size:0.65rem;margin-right:6px;color:#F97316;"></i> Home</a></li>
+              <li><span style="color:#94A3B8;cursor:default;display:flex;align-items:center;gap:6px;padding:2px 0;font-size:0.9rem;"><i class="fas fa-chevron-right" style="font-size:0.65rem;color:#F97316;"></i> Our Projects</span></li>
+              <li><a href="about.html"><i class="fas fa-chevron-right" style="font-size:0.65rem;margin-right:6px;color:#F97316;"></i> About Us</a></li>
+              <li><a href="contact.html"><i class="fas fa-chevron-right" style="font-size:0.65rem;margin-right:6px;color:#F97316;"></i> Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact Us</h4>
+            <div class="footer-contact-item"><i class="fas fa-phone-alt"></i><a href="tel:+919663108999">+91 9663108999</a></div>
+            <div class="footer-contact-item"><i class="fas fa-envelope"></i><a href="mailto:rkdeveloper12345@gmail.com">rkdeveloper12345@gmail.com</a></div>
+            <div class="footer-contact-item" style="align-items:flex-start;flex-wrap:wrap;gap:8px;">
+              <i class="fas fa-map-marker-alt" style="margin-top:3px;flex-shrink:0;"></i>
+              <div style="flex:1;min-width:0;">
+                <span style="display:block;font-size:0.82rem;line-height:1.5;">RK Developers, 3rd Floor, 15th Main, E Block, Beside Nandana Palace, Sahakarnagar, Bengaluru - 560092</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&#169; <span id="year"></span> RK Developers. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function(){
+      var bar=document.getElementById('scroll-progress');
+      if(bar)window.addEventListener('scroll',function(){var st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(dh>0?(st/dh)*100:0)+'%';},{passive:true});
+      var g=document.getElementById('cursorGlow');
+      if(g){var mx=window.innerWidth/2,my=window.innerHeight/2,cx=mx,cy=my;document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});(function a(){cx+=(mx-cx)*0.1;cy+=(my-cy)*0.1;g.style.left=cx+'px';g.style.top=cy+'px';requestAnimationFrame(a);})();}
+    })();
+    function resetForm(){
+      document.getElementById('contactForm').style.display='';
+      document.getElementById('formSuccess').style.display='none';
+      document.getElementById('contactForm').reset();
+    }
+  </script>
+  <script src="js/widgets.js"></script>
+
+  <div id="rk-popup-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:20px;max-width:460px;width:90%;padding:0;text-align:center;position:relative;box-shadow:0 24px 60px rgba(0,0,0,0.22);animation:popupIn 0.4s cubic-bezier(.34,1.56,.64,1) both;overflow:hidden;">
+      <button onclick="document.getElementById('rk-popup-overlay').style.display='none';" style="position:absolute;top:12px;right:14px;z-index:10;background:rgba(0,0,0,0.35);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:1.1rem;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);" title="Close">&times;</button>
+      <div style="width:100%;height:180px;overflow:hidden;position:relative;border-radius:20px 20px 0 0;">
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"><source src="assets/animation 1.mp4" type="video/mp4" /></video>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.45) 100%);"></div>
+      </div>
+      <div style="padding:28px 32px 32px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.35rem;color:#1E293B;margin-bottom:8px;">Interested in a Property?</h3>
+        <p style="color:#64748B;font-size:0.9rem;line-height:1.6;margin-bottom:22px;">Our property experts are available right now. Book a <strong>free site visit</strong> and find your dream home today.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <a href="tel:+919663108999" style="background:linear-gradient(135deg,#F97316,#DC2626);color:#fff;padding:11px 22px;border-radius:50px;font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:7px;"><i class="fas fa-phone-alt"></i> Call Us Now</a>
+          <button onclick="document.getElementById('rk-popup-overlay').style.display='none';" style="border:2px solid #F97316;color:#F97316;padding:11px 22px;border-radius:50px;font-weight:600;font-size:0.88rem;background:transparent;cursor:pointer;">Maybe Later</button>
+        </div>
+        <p style="margin-top:12px;font-size:0.76rem;color:#94A3B8;">Trusted by 1,500+ families across Bangalore</p>
+      </div>
+    </div>
+  </div>
+  <style>@keyframes popupIn{0%{opacity:0;transform:scale(0.7) translateY(30px);}100%{opacity:1;transform:scale(1) translateY(0);}}</style>
+  <script>
+    (function(){
+      function show(){document.getElementById('rk-popup-overlay').style.display='flex';}
+      setTimeout(show,60000);
+      document.getElementById('rk-popup-overlay').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
+      setInterval(show,60000);
+    })();
+  </script>
+
+</body>
+</html>
