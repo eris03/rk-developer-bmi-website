@@ -6,4 +6,8 @@ out
 *.log
 .vercel
 
-.vercel
+# Large video files — exceed GitHub 100 MB limit
+*.mp4
+*.mov
+*.avi
+*.mkv
