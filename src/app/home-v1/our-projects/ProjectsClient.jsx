@@ -8,6 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+import { MasonryGrid } from "@/components/ui/image-testimonial-grid";
 import NavBar from "../components/NavBar";
 import SiteFooter from "../components/SiteFooter";
 
@@ -436,14 +437,24 @@ export default function ProjectsClient() {
         <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-center">
-          <div>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 flex flex-col items-center gap-10">
+          {/* ── Orbital Logo — full-width centred ── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full flex justify-center">
+            <OrbitalLogo />
+          </motion.div>
+
+          {/* ── Text block — centred below logo ── */}
+          <div className="text-center max-w-3xl">
             <motion.div
-              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.6 }}
-              className="flex items-center gap-3 mb-6">
+              className="flex items-center justify-center gap-3 mb-6">
               <span className="w-8 h-px" style={{ background: C.greenMid }} />
               <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenMid }}>About Us</span>
+              <span className="w-8 h-px" style={{ background: C.greenMid }} />
             </motion.div>
 
             <motion.h2
@@ -463,21 +474,12 @@ export default function ProjectsClient() {
               Bengaluru Metro City{" "}
               <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Infrastructure
-              </span>
-              <br />
+              </span>{" "}
               Housing Co-Operative{" "}
               <span style={{ background: `linear-gradient(90deg, ${C.yellow}, #fbbf24)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Society LTD.
               </span>
             </motion.h3>
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ delay: 0.14, duration: 0.7 }}
-              className="kannada text-lg mb-6 leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.55)" }}>
-              ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್ ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ ಲಿ.
-            </motion.p>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
@@ -492,8 +494,7 @@ export default function ProjectsClient() {
             <motion.div
               initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: 0.26, duration: 0.7 }}
-              whileHover={{ scale: 1.02 }}
-              className="inline-flex items-center gap-3 px-5 py-3 rounded-xl mb-8 cursor-default"
+              className="inline-flex items-center gap-3 px-5 py-3 rounded-xl cursor-default"
               style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.3)", backdropFilter: "blur(8px)" }}>
               <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 shrink-0" style={{ color: C.greenMid }}>
                 <circle cx="12" cy="8" r="5" stroke="currentColor" strokeWidth={2}/>
@@ -504,12 +505,6 @@ export default function ProjectsClient() {
               </span>
             </motion.div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
-            <OrbitalLogo />
-          </motion.div>
         </div>
       </section>
 
@@ -540,8 +535,8 @@ export default function ProjectsClient() {
             </p>
           </motion.div>
 
-          {/* 3 × 3 image grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          {/* Masonry image grid */}
+          <MasonryGrid columns={3} gap={5} className="hidden lg:block">
             {UNIFIED_ITEMS.map((item, i) => (
               <BetterImageCard
                 key={item.name}
@@ -550,7 +545,28 @@ export default function ProjectsClient() {
                 onClick={() => { setActiveItem(i); setShowGrid(true); }}
               />
             ))}
-          </div>
+          </MasonryGrid>
+          {/* 2-col for md, 1-col for sm */}
+          <MasonryGrid columns={2} gap={4} className="hidden sm:block lg:hidden">
+            {UNIFIED_ITEMS.map((item, i) => (
+              <BetterImageCard
+                key={item.name}
+                item={item}
+                index={i}
+                onClick={() => { setActiveItem(i); setShowGrid(true); }}
+              />
+            ))}
+          </MasonryGrid>
+          <MasonryGrid columns={1} gap={4} className="sm:hidden">
+            {UNIFIED_ITEMS.map((item, i) => (
+              <BetterImageCard
+                key={item.name}
+                item={item}
+                index={i}
+                onClick={() => { setActiveItem(i); setShowGrid(true); }}
+              />
+            ))}
+          </MasonryGrid>
 
           {/* View All CTA */}
           <motion.div

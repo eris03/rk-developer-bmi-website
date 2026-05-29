@@ -145,21 +145,42 @@ export default function SiteFooter() {
               </svg>
               Office Location
             </h4>
-            <div
-              className="rounded-xl overflow-hidden mb-5"
+            <a
+              href="https://maps.app.goo.gl/qN62fCVttpLS3egV7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-xl overflow-hidden mb-3 group relative"
               style={{ border: "2px solid rgba(255,255,255,0.55)", boxShadow: "0 4px 14px rgba(0,0,0,0.12)" }}
             >
               <iframe
                 title="BMI Housing Office"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.6153578065257!2d77.57426731482207!3d13.057729990797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae17c7b2da4a5b%3A0x5e21dd44d7f0e0e5!2sSahakar%20Nagar%2C%20Bengaluru%2C%20Karnataka%20560092!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
-                height="200"
-                style={{ border: 0, display: "block" }}
-                allowFullScreen
+                height="180"
+                style={{ border: 0, display: "block", pointerEvents: "none" }}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
-            </div>
+              <div className="absolute inset-0 bg-transparent group-hover:bg-black/10 transition-colors duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <span className="px-3 py-1.5 rounded-full text-white text-[11px] font-bold" style={{ background: "rgba(22,163,74,0.85)", backdropFilter: "blur(6px)" }}>
+                  Open in Google Maps ↗
+                </span>
+              </div>
+            </a>
+            <motion.a
+              href="https://maps.app.goo.gl/qN62fCVttpLS3egV7"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-[13px] font-bold mb-3"
+              style={{ background: "rgba(22,163,74,0.12)", border: "1px solid rgba(22,163,74,0.35)", color: "#16a34a" }}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              Get Directions
+            </motion.a>
 
             {/* Quick-call CTA */}
             <motion.a

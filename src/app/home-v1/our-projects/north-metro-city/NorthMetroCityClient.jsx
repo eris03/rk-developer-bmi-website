@@ -110,7 +110,6 @@ function Navbar() {
         <nav className="hidden lg:flex items-center gap-0.5">
           {[
             { label: "Home",         href: "/" },
-            { label: "E Brochure",   href: "/e-brochure" },
             { label: "Our Projects", href: "/our-projects", active: true },
             { label: "About Us",     href: "/our-projects#about" },
           ].map((lk) => (
@@ -162,6 +161,7 @@ function Navbar() {
 
 export default function NorthMetroCityClient() {
   const [activeDevIdx, setActiveDevIdx] = useState(null);
+  const [activeRowIdx, setActiveRowIdx] = useState(null);
   return (
     <div style={{ background: C.bgWhite }}>
       <NavBar activePage="north-metro-city" />
@@ -320,7 +320,7 @@ export default function NorthMetroCityClient() {
       {/* ── Pricing Table ── */}
       <section className="px-6 lg:px-10 py-20" style={{ background: C.bgSection }}>
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="w-8 h-px" style={{ background: C.orangeBright }} />
               <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.orangeMid }}>Pricing</span>
@@ -333,46 +333,141 @@ export default function NorthMetroCityClient() {
               </span>
             </h2>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="overflow-x-auto rounded-2xl" style={{ boxShadow: C.shadowMd }}>
-            <table className="w-full text-[13px] border-collapse">
-              <thead>
-                <tr style={{ background: `linear-gradient(90deg, ${C.orange}, ${C.orangeBright})` }}>
-                  {["DIMENSION", "PRICE PER SQFT", "TOTAL SALE VALUE", "DOWN PAYMENT", "1st INSTALMENT", "2nd INSTALMENT", "3rd INSTALMENT"].map((h) => (
-                    <th key={h} className="px-4 py-4 text-left font-bold text-[11px] tracking-[0.08em] uppercase text-white whitespace-nowrap"
-                      style={{ borderRight: "1px solid rgba(255,255,255,0.2)" }}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { dim: "30×40", sqft: "1200sqft", price: "1399/-sqft", total: "16,78,800/-", down: "5,03,640",  i1: "3,91,720",  i2: "3,91,720",  i3: "3,91,720"  },
-                  { dim: "30×50", sqft: "1500sqft", price: "1399/-sqft", total: "20,98,500/-", down: "6,29,550",  i1: "4,89,650",  i2: "4,89,650",  i3: "4,89,650"  },
-                  { dim: "40×60", sqft: "2400sqft", price: "1399/-sqft", total: "33,57,600/-", down: "10,07,280", i1: "7,83,440",  i2: "7,83,440",  i3: "7,83,440"  },
-                  { dim: "50×80", sqft: "4000sqft", price: "1399/-sqft", total: "55,96,000/-", down: "16,78,800", i1: "13,05,734", i2: "13,05,734", i3: "13,05,734" },
-                ].map((row, i) => (
-                  <motion.tr key={row.dim}
-                    initial={{ opacity: 0, x: -16 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.08 }}
-                    style={{ background: i % 2 === 0 ? "#fff7ed" : "#ffffff", borderBottom: `1px solid ${C.border}` }}>
-                    <td className="px-4 py-4 font-extrabold" style={{ color: C.text }}>
-                      {row.dim} <span className="font-normal text-[11px]" style={{ color: C.muted }}>({row.sqft})</span>
-                    </td>
-                    <td className="px-4 py-4 font-semibold" style={{ color: C.orangeMid }}>{row.price}</td>
-                    <td className="px-4 py-4 font-bold" style={{ color: C.text }}>{row.total}</td>
-                    <td className="px-4 py-4 font-semibold" style={{ color: C.body }}>{row.down}</td>
-                    <td className="px-4 py-4" style={{ color: C.body }}>{row.i1}</td>
-                    <td className="px-4 py-4" style={{ color: C.body }}>{row.i2}</td>
-                    <td className="px-4 py-4" style={{ color: C.body }}>{row.i3}</td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
+
+          {/* ── 3D Card wrapper ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 40, rotateX: 6 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              borderRadius: "20px",
+              overflow: "hidden",
+              position: "relative",
+              boxShadow: `
+                0 0 0 1px rgba(249,115,22,0.12),
+                0 4px 8px rgba(0,0,0,0.06),
+                0 16px 40px rgba(0,0,0,0.12),
+                0 40px 80px rgba(249,115,22,0.10)
+              `,
+              background: "#fff",
+            }}
+          >
+            {/* Surface gloss line at top */}
+            <div style={{ height: "3px", background: `linear-gradient(90deg, transparent, ${C.orangeBright}cc, ${C.orangeMid}, ${C.orangeBright}cc, transparent)` }} />
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-[13px] border-collapse">
+                <thead>
+                  <tr style={{ position: "relative" }}>
+                    {/* Header gradient bg */}
+                    <td colSpan={6} style={{ padding: 0, position: "absolute", inset: 0,
+                      background: `linear-gradient(135deg, #92400e 0%, ${C.orange} 50%, ${C.orangeBright} 100%)`,
+                    }} />
+                    {/* Header gloss overlay */}
+                    <td colSpan={6} style={{ padding: 0, position: "absolute", top: 0, left: 0, right: 0, height: "55%",
+                      background: "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 100%)",
+                      pointerEvents: "none",
+                    }} />
+                    {["DIMENSION", "PRICE PER SQFT", "TOTAL SALE VALUE", "DOWN PAYMENT", "1ST INSTALMENT", "2ND INSTALMENT"].map((h, hi) => (
+                      <th key={h} className="px-5 py-4 text-left font-extrabold text-[10px] tracking-[0.12em] uppercase whitespace-nowrap relative"
+                        style={{
+                          color: "#fff",
+                          borderRight: hi < 5 ? "1px solid rgba(255,255,255,0.15)" : "none",
+                          textShadow: "0 1px 3px rgba(0,0,0,0.25)",
+                          letterSpacing: "0.1em",
+                        }}>
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                  {/* Header bottom accent line */}
+                  <tr>
+                    <td colSpan={6} style={{ padding: 0, height: "2px",
+                      background: `linear-gradient(90deg, #92400e, ${C.orangeBright}, #92400e)`,
+                    }} />
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { dim: "30×40", sqft: "1200sqft", price: "1399/-sqft", total: "16,78,800/-", down: "5,03,640",  i1: "3,91,720",  i2: "3,91,720",  popular: false },
+                    { dim: "30×50", sqft: "1500sqft", price: "1399/-sqft", total: "20,98,500/-", down: "6,29,550",  i1: "4,89,650",  i2: "4,89,650",  popular: true  },
+                    { dim: "40×60", sqft: "2400sqft", price: "1399/-sqft", total: "33,57,600/-", down: "10,07,280", i1: "7,83,440",  i2: "7,83,440",  popular: false },
+                    { dim: "50×80", sqft: "4000sqft", price: "1399/-sqft", total: "55,96,000/-", down: "16,78,800", i1: "13,05,734", i2: "13,05,734", popular: false },
+                  ].map((row, i) => {
+                    const isActive = activeRowIdx === i;
+                    return (
+                    <motion.tr key={row.dim}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.1 + i * 0.09, duration: 0.5 }}
+                      animate={isActive
+                        ? { scale: 1.02, y: -4, rotateX: -3 }
+                        : { scale: 1,    y: 0,  rotateX: 0  }}
+                      whileHover={!isActive ? { backgroundColor: "#fff7ed", y: -2, scale: 1.01 } : {}}
+                      onClick={() => setActiveRowIdx(isActive ? null : i)}
+                      style={{
+                        background: isActive ? "#ffedd5" : row.popular ? "#fff7ed" : i % 2 === 0 ? "#fffcfa" : "#ffffff",
+                        borderBottom: `1px solid ${C.border}`,
+                        borderLeft: isActive ? `3px solid ${C.orangeBright}` : row.popular ? `3px solid ${C.orangeMid}` : "3px solid transparent",
+                        boxShadow: isActive
+                          ? `0 12px 32px rgba(249,115,22,0.22), 0 0 0 2px ${C.orangeBright}40`
+                          : "none",
+                        transformStyle: "preserve-3d",
+                        cursor: "pointer",
+                        transition: "background 0.25s, border 0.25s, box-shadow 0.25s",
+                      }}>
+                      <td className="px-5 py-4 font-extrabold" style={{ color: C.text }}>
+                        <span className="text-[14px]">{row.dim}</span>
+                        <span className="font-normal text-[11px] ml-1" style={{ color: C.muted }}>({row.sqft})</span>
+                        {row.popular && (
+                          <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold text-white"
+                            style={{ background: `linear-gradient(135deg, ${C.orangeMid}, #92400e)`, verticalAlign: "middle" }}>
+                            Popular
+                          </span>
+                        )}
+                        {isActive && (
+                          <motion.span initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
+                            className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold text-white"
+                            style={{ background: `linear-gradient(135deg, ${C.orangeBright}, ${C.orangeMid})`, verticalAlign: "middle" }}>
+                            Selected ✓
+                          </motion.span>
+                        )}
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className="font-bold text-[13px] px-2.5 py-1 rounded-lg"
+                          style={{ color: "#fff", background: `linear-gradient(135deg, ${C.orangeMid}, #92400e)`,
+                            boxShadow: `0 2px 6px ${C.orangeMid}50` }}>
+                          ₹{row.price}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 font-bold text-[14px]" style={{ color: C.text }}>₹{row.total}</td>
+                      <td className="px-5 py-4">
+                        <span className="font-semibold text-[13px] px-2 py-0.5 rounded-md"
+                          style={{ color: "#92400e", background: "#fef3c7" }}>
+                          {row.down}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 font-medium" style={{ color: C.body }}>{row.i1}</td>
+                      <td className="px-5 py-4 font-medium" style={{ color: C.body }}>{row.i2}</td>
+                    </motion.tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Bottom shadow bar */}
+            <div style={{ height: "4px", background: `linear-gradient(90deg, #92400e30, ${C.orangeMid}20, #92400e30)` }} />
           </motion.div>
+
+          {/* Floating shadow layer under table */}
+          <div style={{
+            height: "20px", marginTop: "0",
+            background: `radial-gradient(ellipse at center, rgba(249,115,22,0.12) 0%, transparent 70%)`,
+            filter: "blur(8px)",
+          }} />
         </div>
       </section>
 

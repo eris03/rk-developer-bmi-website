@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import OTPLoginModal from "./OTPLoginModal";
+import AuthModal from "./AuthModal";
 
 const C = {
   green:      "#16a34a",
@@ -21,7 +21,7 @@ const NAV_MENUS = {
   projects: [
     { label: "BMI Garden City",      sub: "Off NH 648, Devanahalli",       href: "/our-projects/garden-city" },
     { label: "BMI North Metro City", sub: "Adjacent to Amity University",  href: "/our-projects/north-metro-city" },
-    { label: "All Projects",         sub: "Explore our full portfolio",     href: "/our-projects" },
+    { label: "Upcoming Projects",      sub: "New launches coming soon",       href: null },
   ],
   apply: [
     { label: "Application for Membership",       sub: "Join the co-operative society",      href: "/membership" },
@@ -39,17 +39,34 @@ function DropdownPanel({ items, align = "left" }) {
       className={`absolute top-full ${align === "right" ? "right-0" : "left-0"} mt-2 w-64 rounded-xl overflow-hidden z-50`}
       style={{ background: C.bgWhite, border: `1px solid ${C.border}`, boxShadow: C.shadowLg }}
     >
-      {items.map((item) => (
-        <a
-          key={item.label}
-          href={item.href || "#"}
-          className="flex flex-col gap-0.5 px-4 py-3.5 hover:bg-green-50 transition-colors group border-b last:border-b-0"
-          style={{ borderColor: C.border }}
-        >
-          <span className="text-[13px] font-semibold group-hover:text-green-700 transition-colors" style={{ color: C.text }}>{item.label}</span>
-          <span className="text-[11px]" style={{ color: C.muted }}>{item.sub}</span>
-        </a>
-      ))}
+      {items.map((item) =>
+        item.href ? (
+          <a
+            key={item.label}
+            href={item.href}
+            className="flex flex-col gap-0.5 px-4 py-3.5 hover:bg-green-50 transition-colors group border-b last:border-b-0"
+            style={{ borderColor: C.border }}
+          >
+            <span className="text-[13px] font-semibold group-hover:text-green-700 transition-colors" style={{ color: C.text }}>{item.label}</span>
+            <span className="text-[11px]" style={{ color: C.muted }}>{item.sub}</span>
+          </a>
+        ) : (
+          <div
+            key={item.label}
+            className="flex flex-col gap-0.5 px-4 py-3.5 border-b last:border-b-0 cursor-default select-none"
+            style={{ borderColor: C.border, opacity: 0.55 }}
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-[13px] font-semibold" style={{ color: C.text }}>{item.label}</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full text-white"
+                style={{ background: C.green, letterSpacing: "0.12em" }}>
+                Soon
+              </span>
+            </div>
+            <span className="text-[11px]" style={{ color: C.muted }}>{item.sub}</span>
+          </div>
+        )
+      )}
     </motion.div>
   );
 }
@@ -82,7 +99,6 @@ export default function NavBar({ activePage = "", showTicker = false }) {
 
   const navLinks = [
     { label: "Home",         href: "/" },
-    { label: "E Brochure",   href: "/e-brochure" },
     { label: "Our Projects", href: "/our-projects", menu: "projects" },
     { label: "About Us",     href: "/our-projects#about" },
   ];
@@ -340,7 +356,6 @@ export default function NavBar({ activePage = "", showTicker = false }) {
               <div className="flex-1 px-4 py-5 flex flex-col gap-1">
                 {[
                   { label: "Home",         href: "/" },
-                  { label: "E Brochure",   href: "/e-brochure" },
                   { label: "Our Projects", href: "/our-projects" },
                   { label: "About Us",     href: "/our-projects#about" },
                 ].map((lk, i) => (
@@ -435,8 +450,8 @@ export default function NavBar({ activePage = "", showTicker = false }) {
         )}
       </AnimatePresence>
 
-      {/* OTP Login Modal */}
-      <OTPLoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      {/* Auth Modal */}
+      <AuthModal open={loginOpen} onClose={() => setLoginOpen(false)} />
     </>
   );
 }

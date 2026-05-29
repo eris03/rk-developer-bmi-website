@@ -196,9 +196,6 @@ function FeatureCard({ icon, title, desc, accent, delay = 0 }) {
       </motion.div>
       <h3 className="font-bold text-lg mb-3" style={{ color: C.text }}>{title}</h3>
       <p className="text-sm leading-relaxed" style={{ color: C.body }}>{desc}</p>
-      <motion.div whileHover={{ x: 4 }} className="mt-5 text-[10px] tracking-[0.25em] uppercase font-bold flex items-center gap-1" style={{ color: accent }}>
-        Learn More →
-      </motion.div>
     </motion.div>
   );
 }
@@ -385,8 +382,8 @@ export default function HomeV1Client() {
           <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.8 }}
             className="text-center mb-16">
-            <Perspective maxRotateX={10} maxRotateY={18} className="inline-block w-full max-w-3xl">
-              <div className="text-center px-8 py-10 rounded-3xl"
+            <Perspective maxRotateX={6} maxRotateY={10} className="block w-full">
+              <div className="text-center px-8 py-12 rounded-3xl"
                 style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(34,197,94,0.1)" }}>
 
                 <div className="flex items-center justify-center gap-3 mb-5">
@@ -397,8 +394,8 @@ export default function HomeV1Client() {
                   <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
                 </div>
 
-                {/* Kannada — large */}
-                <h2 className="font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-snug mb-3"
+                {/* Kannada — compact single line */}
+                <h2 className="font-bold text-base md:text-lg tracking-wide whitespace-nowrap mb-3"
                   style={{ background: "linear-gradient(90deg, #86efac, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                   ನಿಮ್ಮ ಕನಸಿನ ನಿವೇಶನ ಆಯ್ಕೆ ಮಾಡಿ
                 </h2>
