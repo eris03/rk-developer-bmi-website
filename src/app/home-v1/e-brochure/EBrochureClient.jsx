@@ -157,21 +157,6 @@ export default function EBrochureClient() {
                 Co-Operative Society Ltd
               </motion.p>
 
-              {/* Reg No */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.42, duration: 0.6 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl mb-8"
-                style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)" }}
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke={C.greenMid} strokeWidth={2} className="w-4 h-4 shrink-0">
-                  <circle cx="12" cy="8" r="5"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
-                </svg>
-                <span className="text-[12px] font-semibold" style={{ color: C.greenMid }}>
-                  Reg No. JRB/RGN/CR-13/51578/2022-23
-                </span>
-              </motion.div>
 
               {/* Download button */}
               <motion.div

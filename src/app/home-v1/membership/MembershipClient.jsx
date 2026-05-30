@@ -423,12 +423,12 @@ export default function MembershipClient() {
                   </div>
 
                   {/* Contact */}
-                  <Input label="Phone No. (Residence)" type="tel" placeholder="+91 XXXXX XXXXX" />
+                  <Input label="Phone No. (Residence)" type="text" inputMode="tel" autoComplete="off" placeholder="+91 XXXXX XXXXX" />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-5">
-                <Input label="Mobile No." required type="tel" placeholder="+91 XXXXX XXXXX" />
+                <Input label="Mobile No." required type="text" inputMode="tel" autoComplete="off" placeholder="+91 XXXXX XXXXX" />
                 <Input label="E-mail ID" required type="email" placeholder="you@example.com" />
               </div>
             </Card>
@@ -530,7 +530,7 @@ export default function MembershipClient() {
                   <Input label="Country" optional placeholder="India" defaultValue="India" readOnly />
                 </div>
                 <div className="grid md:grid-cols-2 gap-5">
-                  <Input label="Office Phone No." optional type="tel" placeholder="+91 XXXXX XXXXX" />
+                  <Input label="Office Phone No." optional type="text" inputMode="tel" autoComplete="off" placeholder="+91 XXXXX XXXXX" />
                   <Input label="Monthly Income (₹)" optional type="number" placeholder="e.g. 50000" />
                 </div>
               </div>
@@ -585,7 +585,7 @@ export default function MembershipClient() {
                   </AnimatePresence>
                 </div>
 
-                <Input label="Nominee Phone / Mobile" type="tel" placeholder="+91 XXXXX XXXXX" />
+                <Input label="Nominee Phone / Mobile" type="text" inputMode="tel" autoComplete="off" placeholder="+91 XXXXX XXXXX" />
               </div>
 
               {/* Nominee Address with quick-fill buttons */}
@@ -667,7 +667,7 @@ export default function MembershipClient() {
               <div className="grid md:grid-cols-2 gap-6 mb-8">
                 <div>
                   <Input label="No. of Shares Required (Minimum 10 = TEN)" required
-                    type="number" defaultValue={10} min={10} placeholder="Minimum 10 shares" />
+                    type="number" value={10} readOnly />
                   <p className="text-[11px] mt-1.5" style={{ color: C.muted }}>
                     Each share value as per Society bye-laws. Minimum 10 shares mandatory.
                   </p>

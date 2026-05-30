@@ -128,13 +128,6 @@ const UNIFIED_ITEMS = [
     icon: "🏛️",
   },
   {
-    name: "Transparent Pricing",
-    tagline: "No Hidden Costs",
-    desc: "Starting at ₹1,249/sqft with clear breakdowns and zero hidden charges. The price you see on day one is the price you pay on registration day — always.",
-    src: "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=800&h=600&fit=crop&auto=format&q=80",
-    icon: "✅",
-  },
-  {
     name: "Prime Location",
     tagline: "North Bengaluru",
     desc: "Every BMI project sits minutes from tech corridors, Amity University, and the upcoming Bengaluru North Metro — positioned exactly where the city is growing next.",
@@ -161,13 +154,6 @@ const UNIFIED_ITEMS = [
     desc: "Trust is the highest form of human motivation. Every commitment we make, we keep — on time, every time. 2,500+ families trust BMI Housing with their most important investment.",
     src: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=600&fit=crop&auto=format&q=80",
     icon: "🤝",
-  },
-  {
-    name: "Committed to Delivery",
-    tagline: "On-Time, Every Time",
-    desc: "Delivering every project on time, every time. Our word is our bond — from booking to final registration. We cannot dodge the consequences of missing our responsibilities.",
-    src: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop&auto=format&q=80",
-    icon: "🔨",
   },
   {
     name: "Customer Satisfaction",
@@ -470,19 +456,6 @@ export default function ProjectsClient() {
               in providing Bangaloreans affordable quality residential plots.
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ delay: 0.26, duration: 0.7 }}
-              className="inline-flex items-center gap-3 px-5 py-3 rounded-xl cursor-default"
-              style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.3)", backdropFilter: "blur(8px)" }}>
-              <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 shrink-0" style={{ color: C.greenMid }}>
-                <circle cx="12" cy="8" r="5" stroke="currentColor" strokeWidth={2}/>
-                <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="font-bold text-[14px] tracking-wide" style={{ color: C.greenMid }}>
-                Reg No. JRB/RGN/CR-13/51578/2022-23
-              </span>
-            </motion.div>
           </div>
         </div>
       </section>
@@ -510,7 +483,7 @@ export default function ProjectsClient() {
               </span>
             </h2>
             <p className="text-[15px] max-w-2xl mx-auto" style={{ color: C.body }}>
-              Nine pillars that set BMI Housing apart — from legal compliance and transparent pricing to genuine customer care. Click any card to explore.
+              Seven pillars that set BMI Housing apart — from transparent pricing and world-class amenities to genuine customer care. Click any card to explore.
             </p>
           </motion.div>
 
@@ -547,30 +520,6 @@ export default function ProjectsClient() {
             ))}
           </MasonryGrid>
 
-          {/* View All CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ delay: 0.5 }}
-            className="text-center mt-10">
-            <motion.button
-              onClick={() => { setActiveItem(0); setShowGrid(true); }}
-              whileHover={{ scale: 1.05, boxShadow: `0 14px 40px ${C.green}44` }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2.5 px-9 py-4 rounded-xl text-[14px] font-bold text-white relative overflow-hidden group"
-              style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})`, boxShadow: `0 4px 20px ${C.green}33` }}>
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
-                style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
-                animate={{ x: ["-100%", "100%"] }}
-                transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 0.5 }}
-              />
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4.5 h-4.5 shrink-0 w-5 h-5">
-                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
-              </svg>
-              View All 9 Advantages
-            </motion.button>
-          </motion.div>
         </div>
       </section>
 
@@ -602,8 +551,6 @@ export default function ProjectsClient() {
                 <div className="font-bold text-[15px] leading-tight" style={{ color: "#1c3a1c" }}>Madhuri . R</div>
                 <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: "#16a34a" }}>President</div>
               </div>
-              <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
-                style={{ color: "rgba(34,197,94,0.1)" }}>00</div>
             </motion.div>
           </motion.div>
 
@@ -635,11 +582,7 @@ export default function ProjectsClient() {
                       <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
                       <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>Board of Director</div>
                     </div>
-                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
-                      style={{ color: `${accents[i]}10` }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                  </motion.div>
+                    </motion.div>
                 );
               })}
             </div>
@@ -661,11 +604,7 @@ export default function ProjectsClient() {
                       <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
                       <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>Board of Director</div>
                     </div>
-                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
-                      style={{ color: `${accents[i]}10` }}>
-                      {String(i + 5).padStart(2, "0")}
-                    </div>
-                  </motion.div>
+                    </motion.div>
                 );
               })}
             </div>
@@ -703,11 +642,7 @@ export default function ProjectsClient() {
                       <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
                       <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>{role}</div>
                     </div>
-                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
-                      style={{ color: `${accents[i]}10` }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                  </motion.div>
+                    </motion.div>
                 );
               })}
             </div>
@@ -733,11 +668,7 @@ export default function ProjectsClient() {
                       <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
                       <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>{role}</div>
                     </div>
-                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
-                      style={{ color: `${accents[i]}10` }}>
-                      {String(i + 4).padStart(2, "0")}
-                    </div>
-                  </motion.div>
+                    </motion.div>
                 );
               })}
             </div>
@@ -810,17 +741,6 @@ export default function ProjectsClient() {
 
       <SiteFooter />
 
-      {/* ── Unified Grid Modal ── */}
-      <AnimatePresence>
-        {showGrid && (
-          <UnifiedGridModal
-            items={UNIFIED_ITEMS}
-            activeIndex={activeItem}
-            setActiveIndex={setActiveItem}
-            onClose={() => setShowGrid(false)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }

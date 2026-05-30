@@ -611,7 +611,7 @@ export default function PurchaseSiteClient() {
               </AnimatePresence>
             </div>
 
-            <Input label="Nominee Phone / Mobile" type="tel" placeholder="+91 XXXXX XXXXX" />
+            <Input label="Nominee Phone / Mobile" type="text" inputMode="tel" autoComplete="off" placeholder="+91 XXXXX XXXXX" />
           </div>
 
           {/* Nominee Address with quick-fill buttons */}
