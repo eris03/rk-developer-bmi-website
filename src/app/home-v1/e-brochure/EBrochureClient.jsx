@@ -138,7 +138,7 @@ export default function EBrochureClient() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="font-extrabold text-lg md:text-xl lg:text-2xl leading-snug mb-3"
+                className="font-extrabold text-2xl md:text-3xl lg:text-4xl leading-snug mb-3"
                 style={{ color: "#86efac" }}
               >
                 ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್<br />

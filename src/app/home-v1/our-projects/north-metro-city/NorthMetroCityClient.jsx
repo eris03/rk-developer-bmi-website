@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "../../components/NavBar";
 import SiteFooter from "../../components/SiteFooter";
@@ -99,7 +99,7 @@ function Navbar() {
             whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/bmi-logo.png" alt="BMI" className="w-8 h-8 object-contain object-center" />
+            <img src="/bmi-logo.png" alt="BMI" className="w-full h-full object-contain scale-[1.28]" />
           </motion.div>
           <div className="hidden sm:block leading-none">
             <div className="font-bold text-[14px]" style={{ color: C.orange }}>BMI Housing</div>
@@ -161,7 +161,15 @@ function Navbar() {
 
 export default function NorthMetroCityClient() {
   const [activeDevIdx, setActiveDevIdx] = useState(null);
-  const [activeRowIdx, setActiveRowIdx] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  // close modal on ESC
+  useEffect(() => {
+    const h = (e) => { if (e.key === "Escape") setSelectedRow(null); };
+    document.addEventListener("keydown", h);
+    return () => document.removeEventListener("keydown", h);
+  }, []);
+
   return (
     <div style={{ background: C.bgWhite }}>
       <NavBar activePage="north-metro-city" />
@@ -237,7 +245,7 @@ export default function NorthMetroCityClient() {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            {["Govt. Registered", "Amity University Nearby", "4-EMI Plan", "₹1,399/sqft"].map((tag) => (
+            {["BIAAPA Approval", "A Khata", "4-EMI Plan", "₹1,399/sqft"].map((tag) => (
               <span key={tag}
                 className="px-4 py-1.5 rounded-full text-[12px] font-semibold text-white"
                 style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}>
@@ -264,7 +272,7 @@ export default function NorthMetroCityClient() {
               src="/north-metro-overview.png"
               alt="BMI North Metro City"
               className="w-full h-auto object-cover"
-              style={{ minHeight: "320px", display: "block" }}
+              style={{ minHeight: "320px", display: "block", objectPosition: "20% center" }}
             />
             <div className="absolute bottom-4 left-4 px-4 py-2 rounded-xl text-[12px] font-bold text-white"
               style={{ background: `linear-gradient(135deg, ${C.orangeMid}, ${C.orange})`, boxShadow: `0 4px 14px ${C.orangeMid}66` }}>
@@ -300,6 +308,8 @@ export default function NorthMetroCityClient() {
                 { label: "Price", value: "₹1,399/sqft" },
                 { label: "Location", value: "Near Amity Univ." },
                 { label: "Payment", value: "4-EMI Plan" },
+                { label: "Approval", value: "BIAAPA Approval" },
+                { label: "Plot Type", value: "A Khata" },
               ].map((s, i) => (
                 <motion.div key={s.label}
                   initial={{ opacity: 0, y: 12 }}
@@ -334,139 +344,187 @@ export default function NorthMetroCityClient() {
             </h2>
           </motion.div>
 
-          {/* ── 3D Card wrapper ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 40, rotateX: 6 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              borderRadius: "20px",
-              overflow: "hidden",
-              position: "relative",
-              boxShadow: `
-                0 0 0 1px rgba(249,115,22,0.12),
-                0 4px 8px rgba(0,0,0,0.06),
-                0 16px 40px rgba(0,0,0,0.12),
-                0 40px 80px rgba(249,115,22,0.10)
-              `,
-              background: "#fff",
-            }}
-          >
-            {/* Surface gloss line at top */}
-            <div style={{ height: "3px", background: `linear-gradient(90deg, transparent, ${C.orangeBright}cc, ${C.orangeMid}, ${C.orangeBright}cc, transparent)` }} />
+          {/* ── Full-screen Row Modal ── */}
+          <AnimatePresence>
+            {selectedRow && (
+              <motion.div
+                className="fixed inset-0 z-[200] flex items-center justify-center px-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedRow(null)}
+                style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(10px)" }}
+              >
+                <motion.div
+                  initial={{ scale: 0.82, opacity: 0, y: 40 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.88, opacity: 0, y: 20 }}
+                  transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-full max-w-lg rounded-3xl overflow-hidden"
+                  style={{ boxShadow: "0 40px 100px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08)" }}
+                >
+                  {/* Header */}
+                  <div className="px-8 pt-8 pb-6 text-center"
+                    style={{ background: `linear-gradient(135deg, #92400e, ${C.orangeMid})` }}>
+                    <div className="text-orange-200 text-[11px] tracking-[0.3em] uppercase font-bold mb-2">North Metro City · Plot Details</div>
+                    <div className="text-white font-extrabold text-4xl md:text-5xl">{selectedRow.dim}</div>
+                    <div className="text-orange-200 text-[14px] mt-1">{selectedRow.sqft}</div>
+                    <div className="mt-3 inline-block px-5 py-1.5 rounded-full font-extrabold text-lg"
+                      style={{ background: "rgba(255,255,255,0.18)", color: "#fef08a", border: "1px solid rgba(255,255,255,0.25)" }}>
+                      ₹ 1399 / sqft
+                    </div>
+                  </div>
+                  {/* Body */}
+                  <div className="px-8 py-7" style={{ background: "#fff" }}>
+                    <div className="grid grid-cols-2 gap-4">
+                      {[
+                        { label: "Total Sale Value", value: `₹ ${selectedRow.total}`, highlight: true },
+                        { label: "Down Payment (30%)", value: selectedRow.down, highlight: false },
+                        { label: "1st Instalment", value: selectedRow.i1, highlight: false },
+                        { label: "2nd Instalment", value: selectedRow.i2, highlight: false },
+                        { label: "3rd Instalment", value: selectedRow.i3, highlight: false },
+                        { label: "Payment Plan", value: "4-EMI Plan", highlight: false },
+                      ].map((item) => (
+                        <div key={item.label} className="rounded-2xl px-4 py-3.5"
+                          style={{ background: item.highlight ? C.orangeLight : "#fffcfa", border: `1.5px solid ${item.highlight ? C.orangeMid : C.border}` }}>
+                          <div className="text-[10px] font-bold tracking-[0.15em] uppercase mb-1" style={{ color: C.muted }}>{item.label}</div>
+                          <div className="font-extrabold text-[16px]" style={{ color: item.highlight ? "#92400e" : C.text }}>{item.value}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-5 flex items-center gap-2 text-[12px] font-medium rounded-xl px-4 py-3"
+                      style={{ background: "#fff7ed", color: C.orangeMid, border: `1px solid ${C.border}` }}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4 shrink-0">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                      </svg>
+                      Next to Amity University Chappradakana Main Road, Bengaluru
+                    </div>
+                    <motion.a href="/application-registration"
+                      whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      className="mt-5 w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-white text-[15px]"
+                      style={{ background: `linear-gradient(135deg, ${C.orangeMid}, #92400e)`, boxShadow: `0 6px 20px ${C.orangeMid}40` }}>
+                      Apply Now →
+                    </motion.a>
+                  </div>
+                  {/* Close */}
+                  <button onClick={() => setSelectedRow(null)}
+                    className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full font-bold text-lg"
+                    style={{ background: "rgba(255,255,255,0.2)", color: "#fff" }}>
+                    ✕
+                  </button>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-[13px] border-collapse">
-                <thead>
-                  <tr style={{ position: "relative" }}>
-                    {/* Header gradient bg */}
-                    <td colSpan={6} style={{ padding: 0, position: "absolute", inset: 0,
-                      background: `linear-gradient(135deg, #92400e 0%, ${C.orange} 50%, ${C.orangeBright} 100%)`,
-                    }} />
-                    {/* Header gloss overlay */}
-                    <td colSpan={6} style={{ padding: 0, position: "absolute", top: 0, left: 0, right: 0, height: "55%",
-                      background: "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 100%)",
-                      pointerEvents: "none",
-                    }} />
-                    {["DIMENSION", "PRICE PER SQFT", "TOTAL SALE VALUE", "DOWN PAYMENT", "1ST INSTALMENT", "2ND INSTALMENT"].map((h, hi) => (
-                      <th key={h} className="px-5 py-4 text-left font-extrabold text-[10px] tracking-[0.12em] uppercase whitespace-nowrap relative"
-                        style={{
-                          color: "#fff",
-                          borderRight: hi < 5 ? "1px solid rgba(255,255,255,0.15)" : "none",
-                          textShadow: "0 1px 3px rgba(0,0,0,0.25)",
-                          letterSpacing: "0.1em",
-                        }}>
-                        {h}
-                      </th>
+          {/* ── 3D Pricing Poster Card ── */}
+          <div style={{ perspective: "1200px" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30, rotateX: 4 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-2xl overflow-hidden"
+              style={{
+                border: "3px solid #ea580c",
+                boxShadow: `
+                  0 2px 0 #92400e,
+                  0 4px 0 #7c2d12,
+                  0 0 0 1px rgba(249,115,22,0.15),
+                  0 8px 24px rgba(249,115,22,0.2),
+                  0 24px 60px rgba(0,0,0,0.14),
+                  0 48px 80px rgba(249,115,22,0.08)
+                `,
+                transformStyle: "preserve-3d",
+              }}
+            >
+              {/* Gloss shimmer overlay */}
+              <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl"
+                style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 55%)" }} />
+
+              {/* Title bar */}
+              <div className="relative text-center py-4 font-extrabold text-2xl md:text-3xl tracking-tight" style={{ background: "#ffffff", color: "#111" }}>
+                North Metro City
+                <div className="absolute inset-x-0 top-0 h-[3px]"
+                  style={{ background: "linear-gradient(90deg, transparent, rgba(249,115,22,0.6), #ea580c, rgba(249,115,22,0.6), transparent)" }} />
+              </div>
+
+              {/* Orange divider */}
+              <div style={{ background: "linear-gradient(90deg, #92400e, #c2410c, #ea580c, #f97316, #ea580c, #c2410c, #92400e)", height: "6px" }} />
+
+              {/* Price banner */}
+              <div className="flex items-center justify-center py-3 text-white font-extrabold text-xl md:text-2xl gap-2"
+                style={{ background: "linear-gradient(135deg, #92400e 0%, #c2410c 40%, #ea580c 70%, #f97316 100%)" }}>
+                <span>Price</span>
+                <span className="text-[#fef08a]">₹</span>
+                <span>1399/- Sqft.</span>
+              </div>
+
+              {/* Location */}
+              <div className="flex items-center justify-center gap-2 py-2.5 text-[13px] font-semibold" style={{ background: "#fff7ed", color: "#92400e" }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4 shrink-0">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                Next to Amity University Chappradakana Main Road, Bengaluru
+              </div>
+
+              {/* Tap hint */}
+              <div className="text-center py-1.5 text-[11px] font-semibold tracking-wide" style={{ background: "#ffedd5", color: "#ea580c" }}>
+                👆 Tap any row to view full details
+              </div>
+
+              {/* Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-[12px] md:text-[13px] border-collapse">
+                  <thead>
+                    <tr style={{ background: "linear-gradient(135deg, #92400e, #ea580c)", color: "#ffffff" }}>
+                      {["DIMENSION","PRICE PER SQFT","TOTAL SALE VALUE","DOWN PAYMENT","1st INSTALMENT","2nd INSTALMENT","3rd INSTALMENT"].map((h, hi) => (
+                        <th key={h} className="px-3 py-3 font-extrabold text-center"
+                          style={{ borderRight: hi < 6 ? "1px solid rgba(255,255,255,0.2)" : "none", whiteSpace: "pre-wrap", lineHeight: "1.3" }}>
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { dim: "30×40", sqft: "1200sqft", total: "16,78,800/-", down: "5,03,640",  i1: "3,91,720",  i2: "3,91,720",  i3: "3,91,720"  },
+                      { dim: "30×50", sqft: "1500sqft", total: "20,98,500/-", down: "6,29,550",  i1: "4,89,650",  i2: "4,89,650",  i3: "4,89,650"  },
+                      { dim: "40×60", sqft: "2400sqft", total: "33,57,600/-", down: "10,07,280", i1: "7,83,440",  i2: "7,83,440",  i3: "7,83,440"  },
+                      { dim: "50×80", sqft: "4000sqft", total: "55,96,000/-", down: "16,78,800", i1: "13,05,734", i2: "13,05,734", i3: "13,05,734" },
+                    ].map((row, i) => (
+                      <motion.tr key={row.dim}
+                        whileHover={{ backgroundColor: "#fed7aa", scale: 1.01, x: 3 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setSelectedRow(row)}
+                        style={{ background: i % 2 === 0 ? "#fff7ed" : "#ffffff", cursor: "pointer",
+                          borderBottom: "1px solid #fed7aa", transition: "background 0.2s" }}>
+                        <td className="px-3 py-3.5 text-center font-extrabold" style={{ color: "#111", borderRight: "1px solid #fed7aa" }}>
+                          {row.dim} <span className="font-normal text-[11px] text-gray-500">({row.sqft})</span>
+                        </td>
+                        <td className="px-3 py-3.5 text-center font-bold" style={{ color: "#92400e", borderRight: "1px solid #fed7aa" }}>1399/-sqft</td>
+                        <td className="px-3 py-3.5 text-center font-bold" style={{ color: "#111", borderRight: "1px solid #fed7aa" }}>{row.total}</td>
+                        <td className="px-3 py-3.5 text-center font-bold" style={{ color: "#111", borderRight: "1px solid #fed7aa" }}>{row.down}</td>
+                        <td className="px-3 py-3.5 text-center font-medium" style={{ color: "#374151", borderRight: "1px solid #fed7aa" }}>{row.i1}</td>
+                        <td className="px-3 py-3.5 text-center font-medium" style={{ color: "#374151", borderRight: "1px solid #fed7aa" }}>{row.i2}</td>
+                        <td className="px-3 py-3.5 text-center font-medium" style={{ color: "#374151" }}>{row.i3}</td>
+                      </motion.tr>
                     ))}
-                  </tr>
-                  {/* Header bottom accent line */}
-                  <tr>
-                    <td colSpan={6} style={{ padding: 0, height: "2px",
-                      background: `linear-gradient(90deg, #92400e, ${C.orangeBright}, #92400e)`,
-                    }} />
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { dim: "30×40", sqft: "1200sqft", price: "1399/-sqft", total: "16,78,800/-", down: "5,03,640",  i1: "3,91,720",  i2: "3,91,720",  popular: false },
-                    { dim: "30×50", sqft: "1500sqft", price: "1399/-sqft", total: "20,98,500/-", down: "6,29,550",  i1: "4,89,650",  i2: "4,89,650",  popular: true  },
-                    { dim: "40×60", sqft: "2400sqft", price: "1399/-sqft", total: "33,57,600/-", down: "10,07,280", i1: "7,83,440",  i2: "7,83,440",  popular: false },
-                    { dim: "50×80", sqft: "4000sqft", price: "1399/-sqft", total: "55,96,000/-", down: "16,78,800", i1: "13,05,734", i2: "13,05,734", popular: false },
-                  ].map((row, i) => {
-                    const isActive = activeRowIdx === i;
-                    return (
-                    <motion.tr key={row.dim}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.1 + i * 0.09, duration: 0.5 }}
-                      animate={isActive
-                        ? { scale: 1.02, y: -4, rotateX: -3 }
-                        : { scale: 1,    y: 0,  rotateX: 0  }}
-                      whileHover={!isActive ? { backgroundColor: "#fff7ed", y: -2, scale: 1.01 } : {}}
-                      onClick={() => setActiveRowIdx(isActive ? null : i)}
-                      style={{
-                        background: isActive ? "#ffedd5" : row.popular ? "#fff7ed" : i % 2 === 0 ? "#fffcfa" : "#ffffff",
-                        borderBottom: `1px solid ${C.border}`,
-                        borderLeft: isActive ? `3px solid ${C.orangeBright}` : row.popular ? `3px solid ${C.orangeMid}` : "3px solid transparent",
-                        boxShadow: isActive
-                          ? `0 12px 32px rgba(249,115,22,0.22), 0 0 0 2px ${C.orangeBright}40`
-                          : "none",
-                        transformStyle: "preserve-3d",
-                        cursor: "pointer",
-                        transition: "background 0.25s, border 0.25s, box-shadow 0.25s",
-                      }}>
-                      <td className="px-5 py-4 font-extrabold" style={{ color: C.text }}>
-                        <span className="text-[14px]">{row.dim}</span>
-                        <span className="font-normal text-[11px] ml-1" style={{ color: C.muted }}>({row.sqft})</span>
-                        {row.popular && (
-                          <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold text-white"
-                            style={{ background: `linear-gradient(135deg, ${C.orangeMid}, #92400e)`, verticalAlign: "middle" }}>
-                            Popular
-                          </span>
-                        )}
-                        {isActive && (
-                          <motion.span initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
-                            className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold text-white"
-                            style={{ background: `linear-gradient(135deg, ${C.orangeBright}, ${C.orangeMid})`, verticalAlign: "middle" }}>
-                            Selected ✓
-                          </motion.span>
-                        )}
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className="font-bold text-[13px] px-2.5 py-1 rounded-lg"
-                          style={{ color: "#fff", background: `linear-gradient(135deg, ${C.orangeMid}, #92400e)`,
-                            boxShadow: `0 2px 6px ${C.orangeMid}50` }}>
-                          ₹{row.price}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4 font-bold text-[14px]" style={{ color: C.text }}>₹{row.total}</td>
-                      <td className="px-5 py-4">
-                        <span className="font-semibold text-[13px] px-2 py-0.5 rounded-md"
-                          style={{ color: "#92400e", background: "#fef3c7" }}>
-                          {row.down}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4 font-medium" style={{ color: C.body }}>{row.i1}</td>
-                      <td className="px-5 py-4 font-medium" style={{ color: C.body }}>{row.i2}</td>
-                    </motion.tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                  </tbody>
+                </table>
+              </div>
 
-            {/* Bottom shadow bar */}
-            <div style={{ height: "4px", background: `linear-gradient(90deg, #92400e30, ${C.orangeMid}20, #92400e30)` }} />
-          </motion.div>
+              {/* Footer bar */}
+              <div style={{ background: "linear-gradient(90deg, #92400e, #c2410c, #ea580c, #f97316, #ea580c, #c2410c, #92400e)", height: "6px" }} />
+            </motion.div>
+          </div>
 
-          {/* Floating shadow layer under table */}
+          {/* Depth shadow under card */}
           <div style={{
-            height: "20px", marginTop: "0",
-            background: `radial-gradient(ellipse at center, rgba(249,115,22,0.12) 0%, transparent 70%)`,
-            filter: "blur(8px)",
+            height: "16px", marginTop: "2px",
+            background: "radial-gradient(ellipse at center, rgba(249,115,22,0.18) 0%, transparent 70%)",
+            filter: "blur(6px)",
           }} />
         </div>
       </section>
@@ -487,7 +545,7 @@ export default function NorthMetroCityClient() {
             style={{ background: C.bgSection, border: `1px solid ${C.border}` }}>
             {/* Kannada — first */}
             <div>
-              <h4 className="kannada font-bold text-[15px] mb-5 pb-2" style={{ color: C.orangeMid, borderBottom: `2px solid ${C.border}` }}>
+              <h4 className="kannada font-bold text-[18px] mb-5 pb-2" style={{ color: C.orangeMid, borderBottom: `2px solid ${C.border}` }}>
                 ಅರ್ಜಿಗೆ ಸೇರಿಸಬೇಕಾದ ಆವಶ್ಯಕ ಆವೃತ್ತಿಗಳು:
               </h4>
               <ol className="flex flex-col gap-3">
@@ -505,6 +563,9 @@ export default function NorthMetroCityClient() {
             </div>
             {/* English — second */}
             <div>
+              <h4 className="font-bold text-[15px] mb-5 pb-2" style={{ color: C.orangeMid, borderBottom: `2px solid ${C.border}` }}>
+                Documents Required:
+              </h4>
               <ol className="flex flex-col gap-3">
                 {["Four (4) passport-size photographs","Address proof","Government ID Proof","Nominee ID Proof & 1 Passport Size photo","Payment Mode: Cheque, DD, NEFT, RTGS, or IMPS"].map((doc, i) => (
                   <li key={i} className="flex items-start gap-3 text-[13px]" style={{ color: C.body }}>
@@ -578,11 +639,10 @@ export default function NorthMetroCityClient() {
             className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="w-8 h-px" style={{ background: C.orangeBright }} />
-              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.orangeMid }}>Nearby</span>
+              <span className="text-[15px] tracking-[0.5em] uppercase font-extrabold" style={{ color: C.orangeMid }}>Nearby</span>
               <span className="w-8 h-px" style={{ background: C.orangeBright }} />
             </div>
             <h2 className="font-extrabold text-3xl md:text-4xl" style={{ color: C.text }}>
-              Nearby{" "}
               <span style={{ background: `linear-gradient(90deg,${C.orangeMid},${C.orangeBright})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Developments
               </span>
@@ -600,54 +660,77 @@ export default function NorthMetroCityClient() {
               "Gitam University",
               "Doddaballapura Industrial Area",
               "Padukone–Dravid Sport Academy",
-              "Vihaan Public School (Cambridge)",
+              "Vihaan Public School",
+              "Cambridge Institute of Technology",
               "Stonehill International School",
+              "Kempegowda International Airport",
+              "For More Developments →",
             ].map((item, i) => {
               const isActive = activeDevIdx === i;
+              const isLinkItem = i === 11;
               return (
                 <motion.div key={i}
                   initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <motion.div
-                    animate={isActive
-                      ? { scale: 1.07, rotateX: -10, rotateY: 2, y: -7 }
-                      : { scale: 1,    rotateX: 0,   rotateY: 0, y: 0  }}
-                    whileHover={!isActive ? { scale: 1.04, y: -4, rotateX: -5 } : {}}
-                    whileTap={{ scale: 0.97 }}
-                    transition={{ type: "spring", stiffness: 320, damping: 22 }}
-                    onClick={() => setActiveDevIdx(isActive ? null : i)}
-                    className="flex items-center gap-3 py-3 px-4 rounded-xl"
-                    style={{
-                      background: isActive ? C.orangeLight : "#ffffff",
-                      border: isActive ? `1.5px solid ${C.orangeBright}` : `1px solid ${C.border}`,
-                      boxShadow: isActive
-                        ? `0 20px 45px rgba(234,88,12,0.28), 0 0 0 3px ${C.orangeBright}30`
-                        : "0 1px 4px rgba(0,0,0,0.05)",
-                      transformStyle: "preserve-3d",
-                      cursor: "pointer",
-                      userSelect: "none",
-                      transition: "background 0.25s, border 0.25s, box-shadow 0.25s",
-                    }}>
-                    <span className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
+                  {isLinkItem ? (
+                    <a href="/home-v1/contact"
+                      className="flex items-center gap-3 py-3 px-4 rounded-xl"
                       style={{
-                        background: isActive ? C.orangeBright : C.orangeLight,
-                        color: isActive ? "#ffffff" : C.orange,
-                        transition: "background 0.25s, color 0.25s",
-                      }}>{i + 1}</span>
-                    <span className="text-[13px] font-semibold flex-1"
-                      style={{ color: isActive ? C.orange : C.text, transition: "color 0.25s" }}>
-                      {item}
-                    </span>
-                    {isActive && (
-                      <motion.svg
-                        initial={{ opacity: 0, scale: 0.4, rotate: -20 }}
-                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                        viewBox="0 0 24 24" fill="none" stroke={C.orangeBright} strokeWidth={2.5}
-                        className="w-4 h-4 shrink-0">
-                        <polyline points="20 6 9 17 4 12" />
-                      </motion.svg>
-                    )}
-                  </motion.div>
+                        background: C.orangeLight,
+                        border: `1.5px solid ${C.orangeBright}`,
+                        boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+                        cursor: "pointer",
+                        userSelect: "none",
+                        textDecoration: "none",
+                      }}>
+                      <span className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
+                        style={{ background: C.orangeBright, color: "#ffffff" }}>12</span>
+                      <span className="text-[13px] font-bold flex-1" style={{ color: C.orangeMid }}>
+                        {item}
+                      </span>
+                    </a>
+                  ) : (
+                    <motion.div
+                      animate={isActive
+                        ? { scale: 1.07, rotateX: -10, rotateY: 2, y: -7 }
+                        : { scale: 1,    rotateX: 0,   rotateY: 0, y: 0  }}
+                      whileHover={!isActive ? { scale: 1.04, y: -4, rotateX: -5 } : {}}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ type: "spring", stiffness: 320, damping: 22 }}
+                      onClick={() => setActiveDevIdx(isActive ? null : i)}
+                      className="flex items-center gap-3 py-3 px-4 rounded-xl"
+                      style={{
+                        background: isActive ? C.orangeLight : "#ffffff",
+                        border: isActive ? `1.5px solid ${C.orangeBright}` : `1px solid ${C.border}`,
+                        boxShadow: isActive
+                          ? `0 20px 45px rgba(234,88,12,0.28), 0 0 0 3px ${C.orangeBright}30`
+                          : "0 1px 4px rgba(0,0,0,0.05)",
+                        transformStyle: "preserve-3d",
+                        cursor: "pointer",
+                        userSelect: "none",
+                        transition: "background 0.25s, border 0.25s, box-shadow 0.25s",
+                      }}>
+                      <span className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
+                        style={{
+                          background: isActive ? C.orangeBright : C.orangeLight,
+                          color: isActive ? "#ffffff" : C.orange,
+                          transition: "background 0.25s, color 0.25s",
+                        }}>{i + 1}</span>
+                      <span className="text-[13px] font-semibold flex-1"
+                        style={{ color: isActive ? C.orange : C.text, transition: "color 0.25s" }}>
+                        {item}
+                      </span>
+                      {isActive && (
+                        <motion.svg
+                          initial={{ opacity: 0, scale: 0.4, rotate: -20 }}
+                          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                          viewBox="0 0 24 24" fill="none" stroke={C.orangeBright} strokeWidth={2.5}
+                          className="w-4 h-4 shrink-0">
+                          <polyline points="20 6 9 17 4 12" />
+                        </motion.svg>
+                      )}
+                    </motion.div>
+                  )}
                 </motion.div>
               );
             })}
@@ -708,11 +791,11 @@ export default function NorthMetroCityClient() {
         {/* CTA */}
         <div className="text-center mt-12">
           <a
-            href="/purchase-site"
+            href="/home-v1/contact"
             className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[13px] font-bold text-white"
             style={{ background: "linear-gradient(135deg,#f97316,#c2410c)", boxShadow: "0 6px 24px rgba(249,115,22,0.4)" }}
           >
-            Apply for a Site →
+            Contact for a Site Visit →
           </a>
         </div>
       </section>

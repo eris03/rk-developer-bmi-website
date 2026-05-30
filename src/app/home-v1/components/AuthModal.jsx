@@ -108,35 +108,21 @@ function SpinnerIcon() {
 export default function AuthModal({ open, onClose }) {
   const router = useRouter();
 
-  const [tab, setTab]         = useState("login");   // "login" | "signup"
-  const [step, setStep]       = useState("form");    // "form" | "success"
+  const [step, setStep]       = useState("form");   // "form" | "success"
 
   // Login fields
+  const [lName, setLName]     = useState("");
   const [lPhone, setLPhone]   = useState("");
   const [lPass, setLPass]     = useState("");
   const [lError, setLError]   = useState("");
   const [lLoading, setLLoading] = useState(false);
-
-  // Signup fields
-  const [sName, setSName]     = useState("");
-  const [sPhone, setSPhone]   = useState("");
-  const [sPass, setSPass]     = useState("");
-  const [sConfirm, setSConfirm] = useState("");
-  const [sError, setSError]   = useState("");
-  const [sLoading, setSLoading] = useState(false);
-  const [sSuccess, setSSuccess] = useState(false); // registered ✓
-
-  // Show passwords
-  const [showLPass, setShowLPass]   = useState(false);
-  const [showSPass, setShowSPass]   = useState(false);
-  const [showSConf, setShowSConf]   = useState(false);
+  const [showLPass, setShowLPass] = useState(false);
 
   // Reset on open
   useEffect(() => {
     if (open) {
-      setTab("login"); setStep("form");
-      setLPhone(""); setLPass(""); setLError("");
-      setSName(""); setSPhone(""); setSPass(""); setSConfirm(""); setSError(""); setSSuccess(false);
+      setStep("form");
+      setLName(""); setLPhone(""); setLPass(""); setLError("");
     }
   }, [open]);
 
@@ -151,15 +137,16 @@ export default function AuthModal({ open, onClose }) {
   async function handleLogin(e) {
     e?.preventDefault();
     setLError("");
-    if (!lPhone.trim()) return setLError("Please enter your mobile number.");
-    if (lPhone.length !== 10) return setLError("Enter a valid 10-digit number.");
-    if (!lPass.trim()) return setLError("Please enter your password.");
+    if (!lName.trim())           return setLError("Please enter your full name.");
+    if (!lPhone.trim())          return setLError("Please enter your mobile number.");
+    if (lPhone.length !== 10)    return setLError("Enter a valid 10-digit number.");
+    if (!lPass.trim())           return setLError("Please enter your password.");
     setLLoading(true);
     try {
       const res  = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: lPhone, password: lPass }),
+        body: JSON.stringify({ name: lName.trim(), phone: lPhone, password: lPass }),
       });
       const data = await res.json();
       if (!res.ok) return setLError(data.error || "Login failed. Please try again.");
@@ -171,45 +158,6 @@ export default function AuthModal({ open, onClose }) {
       setLLoading(false);
     }
   }
-
-  /* ── Signup Submit ── */
-  async function handleSignup(e) {
-    e?.preventDefault();
-    setSError("");
-    if (!sName.trim())            return setSError("Please enter your full name.");
-    if (sPhone.length !== 10)     return setSError("Enter a valid 10-digit mobile number.");
-    if (sPass.length < 6)         return setSError("Password must be at least 6 characters.");
-    if (sPass !== sConfirm)       return setSError("Passwords do not match.");
-    setSLoading(true);
-    try {
-      const res  = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: sName.trim(), phone: sPhone, password: sPass }),
-      });
-      const data = await res.json();
-      if (!res.ok) return setSError(data.error || "Registration failed.");
-      setSSuccess(true);
-    } catch {
-      setSError("Network error. Please try again.");
-    } finally {
-      setSLoading(false);
-    }
-  }
-
-  const submitBtn = (onClick, loading, label, loadingLabel) => (
-    <motion.button
-      type="submit"
-      onClick={onClick}
-      disabled={loading}
-      whileHover={!loading ? { scale: 1.02, boxShadow: `0 8px 22px ${C.green}40` } : {}}
-      whileTap={!loading ? { scale: 0.97 } : {}}
-      className="w-full py-3.5 rounded-xl font-bold text-white text-[14px] flex items-center justify-center gap-2"
-      style={{ background: loading ? "#9ca3af" : `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
-    >
-      {loading ? <><SpinnerIcon />&nbsp;{loadingLabel}</> : label}
-    </motion.button>
-  );
 
   return (
     <AnimatePresence>
@@ -245,9 +193,7 @@ export default function AuthModal({ open, onClose }) {
               <p className="text-green-200 text-[12px] mt-1">
                 {step === "success"
                   ? "Login successful — redirecting…"
-                  : tab === "login"
-                  ? "Sign in to access your documents"
-                  : "Create your member account"}
+                  : "Sign in to access your documents"}
               </p>
             </div>
 
@@ -258,25 +204,6 @@ export default function AuthModal({ open, onClose }) {
             >
               ✕
             </button>
-
-            {/* ── Tabs ── */}
-            {step === "form" && (
-              <div className="flex mx-6 mt-5 rounded-xl overflow-hidden border" style={{ borderColor: "#e5e7eb" }}>
-                {["login", "signup"].map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => { setTab(t); setLError(""); setSError(""); setSSuccess(false); }}
-                    className="flex-1 py-2.5 text-[13px] font-bold transition-all"
-                    style={{
-                      background: tab === t ? `linear-gradient(135deg, ${C.green}, ${C.greenDark})` : "#f9fafb",
-                      color: tab === t ? "#fff" : C.muted,
-                    }}
-                  >
-                    {t === "login" ? "Sign In" : "Sign Up"}
-                  </button>
-                ))}
-              </div>
-            )}
 
             {/* ── Body ── */}
             <div className="px-7 py-6">
@@ -312,15 +239,22 @@ export default function AuthModal({ open, onClose }) {
                 )}
 
                 {/* LOGIN FORM */}
-                {step === "form" && tab === "login" && (
+                {step === "form" && (
                   <motion.form
                     key="login"
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 16 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
                     onSubmit={handleLogin}
                     className="space-y-4"
                   >
+                    <Input
+                      label="Full Name"
+                      value={lName}
+                      onChange={(e) => setLName(e.target.value)}
+                      placeholder="Enter your full name"
+                      autoComplete="name"
+                    />
                     <PhoneInput value={lPhone} onChange={setLPhone} />
                     <div className="relative">
                       <Input
@@ -343,124 +277,17 @@ export default function AuthModal({ open, onClose }) {
 
                     <ErrorBox msg={lError} />
 
-                    {submitBtn(handleLogin, lLoading, "Sign In →", "Signing in…")}
-
-                    <p className="text-center text-[12px]" style={{ color: C.muted }}>
-                      New member?{" "}
-                      <button
-                        type="button"
-                        onClick={() => { setTab("signup"); setLError(""); }}
-                        className="font-bold hover:underline"
-                        style={{ color: C.green }}
-                      >
-                        Create account
-                      </button>
-                    </p>
-                  </motion.form>
-                )}
-
-                {/* SIGNUP FORM */}
-                {step === "form" && tab === "signup" && (
-                  <motion.form
-                    key="signup"
-                    initial={{ opacity: 0, x: 16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -16 }}
-                    onSubmit={handleSignup}
-                    className="space-y-3"
-                  >
-                    {/* Signup success state */}
-                    {sSuccess ? (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="py-3 flex flex-col items-center gap-3 text-center"
-                      >
-                        <div
-                          className="w-14 h-14 rounded-full flex items-center justify-center text-2xl"
-                          style={{ background: C.greenLight }}
-                        >
-                          ✓
-                        </div>
-                        <p className="font-bold text-[15px]" style={{ color: C.greenDark }}>
-                          Account Created!
-                        </p>
-                        <p className="text-[12px]" style={{ color: C.muted }}>
-                          Your account is ready. Please sign in with your phone number and password.
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => { setTab("login"); setSSuccess(false); setSPhone(""); setSPass(""); setSConfirm(""); setSName(""); }}
-                          className="w-full py-3 rounded-xl font-bold text-white text-[13px]"
-                          style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
-                        >
-                          Go to Sign In →
-                        </button>
-                      </motion.div>
-                    ) : (
-                      <>
-                        <Input
-                          label="Full Name"
-                          value={sName}
-                          onChange={(e) => setSName(e.target.value)}
-                          placeholder="Enter your full name"
-                          autoComplete="name"
-                        />
-                        <PhoneInput value={sPhone} onChange={setSPhone} />
-                        <div className="relative">
-                          <Input
-                            label="Password"
-                            type={showSPass ? "text" : "password"}
-                            value={sPass}
-                            onChange={(e) => setSPass(e.target.value)}
-                            placeholder="Min. 6 characters"
-                            autoComplete="new-password"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowSPass(!showSPass)}
-                            className="absolute right-3 bottom-3 text-[11px] font-semibold"
-                            style={{ color: C.muted }}
-                          >
-                            {showSPass ? "Hide" : "Show"}
-                          </button>
-                        </div>
-                        <div className="relative">
-                          <Input
-                            label="Confirm Password"
-                            type={showSConf ? "text" : "password"}
-                            value={sConfirm}
-                            onChange={(e) => setSConfirm(e.target.value)}
-                            placeholder="Re-enter your password"
-                            autoComplete="new-password"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowSConf(!showSConf)}
-                            className="absolute right-3 bottom-3 text-[11px] font-semibold"
-                            style={{ color: C.muted }}
-                          >
-                            {showSConf ? "Hide" : "Show"}
-                          </button>
-                        </div>
-
-                        <ErrorBox msg={sError} />
-
-                        {submitBtn(handleSignup, sLoading, "Create Account →", "Creating…")}
-
-                        <p className="text-center text-[12px]" style={{ color: C.muted }}>
-                          Already registered?{" "}
-                          <button
-                            type="button"
-                            onClick={() => { setTab("login"); setSError(""); }}
-                            className="font-bold hover:underline"
-                            style={{ color: C.green }}
-                          >
-                            Sign in
-                          </button>
-                        </p>
-                      </>
-                    )}
+                    <motion.button
+                      type="submit"
+                      onClick={handleLogin}
+                      disabled={lLoading}
+                      whileHover={!lLoading ? { scale: 1.02, boxShadow: `0 8px 22px ${C.green}40` } : {}}
+                      whileTap={!lLoading ? { scale: 0.97 } : {}}
+                      className="w-full py-3.5 rounded-xl font-bold text-white text-[14px] flex items-center justify-center gap-2"
+                      style={{ background: lLoading ? "#9ca3af" : `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}
+                    >
+                      {lLoading ? <><SpinnerIcon />&nbsp;Signing in…</> : "Sign In →"}
+                    </motion.button>
                   </motion.form>
                 )}
 

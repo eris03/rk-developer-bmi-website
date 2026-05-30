@@ -100,6 +100,7 @@ export default function NavBar({ activePage = "", showTicker = false }) {
   const navLinks = [
     { label: "Home",         href: "/" },
     { label: "Our Projects", href: "/our-projects", menu: "projects" },
+    { label: "E-Brochure",   href: "/e-brochure" },
     { label: "About Us",     href: "/our-projects#about" },
   ];
 
@@ -131,7 +132,7 @@ export default function NavBar({ activePage = "", showTicker = false }) {
               transition={{ type: "spring", stiffness: 300 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/bmi-logo.png" alt="BMI Housing" className="w-8 h-8 object-contain object-center" />
+              <img src="/bmi-logo.png" alt="BMI Housing" className="w-full h-full object-contain scale-[1.28]" />
             </motion.div>
             <div className="leading-none">
               <div className="font-bold text-[14px]" style={{ color: C.greenDark }}>BMI Housing</div>
@@ -230,7 +231,7 @@ export default function NavBar({ activePage = "", showTicker = false }) {
 
           {/* Desktop Contact */}
           <motion.a
-            href="tel:7710556677"
+            href="/home-v1/contact"
             whileHover={{ scale: 1.04, boxShadow: `0 8px 24px ${C.green}50` }}
             whileTap={{ scale: 0.96 }}
             className="hidden lg:flex items-center gap-2 shrink-0 px-5 py-2.5 rounded-lg text-[13px] font-bold text-white"
@@ -340,7 +341,7 @@ export default function NavBar({ activePage = "", showTicker = false }) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/bmi-logo.png"
-                    alt="BMI" className="w-8 h-8 rounded-full object-contain"
+                    alt="BMI" className="w-8 h-8 rounded-full object-contain scale-[1.28]"
                   />
                   <span className="font-bold text-[14px]" style={{ color: C.greenDark }}>BMI Housing</span>
                 </div>

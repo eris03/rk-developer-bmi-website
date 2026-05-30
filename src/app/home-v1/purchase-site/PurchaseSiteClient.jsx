@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "../components/NavBar";
 import SiteFooter from "../components/SiteFooter";
@@ -51,11 +51,26 @@ function Label({ children, required }) {
   );
 }
 
-function Input({ label, required, type = "text", placeholder = "", className = "" }) {
+function Input({ label, required, optional, type = "text", placeholder = "", className = "", defaultValue, readOnly, value, onChange }) {
+  const isControlled = value !== undefined;
   return (
     <div className={className}>
-      <Label required={required}>{label}</Label>
-      <input type={type} placeholder={placeholder} style={baseInput} onFocus={focus} onBlur={blur} />
+      {label && (
+        <label className="block text-[11px] font-extrabold tracking-[0.15em] uppercase mb-1.5" style={{ color: C.text }}>
+          {label}{required && <span className="ml-1" style={{ color: C.red }}>*</span>}
+          {optional && <span className="ml-1.5 text-[10px] font-semibold normal-case tracking-normal" style={{ color: C.muted }}>(Optional)</span>}
+        </label>
+      )}
+      <input
+        type={type}
+        placeholder={placeholder}
+        readOnly={readOnly}
+        required={required && !readOnly}
+        {...(isControlled ? { value: value ?? "", onChange } : { defaultValue })}
+        style={{ ...baseInput, background: readOnly ? C.bgSection : C.bgWhite }}
+        onFocus={readOnly ? undefined : focus}
+        onBlur={readOnly ? undefined : blur}
+      />
     </div>
   );
 }
@@ -64,7 +79,7 @@ function Select({ label, required, options, className = "" }) {
   return (
     <div className={className}>
       <Label required={required}>{label}</Label>
-      <select style={{ ...baseInput, appearance: "none", cursor: "pointer" }} onFocus={focus} onBlur={blur}>
+      <select required={required} style={{ ...baseInput, appearance: "none", cursor: "pointer" }} onFocus={focus} onBlur={blur}>
         <option value="">Select…</option>
         {options.map(o => <option key={o} value={o}>{o}</option>)}
       </select>
@@ -114,7 +129,7 @@ function Card({ number, title, accent = C.green, icon, children }) {
 }
 
 /* ─── Table rows for nominee / family ─── */
-function TableRows({ columns, rows, setRows, accentColor }) {
+function TableRows({ columns, rows, setRows, accentColor, maxRows = 5 }) {
   const addRow = () => setRows(r => [...r, Object.fromEntries(columns.map(c => [c.key, ""]))]);
   const removeRow = (i) => setRows(r => r.filter((_, idx) => idx !== i));
   const update = (i, key, val) => setRows(r => r.map((row, idx) => idx === i ? { ...row, [key]: val } : row));
@@ -158,14 +173,16 @@ function TableRows({ columns, rows, setRows, accentColor }) {
           </tbody>
         </table>
       </div>
-      <button
-        type="button"
-        onClick={addRow}
-        className="mt-3 flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-bold transition-colors hover:bg-green-100"
-        style={{ color: accentColor, border: `1.5px dashed ${accentColor}60` }}
-      >
-        <span className="text-[16px] leading-none">+</span> Add Row
-      </button>
+      {rows.length < maxRows && (
+        <button
+          type="button"
+          onClick={addRow}
+          className="mt-3 flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-bold transition-colors hover:bg-green-100"
+          style={{ color: accentColor, border: `1.5px dashed ${accentColor}60` }}
+        >
+          <span className="text-[16px] leading-none">+</span> Add Row
+        </button>
+      )}
     </div>
   );
 }
@@ -176,17 +193,87 @@ export default function PurchaseSiteClient() {
   const [karnataka, setKarnataka] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading]     = useState(false);
+  const [relationship, setRelationship]           = useState("");
+  const [otherRelationship, setOtherRelationship] = useState("");
+  const [nomineeAddrSame, setNomineeAddrSame]     = useState("");
+  const [tcOpen, setTcOpen]       = useState(false);
+  const [sigMode, setSigMode]     = useState("draw");
+  const [sigDataUrl, setSigDataUrl] = useState("");
+  const [isDrawing, setIsDrawing] = useState(false);
+  const sigCanvasRef              = useRef(null);
+  const lastPosRef                = useRef(null);
 
-  const [nomineeRows, setNomineeRows] = useState([{ name: "", relationship: "", age: "", dob: "" }]);
-  const [familyRows, setFamilyRows]   = useState([{ name: "", relationship: "", age: "", occupation: "" }]);
+  const [familyRows, setFamilyRows] = useState([{ name: "", relationship: "", age: "", occupation: "" }]);
+
+  const [corrAddr, setCorrAddr] = useState({ line1: "", line2: "", city: "", district: "", state: "", pin: "", country: "India" });
+  const [permAddrP, setPermAddrP] = useState({ line1: "", line2: "", city: "", district: "", state: "", pin: "", country: "India" });
+  const [nomineeAddrValue, setNomineeAddrValue] = useState("");
+
+  const getPos = useCallback((e, canvas) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+  }, []);
+
+  const startDraw = useCallback((e) => {
+    e.preventDefault();
+    const canvas = sigCanvasRef.current; if (!canvas) return;
+    lastPosRef.current = getPos(e, canvas);
+    setIsDrawing(true);
+  }, [getPos]);
+
+  const drawLine = useCallback((e) => {
+    e.preventDefault();
+    if (!isDrawing) return;
+    const canvas = sigCanvasRef.current; if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const pos = getPos(e, canvas);
+    ctx.beginPath(); ctx.lineWidth = 2.5; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = "#1c3a1c";
+    ctx.moveTo(lastPosRef.current.x, lastPosRef.current.y);
+    ctx.lineTo(pos.x, pos.y); ctx.stroke();
+    lastPosRef.current = pos;
+  }, [isDrawing, getPos]);
+
+  const stopDraw = useCallback(() => setIsDrawing(false), []);
+
+  const clearSig = () => {
+    const canvas = sigCanvasRef.current; if (!canvas) return;
+    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+    setSigDataUrl("");
+  };
+
+  const saveSig = () => {
+    const canvas = sigCanvasRef.current; if (!canvas) return;
+    setSigDataUrl(canvas.toDataURL());
+  };
+
+  const handleUploadSig = (e) => {
+    const file = e.target.files?.[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => setSigDataUrl(ev.target.result);
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // Scroll to first invalid required field
+    const firstInvalid = e.target.querySelector(':invalid');
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstInvalid.focus();
+      return;
+    }
     const form   = e.target;
-    const name   = form.querySelector('input[placeholder="As in official records (Block Letters)"]')?.value || "";
-    const mobile = form.querySelector('input[placeholder="+91 xxxxx xxxxx"]')?.value || "";
-    const email  = form.querySelector('input[type="email"]')?.value || "";
+    const name   = form.querySelector('input[placeholder="CAPITAL LETTERS AS PER AADHAAR CARD"]')?.value?.trim() || "";
+    const mobile = form.querySelector('input[placeholder="+91 xxxxx xxxxx"]')?.value?.trim() || "";
+    const email  = form.querySelector('input[type="email"]')?.value?.trim() || "";
+    const dob    = form.querySelector('input[type="date"]')?.value || "";
+
+
+    setLoading(true);
     try {
       await fetch("/api/submit-application", {
         method: "POST",
@@ -196,10 +283,18 @@ export default function PurchaseSiteClient() {
           applicantName: name,
           mobile,
           email,
-          fields: { "Name": name, "Mobile": mobile, "Email": email, "SC/ST": scSt || "No", "Karnataka": karnataka || "Not specified" },
+          fields: {
+            "Name": name,
+            "Mobile": mobile,
+            "Email": email || "Not provided",
+            "Date of Birth": dob,
+            "SC/ST": scSt || "No",
+            "Residency / Karnataka": karnataka || "Not specified",
+            "Nominee Relationship": relationship === "Other" ? otherRelationship : relationship,
+          },
         }),
       });
-    } catch (_) { /* show popup regardless */ }
+    } catch (_) { /* show success popup regardless — email may be pending SMTP config */ }
     setLoading(false);
     setSubmitted(true);
   };
@@ -259,16 +354,6 @@ export default function PurchaseSiteClient() {
             Infrastructure Housing Co-Operative Society Ltd.
           </motion.p>
 
-          {/* Quick info chips */}
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-            className="flex flex-wrap items-center justify-center gap-2">
-            {["₹100 Form Fee", "DTCP & BMRDA Approved", "4-EMI Plan", "Govt. Registered"].map(tag => (
-              <span key={tag} className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white"
-                style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}>
-                {tag}
-              </span>
-            ))}
-          </motion.div>
         </div>
       </section>
 
@@ -278,19 +363,38 @@ export default function PurchaseSiteClient() {
         className="max-w-4xl mx-auto mt-10 mb-2 px-6 lg:px-0">
         <div className="rounded-2xl px-7 py-5 flex flex-col gap-1"
           style={{ background: C.greenLight, border: `1px solid ${C.border}` }}>
+          <div className="flex items-center gap-3 mb-3 pb-3 px-3 py-2 rounded-xl" style={{ background: "#fef9c3", border: "1.5px solid #fbbf24" }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth={2} className="w-4 h-4 shrink-0">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <p className="text-[12px] font-semibold" style={{ color: "#92400e" }}>
+              Application Form Charges: <strong>₹ 100/-</strong> (Non-refundable)
+            </p>
+          </div>
           <p className="text-[13px] font-bold" style={{ color: C.greenDark }}>To,</p>
           <p className="text-[13px] font-bold" style={{ color: C.greenDark }}>The President,</p>
           <p className="text-[14px] font-extrabold tracking-wide" style={{ color: C.greenDark }}>
             Bengaluru Metro City Infrastructure Housing Co-Operative Society Ltd.
           </p>
-          <p className="text-[12px] mt-1" style={{ color: C.muted }}>
-            1st Cross, 15th Main E Block, Beside Nandana Palace, Sahakarnagar, Bengaluru – 560 092
-          </p>
           <p className="text-[13px] mt-3 leading-relaxed" style={{ color: C.body }}>
-            <strong>Dear Sir/Madam,</strong><br />
-            I wish to apply for a site/plot in the layout being formed by The Bengaluru Metro City
-            Infrastructure Housing Co-Operative Society Ltd. I hereby furnish the following particulars
-            for your consideration.
+            <strong>Dear Sir/Madam,</strong>
+          </p>
+          <p className="text-[13px] mt-2 leading-relaxed flex flex-wrap items-baseline gap-1" style={{ color: C.body }}>
+            I wish to purchase a site Measuring
+            <input
+              type="text"
+              placeholder="e.g. 30×40 ft / 1200 sqft"
+              className="border-b-2 bg-transparent focus:outline-none text-[13px] min-w-[160px] px-1"
+              style={{ borderColor: C.green, color: C.text }}
+            />
+            in
+            <input
+              type="text"
+              placeholder="Layout name"
+              className="border-b-2 bg-transparent focus:outline-none text-[13px] min-w-[180px] px-1"
+              style={{ borderColor: C.green, color: C.text }}
+            />
+            layout being formed by The <strong style={{ color: C.greenDark }}>BENGALURU METRO CITY INFRASTRUCTURE HOUSING CO-OPERATIVE SOCIETY LTD.</strong>
           </p>
         </div>
       </motion.div>
@@ -356,10 +460,10 @@ export default function PurchaseSiteClient() {
                       info@bmihousing.com
                     </a>
                     <button
-                      onClick={() => setSubmitted(false)}
+                      onClick={() => { window.location.href = "/"; }}
                       className="py-3 rounded-xl text-[13px] font-medium"
                       style={{ background: "#f3f4f6", color: C.muted }}>
-                      Close
+                      Go to Home
                     </button>
                   </div>
                 </div>
@@ -373,45 +477,22 @@ export default function PurchaseSiteClient() {
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>}>
 
           <div className="grid md:grid-cols-2 gap-5">
-            <Input label="Full Name of Applicant" required placeholder="As in official records (Block Letters)" className="md:col-span-2" />
+            <Input label="Full Name of Applicant" required placeholder="CAPITAL LETTERS AS PER AADHAAR CARD" className="md:col-span-2" />
             <Input label="Father's / Husband's Name" required placeholder="Full name" />
             <Input label="Date of Birth" required type="date" />
             <Input label="Age" required placeholder="Years" />
             <Input label="Place of Birth" placeholder="City, State" />
           </div>
 
-          {/* Photo Upload Box */}
-          <div className="mt-6 flex flex-col sm:flex-row items-start gap-5">
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-28 h-32 rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-green-50 transition-colors"
-                style={{ border: `2px dashed ${C.border}`, background: C.bgSection }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth={1.5} className="w-8 h-8">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
-                </svg>
-                <span className="text-[10px] text-center font-semibold" style={{ color: C.muted }}>Applicant<br/>Photo</span>
-              </div>
-              <span className="text-[10px]" style={{ color: C.muted }}>PP / SS Size (4 copies)</span>
-            </div>
-            <div className="flex-1 grid md:grid-cols-2 gap-4">
+          {/* Applicant fields */}
+          <div className="mt-6 grid md:grid-cols-2 gap-4">
               <div>
-                <Label>Gender</Label>
+                <Label required>Gender</Label>
                 <div className="flex gap-3 mt-1">
                   {["Male", "Female", "Other"].map(g => (
                     <label key={g} className="flex items-center gap-1.5 cursor-pointer text-[13px]" style={{ color: C.body }}>
-                      <input type="radio" name="gender" value={g} className="accent-green-600" />
+                      <input type="radio" name="gender" value={g} required className="accent-green-600" />
                       {g}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <Label>Marital Status</Label>
-                <div className="flex gap-3 mt-1">
-                  {["Single", "Married", "Widowed"].map(s => (
-                    <label key={s} className="flex items-center gap-1.5 cursor-pointer text-[13px]" style={{ color: C.body }}>
-                      <input type="radio" name="marital" value={s} className="accent-green-600" />
-                      {s}
                     </label>
                   ))}
                 </div>
@@ -419,7 +500,6 @@ export default function PurchaseSiteClient() {
               <Input label="Phone (Residential)" placeholder="Landline number" />
               <Input label="Mobile Number" required placeholder="+91 xxxxx xxxxx" />
               <Input label="E-Mail Address" required type="email" placeholder="your@email.com" className="md:col-span-2" />
-            </div>
           </div>
 
           {/* SC/ST */}
@@ -445,26 +525,38 @@ export default function PurchaseSiteClient() {
           </div>
         </Card>
 
-        {/* CARD 2 — Address for Correspondence */}
         <Card number="2" title="Address for Correspondence" accent={C.blue}
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>}>
-          <div className="grid md:grid-cols-2 gap-5">
-            <Textarea label="Address Line 1" required placeholder="Door No., Street, Area" rows={2} className="md:col-span-2" />
-            <Input label="City" required placeholder="City / Town" />
-            <Input label="District" placeholder="District" />
-            <Input label="State" required placeholder="State" />
-            <Input label="PIN Code" required placeholder="560 001" />
+          <div className="grid gap-5">
+            <Input label="Address Line 1" required placeholder="House / Flat / Building name, Street" value={corrAddr.line1} onChange={e => setCorrAddr(p => ({...p, line1: e.target.value}))} />
+            <Input label="Address Line 2" placeholder="Area / Locality / Landmark" value={corrAddr.line2} onChange={e => setCorrAddr(p => ({...p, line2: e.target.value}))} />
+            <div className="grid md:grid-cols-3 gap-5">
+              <Input label="City" required placeholder="City" value={corrAddr.city} onChange={e => setCorrAddr(p => ({...p, city: e.target.value}))} />
+              <Input label="District" placeholder="District" value={corrAddr.district} onChange={e => setCorrAddr(p => ({...p, district: e.target.value}))} />
+              <Input label="State" required placeholder="State" value={corrAddr.state} onChange={e => setCorrAddr(p => ({...p, state: e.target.value}))} />
+            </div>
+            <div className="grid md:grid-cols-2 gap-5">
+              <Input label="PIN Code" placeholder="560 001" value={corrAddr.pin} onChange={e => setCorrAddr(p => ({...p, pin: e.target.value}))} />
+              <Input label="Country" placeholder="India" value={corrAddr.country} onChange={e => setCorrAddr(p => ({...p, country: e.target.value}))} readOnly />
+            </div>
           </div>
         </Card>
 
-        {/* CARD 3 — Employment Particulars */}
+        {/* CARD 3 — Employment Particulars (Optional) */}
         <Card number="3" title="Employment Particulars" accent={C.yellow}
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>}>
+          <div className="mb-4 px-4 py-2 rounded-xl text-[12px] font-semibold inline-flex items-center gap-2"
+            style={{ background: "#fef9c3", color: "#92400e", border: "1px solid #fde68a" }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            This section is optional — fill only if applicable
+          </div>
           <div className="grid md:grid-cols-2 gap-5">
-            <Input label="Employer / Organization Name" placeholder="Name of employer" className="md:col-span-2" />
+            <Input label="Employer / Organization Name" optional placeholder="Name of employer" className="md:col-span-2" />
             <Textarea label="Place of Employment & Full Address" placeholder="Full address of workplace" rows={3} className="md:col-span-2" />
-            <Input label="Designation / Occupation" placeholder="Your designation or trade" />
-            <Input label="Monthly Income (Approx.)" placeholder="₹ Amount" />
+            <Input label="Designation / Occupation" optional placeholder="Your designation or trade" />
+            <Input label="Monthly Income (Approx.)" optional placeholder="₹ Amount" />
           </div>
 
           {/* Karnataka Residency */}
@@ -486,36 +578,90 @@ export default function PurchaseSiteClient() {
         {/* CARD 4 — Nominee Particulars */}
         <Card number="4" title="Nominee Particulars" accent="#9333ea"
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>}>
-          <p className="text-[13px] mb-5" style={{ color: C.muted }}>
-            Please provide details of your nominee(s) for this site application.
-          </p>
-          <TableRows
-            columns={[
-              { key: "name",         label: "Full Name",     placeholder: "Nominee name" },
-              { key: "relationship", label: "Relationship",  placeholder: "e.g. Spouse, Son" },
-              { key: "age",          label: "Age",           placeholder: "Age", type: "number" },
-              { key: "dob",          label: "Date of Birth", type: "date" },
-            ]}
-            rows={nomineeRows}
-            setRows={setNomineeRows}
-            accentColor="#9333ea"
-          />
-          {/* Nominee photo box */}
-          <div className="mt-5 flex items-center gap-4">
-            <div className="w-24 h-28 rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer"
-              style={{ border: "2px dashed #d8b4fe", background: "#faf5ff" }}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9333ea" strokeWidth={1.5} className="w-7 h-7">
-                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <span className="text-[10px] text-center font-semibold" style={{ color: "#9333ea" }}>Nominee<br/>Photo</span>
+
+          <div className="grid md:grid-cols-2 gap-5 mb-5">
+            <Input label="Nominee Name" required placeholder="Full name" />
+            <div className="grid grid-cols-2 gap-3">
+              <Input label="Age" type="number" placeholder="e.g. 40" />
+              <Input label="Date of Birth" type="date" />
             </div>
-            <p className="text-[12px]" style={{ color: C.muted }}>Affix Nominee's PP/SS size photograph here</p>
+
+            {/* Relationship with Other text input */}
+            <div className="flex flex-col gap-1">
+              <label className="block text-[11px] font-extrabold tracking-[0.15em] uppercase mb-1.5" style={{ color: C.text }}>
+                Relationship with Applicant<span className="ml-1" style={{ color: C.red }}>*</span>
+              </label>
+              <select
+                value={relationship} onChange={(e) => setRelationship(e.target.value)}
+                style={{ ...baseInput, appearance: "none", cursor: "pointer" }} onFocus={focus} onBlur={blur}>
+                <option value="">Select relationship</option>
+                <option>Spouse</option><option>Son</option><option>Daughter</option>
+                <option>Father</option><option>Mother</option><option>Brother</option><option>Sister</option>
+                <option value="Other">Other</option>
+              </select>
+              <AnimatePresence>
+                {relationship === "Other" && (
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }} className="overflow-hidden mt-2">
+                    <input type="text" value={otherRelationship} onChange={(e) => setOtherRelationship(e.target.value)}
+                      placeholder="Please specify relationship…"
+                      style={{ ...baseInput, border: `1.5px solid ${C.green}`, boxShadow: `0 0 0 3px ${C.greenLight}` }} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <Input label="Nominee Phone / Mobile" type="tel" placeholder="+91 XXXXX XXXXX" />
+          </div>
+
+          {/* Nominee Address with quick-fill buttons */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center flex-wrap gap-2 mb-1">
+              <label className="block text-[11px] font-extrabold tracking-[0.15em] uppercase" style={{ color: C.text }}>Nominee Address</label>
+              <div className="flex gap-2 ml-auto flex-wrap">
+                <motion.button type="button" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                  onClick={() => {
+                    setNomineeAddrSame("correspondence");
+                    const parts = [corrAddr.line1, corrAddr.line2, corrAddr.city, corrAddr.district, corrAddr.state, corrAddr.pin, corrAddr.country].filter(Boolean);
+                    setNomineeAddrValue(parts.join(", "));
+                  }}
+                  className="text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all"
+                  style={{
+                    background: nomineeAddrSame === "correspondence" ? "#dbeafe" : C.bgSection,
+                    border: `1.5px solid ${nomineeAddrSame === "correspondence" ? C.blue : C.borderGray}`,
+                    color: nomineeAddrSame === "correspondence" ? C.blue : C.muted,
+                  }}>
+                  ✓ Same as Correspondence Address
+                </motion.button>
+              </div>
+            </div>
+            <textarea rows={3}
+              placeholder={
+                nomineeAddrSame === "permanent" ? "Same as Permanent Address (filled automatically)"
+                : nomineeAddrSame === "correspondence" ? "Same as Correspondence Address (filled automatically)"
+                : "Full address of nominee"
+              }
+              readOnly={nomineeAddrSame !== ""}
+              value={nomineeAddrSame === "correspondence" ? nomineeAddrValue : undefined}
+              style={{ ...baseInput, resize: "vertical",
+                background: nomineeAddrSame !== "" ? C.bgSection : C.bgWhite,
+                border: `1.5px solid ${nomineeAddrSame !== "" ? C.green : C.borderGray}`,
+                color: nomineeAddrSame !== "" ? C.muted : C.text,
+              }}
+              onFocus={nomineeAddrSame === "" ? focus : undefined}
+              onBlur={nomineeAddrSame === "" ? blur : undefined}
+            />
+            {nomineeAddrSame !== "" && (
+              <button type="button" onClick={() => { setNomineeAddrSame(""); setNomineeAddrValue(""); }}
+                className="text-[11px] self-start font-semibold underline" style={{ color: C.muted }}>
+                Clear & enter manually
+              </button>
+            )}
           </div>
         </Card>
 
         {/* CARD 5 — Family Members */}
-        <Card number="5" title="Family Members Residing with Applicant" accent={C.red}
+        <Card number="5" title="Details / Particulars of family members staying with you" accent={C.red}
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}>
           <p className="text-[13px] mb-5" style={{ color: C.muted }}>
             Details / Particulars of family members staying with you.
@@ -533,90 +679,136 @@ export default function PurchaseSiteClient() {
           />
         </Card>
 
-        {/* CARD 6 — Plot Preference */}
-        <Card number="6" title="Plot / Site Preference" accent={C.greenMid}
-          icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>}>
-          <div className="grid md:grid-cols-3 gap-5">
-            <Select label="Preferred Project" required options={["BMI Garden City", "BMI North Metro City"]} />
-            <Select label="Plot Size Preference" options={["30×40 (1200 sqft)", "30×50 (1500 sqft)", "40×60 (2400 sqft)", "50×80 (4000 sqft)"]} />
-            <Select label="Payment Plan" options={["Full Payment", "4-EMI Plan"]} />
-            <Textarea label="Any Special Requirements / Remarks" placeholder="Additional requirements…" rows={3} className="md:col-span-3" />
-          </div>
-        </Card>
 
-        {/* ── Terms & Conditions ── */}
+        {/* ── Signature ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="rounded-2xl overflow-hidden"
-          style={{ boxShadow: C.shadowMd, border: `1px solid ${C.borderGray}` }}>
-          <div className="px-7 py-4 flex items-center gap-2"
-            style={{ background: `linear-gradient(135deg, ${C.greenDark}, #0d2818)` }}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="#86efac" strokeWidth={2} className="w-5 h-5 shrink-0">
-              <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622C17.176 19.29 21 14.591 21 9c0-1.042-.133-2.052-.382-3.016z"/>
-            </svg>
-            <h3 className="font-bold text-white text-[15px]">Terms &amp; Conditions</h3>
-          </div>
-          <div className="px-7 py-5" style={{ background: "#f9fafb" }}>
-            <ol className="flex flex-col gap-3">
-              {[
-                "The applicant must be a citizen of India and above 18 years of age.",
-                "The application form must be accompanied by the prescribed fee of ₹100.",
-                "All information provided in this form must be true and correct. Any false information will result in disqualification.",
-                "The Society reserves the right to accept or reject any application without assigning reasons.",
-                "Allotment of sites is subject to availability and at the sole discretion of the Board of Directors.",
-                "The applicant agrees to abide by the bye-laws and rules of Bengaluru Metro City Infrastructure Housing Co-Operative Society Ltd.",
-                "SC/ST category applicants must enclose the certificate issued by the competent authority.",
-              ].map((t, i) => (
-                <li key={i} className="flex gap-3 text-[13px] leading-relaxed" style={{ color: C.body }}>
-                  <span className="w-6 h-6 rounded-full text-[11px] font-bold text-white flex items-center justify-center shrink-0 mt-0.5"
-                    style={{ background: C.green }}>{i + 1}</span>
-                  {t}
-                </li>
+          style={{ background: C.bgWhite, border: `1px solid ${C.borderGray}`, boxShadow: C.shadowMd }}>
+          <div className="px-6 py-4 flex items-center justify-between flex-wrap gap-3"
+            style={{ background: `linear-gradient(135deg, ${C.green}12, ${C.green}06)`, borderBottom: `1px solid ${C.green}25` }}>
+            <div className="flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth={2} className="w-4 h-4">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+              <span className="font-bold text-[14px]" style={{ color: C.text }}>Applicant&apos;s Signature</span>
+            </div>
+            <div className="flex rounded-lg overflow-hidden" style={{ border: `1.5px solid ${C.borderGray}` }}>
+              {["draw","upload"].map(mode => (
+                <button key={mode} type="button" onClick={() => { setSigMode(mode); setSigDataUrl(""); }}
+                  className="px-3 py-1.5 text-[11px] font-bold transition-all"
+                  style={{ background: sigMode === mode ? C.green : C.bgWhite, color: sigMode === mode ? "#fff" : C.muted }}>
+                  {mode === "draw" ? "✏️ Draw" : "📎 Upload"}
+                </button>
               ))}
-            </ol>
-          </div>
-        </motion.div>
-
-        {/* ── Declaration ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="rounded-2xl p-7"
-          style={{ background: C.bgWhite, border: `1px solid ${C.border}`, boxShadow: C.shadowMd }}>
-          <h3 className="font-bold text-[15px] mb-4" style={{ color: C.text }}>Declaration by Applicant</h3>
-          <p className="text-[13px] leading-relaxed mb-6" style={{ color: C.body }}>
-            I hereby declare that the information furnished above is true, complete and correct to the
-            best of my knowledge and belief. I agree to abide by the rules, bye-laws and regulations of
-            Bengaluru Metro City Infrastructure Housing Co-Operative Society Ltd. and any decision taken
-            by the Board of Directors shall be binding on me.
-          </p>
-
-          {/* Checkboxes */}
-          <div className="flex flex-col gap-3 mb-8">
-            {[
-              "I have read and agree to all the Terms & Conditions stated above.",
-              "I confirm that all the details provided are accurate and truthful.",
-              "I understand that the ₹100 application form fee is non-refundable.",
-            ].map((text, i) => (
-              <label key={i} className="flex items-start gap-3 cursor-pointer group">
-                <input type="checkbox" required className="mt-0.5 w-4 h-4 rounded accent-green-600" />
-                <span className="text-[13px] leading-relaxed" style={{ color: C.body }}>{text}</span>
-              </label>
-            ))}
-          </div>
-
-          {/* Signature row */}
-          <div className="grid md:grid-cols-3 gap-5">
-            <Input label="Place" required placeholder="Bengaluru" />
-            <Input label="Date" required type="date" />
-            <div>
-              <Label>Signature</Label>
-              <div className="h-[46px] rounded-xl flex items-center justify-center text-[12px] font-semibold"
-                style={{ border: `1.5px dashed ${C.border}`, background: C.bgSection, color: C.muted }}>
-                Applicant&apos;s Signature
-              </div>
             </div>
           </div>
+          <div className="p-5">
+            {sigMode === "draw" ? (
+              <div className="flex flex-col gap-3">
+                <div className="rounded-xl overflow-hidden relative"
+                  style={{ border: `1.5px dashed ${C.green}60`, background: "#fafafa" }}>
+                  <canvas ref={sigCanvasRef} width={700} height={150}
+                    style={{ display: "block", width: "100%", height: "150px", cursor: "crosshair", touchAction: "none" }}
+                    onMouseDown={startDraw} onMouseMove={drawLine} onMouseUp={stopDraw} onMouseLeave={stopDraw}
+                    onTouchStart={startDraw} onTouchMove={drawLine} onTouchEnd={stopDraw} />
+                  {!isDrawing && !sigDataUrl && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <p className="text-[12px]" style={{ color: `${C.muted}80` }}>Draw your signature here…</p>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-3">
+                  <motion.button type="button" whileTap={{ scale: 0.95 }} onClick={clearSig}
+                    className="px-4 py-2 rounded-lg text-[12px] font-bold hover:bg-red-50"
+                    style={{ border: `1.5px solid #fca5a5`, color: C.red }}>🗑 Clear</motion.button>
+                  <motion.button type="button" whileTap={{ scale: 0.95 }} onClick={saveSig}
+                    className="px-4 py-2 rounded-lg text-[12px] font-bold"
+                    style={{ background: C.greenLight, border: `1.5px solid ${C.green}`, color: C.greenDark }}>✓ Save</motion.button>
+                  {sigDataUrl && <span className="flex items-center gap-1 text-[12px] font-semibold" style={{ color: C.green }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5"><polyline points="20 6 9 17 4 12"/></svg>Saved
+                  </span>}
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                <label className="flex flex-col items-center justify-center gap-2 rounded-xl p-6 cursor-pointer hover:bg-green-50 transition-colors"
+                  style={{ border: `2px dashed ${C.green}50`, background: C.bgSection }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth={1.5} className="w-7 h-7">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  <span className="text-[12px] font-semibold" style={{ color: C.green }}>Click to upload signature image</span>
+                  <span className="text-[11px]" style={{ color: C.muted }}>PNG, JPG — max 2 MB</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={handleUploadSig} />
+                </label>
+                {sigDataUrl && <div className="rounded-xl overflow-hidden" style={{ border: `1.5px solid ${C.green}40` }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={sigDataUrl} alt="Uploaded signature" className="max-h-28 mx-auto object-contain p-2" />
+                </div>}
+              </div>
+            )}
+          </div>
         </motion.div>
+
+        {/* ── T&C Modal ── */}
+        <AnimatePresence>
+          {tcOpen && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[999] flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(6px)" }}
+              onClick={() => setTcOpen(false)}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: "spring", stiffness: 280, damping: 26 }}
+                onClick={e => e.stopPropagation()}
+                className="relative w-full max-w-2xl max-h-[82vh] overflow-y-auto rounded-2xl"
+                style={{ background: "#fff", boxShadow: "0 32px 80px rgba(0,0,0,0.45)" }}>
+                <div className="sticky top-0 flex items-center justify-between px-6 py-4 rounded-t-2xl z-10"
+                  style={{ background: `linear-gradient(135deg, ${C.greenDark}, #0d2818)` }}>
+                  <h3 className="font-extrabold text-[16px] text-white tracking-wide">Terms &amp; Conditions</h3>
+                  <button type="button" onClick={() => setTcOpen(false)}
+                    className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-white/20"
+                    style={{ background: "rgba(255,255,255,0.12)" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5}>
+                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                </div>
+                <div className="px-6 py-6" style={{ userSelect: "none" }} onContextMenu={e => e.preventDefault()}>
+                  <p className="text-[11px] font-extrabold tracking-[0.2em] uppercase mb-4" style={{ color: C.muted }}>
+                    Application for Purchase of Site
+                  </p>
+                  <ol className="flex flex-col gap-1.5" style={{ listStyleType: "none", padding: 0 }}>
+                    {[
+                      "I agree to abide by the conditions of allotment and sale of site as prescribed by the BENGALURU METRO CITY INFRASTRUCTURE HOUSING CO-OPERATIVE SOCIETY LTD.",
+                      "I hereby declare that all the above information furnished by me are true to the best of my knowledge and I shall furnish any other information that may be required with regard to allotment of site.",
+                      "If such other information required are not furnished by me within time, it will be at the discretion of the BENGALURU METRO CITY INFRASTRUCTURE HOUSING CO-OPERATIVE SOCIETY LTD. to reject my application for consideration for allotment of Site.",
+                      "Withdrawals or transfers of membership/bookings are possible only after the completion of the project period. Any withdrawal before completion of the project will be liable for penalty.",
+                      "In case it is found that the information and declaration furnished by me to be false at any time, the Society shall have the right to cancel the allotment made to me and I fully understand that ever at a future date, I cannot have any claim.",
+                      "My application for allotment of Site in the Society is subject to approval of Membership/Associate Membership by the society and clearance of land, by MUDA/BDA/BMRDA/BIAAPA or any other competent zonal development authority and subject to availability of Site.",
+                      "Membership of the Society shall not confirm entitlement for allotment of Site. Seniority for allotment of Site shall be based on the Payment or Initial deposit as well as subsequent instalment.",
+                      "I fully agree upon the above conditions and it is binding on me.",
+                    ].map((t, i) => (
+                      <li key={i} className="text-[11px] leading-[1.55]" style={{ color: C.body }}>
+                        {i + 1}. {t}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── T&C link + Submit ── */}
+        <div className="flex justify-end mb-1">
+          <button type="button" onClick={() => setTcOpen(true)}
+            className="text-[11px] font-semibold hover:underline transition-colors"
+            style={{ color: C.muted }}>
+            <span style={{ color: C.red }}>*</span> Terms &amp; Conditions
+          </button>
+        </div>
 
         {/* ── Submit ── */}
         <motion.div className="flex flex-col sm:flex-row gap-4">

@@ -84,7 +84,7 @@ export default function Contact() {
               <ContactRow
                 icon={<MapPinIcon />}
                 label="Head Office"
-                value="#28/1, 2nd Floor, 1st Cross, 15th Main E-Block, Sahakar Nagar, Bengaluru – 560092"
+                value="1st Cross, 15th Main E Block, Beside Nandana Palace, Sahakarnagar, Bengaluru-560092"
               />
               <ContactRow
                 icon={<PhoneIcon />}

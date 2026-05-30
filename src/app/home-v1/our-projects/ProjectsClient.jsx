@@ -90,7 +90,7 @@ function OrbitalLogo() {
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/bmi-logo.png" alt="BMI Official Seal" className="w-full h-full object-contain p-3" />
+        <img src="/bmi-logo.png" alt="BMI Official Seal" className="w-full h-full object-contain scale-[1.28]" />
       </motion.div>
     </div>
   );
@@ -185,58 +185,38 @@ const UNIFIED_ITEMS = [
   },
 ];
 
-/* ─── BETTER IMAGE CARD ─── */
-function BetterImageCard({ item, index, onClick }) {
+/* ─── BETTER TEXT CARD ─── */
+function BetterTextCard({ item, index, onClick }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28, scale: 0.96 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.07, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -6, scale: 1.02, boxShadow: "0 20px 50px rgba(0,0,0,0.22)" }}
+      whileHover={{ y: -8, scale: 1.03, boxShadow: "0 24px 60px rgba(22,163,74,0.18), 0 8px 20px rgba(0,0,0,0.1)" }}
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className="relative rounded-2xl overflow-hidden cursor-pointer group"
-      style={{ height: "280px", boxShadow: "0 6px 24px rgba(0,0,0,0.12)" }}
+      className="relative rounded-2xl overflow-hidden cursor-pointer p-6 flex flex-col gap-3"
+      style={{
+        background: "#ffffff",
+        border: "1px solid #d1fae5",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
+        transformStyle: "preserve-3d",
+        minHeight: "120px",
+      }}
     >
-      {/* Image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={item.src}
-        alt={item.name}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-      />
-      {/* Gradient */}
-      <div className="absolute inset-0"
-        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.08) 45%, rgba(0,0,0,0.58) 100%)" }} />
-      {/* Green hover tint */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: "linear-gradient(135deg, rgba(22,163,74,0.28) 0%, transparent 65%)" }} />
-      {/* Green glow border on hover */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ boxShadow: "inset 0 0 0 2px rgba(34,197,94,0.6)" }} />
+      {/* Top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
+        style={{ background: "linear-gradient(90deg, #16a34a, #22c55e)" }} />
 
-      {/* Top content */}
-      <div className="absolute top-0 left-0 right-0 p-4">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-2"
-          style={{ background: "rgba(34,197,94,0.22)", border: "1px solid rgba(34,197,94,0.45)" }}>
-          <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-          <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-green-300">BMI Housing</span>
-        </div>
-        <h3 className="font-extrabold text-[16px] text-white leading-tight drop-shadow-md">{item.name}</h3>
-        <p className="text-[11px] mt-0.5 font-semibold" style={{ color: "rgba(134,239,172,0.9)" }}>{item.tagline}</p>
-      </div>
+      {/* Name */}
+      <h3 className="font-extrabold text-[18px] leading-tight" style={{ color: "#14532d" }}>{item.name}</h3>
 
-      {/* Bottom hover hint */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center justify-between opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-        <span className="text-[11px] font-medium text-white/60">Tap to view details</span>
-        <div className="w-7 h-7 rounded-full flex items-center justify-center"
-          style={{ background: "rgba(34,197,94,0.35)", border: "1px solid rgba(34,197,94,0.55)" }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#86efac" strokeWidth={2.5} className="w-3.5 h-3.5">
-            <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
-          </svg>
-        </div>
-      </div>
+      {/* Tagline */}
+      <span className="text-[11px] font-bold tracking-[0.2em] uppercase px-2.5 py-1 rounded-full w-fit"
+        style={{ background: "#dcfce7", color: "#16a34a" }}>
+        {item.tagline}
+      </span>
     </motion.div>
   );
 }
@@ -460,17 +440,16 @@ export default function ProjectsClient() {
             <motion.h2
               initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.08 }}
-              className="font-extrabold text-2xl md:text-3xl leading-snug mb-2"
-              style={{ color: "#86efac" }}>
-              ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್<br />
-              ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ ಲಿ.
+              className="font-extrabold text-4xl md:text-5xl leading-snug mb-2 text-center"
+              style={{ color: "#86efac", textWrap: "balance" }}>
+              ಬೆಂಗಳೂರು ಮೆಟ್ರೋ ಸಿಟಿ ಇನ್‌ಫ್ರಾಸ್ಟ್ರಕ್ಚರ್ ಹೌಸಿಂಗ್ ಕೋ-ಆಪರೇಟಿವ್ ಸೊಸೈಟಿ ಲಿ.
             </motion.h2>
 
             <motion.h3
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.14 }}
-              className="font-extrabold text-xl md:text-2xl lg:text-[1.8rem] leading-[1.15] mb-4"
-              style={{ color: "#ffffff" }}>
+              className="font-extrabold text-xl md:text-2xl lg:text-[1.8rem] leading-[1.2] mb-4 text-center"
+              style={{ color: "#ffffff", textWrap: "balance" }}>
               Bengaluru Metro City{" "}
               <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Infrastructure
@@ -538,7 +517,7 @@ export default function ProjectsClient() {
           {/* Masonry image grid */}
           <MasonryGrid columns={3} gap={5} className="hidden lg:block">
             {UNIFIED_ITEMS.map((item, i) => (
-              <BetterImageCard
+              <BetterTextCard
                 key={item.name}
                 item={item}
                 index={i}
@@ -549,7 +528,7 @@ export default function ProjectsClient() {
           {/* 2-col for md, 1-col for sm */}
           <MasonryGrid columns={2} gap={4} className="hidden sm:block lg:hidden">
             {UNIFIED_ITEMS.map((item, i) => (
-              <BetterImageCard
+              <BetterTextCard
                 key={item.name}
                 item={item}
                 index={i}
@@ -559,7 +538,7 @@ export default function ProjectsClient() {
           </MasonryGrid>
           <MasonryGrid columns={1} gap={4} className="sm:hidden">
             {UNIFIED_ITEMS.map((item, i) => (
-              <BetterImageCard
+              <BetterTextCard
                 key={item.name}
                 item={item}
                 index={i}
@@ -592,6 +571,177 @@ export default function ProjectsClient() {
               View All 9 Advantages
             </motion.button>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════
+          SECTION — OUR TEAM
+      ════════════════════════════════════ */}
+      <section id="team" className="px-6 lg:px-10 py-24" style={{ background: "#f8fef8" }}>
+        <div className="max-w-7xl mx-auto">
+          {/* Heading */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-8 h-px" style={{ background: "#22c55e" }} />
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: "#22c55e" }}>Our Team</span>
+              <span className="w-8 h-px" style={{ background: "#22c55e" }} />
+            </div>
+            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight" style={{ color: "#0a1628" }}>
+              Meet Our <span style={{ background: "linear-gradient(90deg, #16a34a, #22c55e)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Leadership</span>
+            </h2>
+          </motion.div>
+
+          {/* President - highlighted */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-center mb-12">
+            <motion.div
+              whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(34,197,94,0.35)" }}
+              className="relative rounded-2xl overflow-hidden"
+              style={{ background: "#fff", border: "1.5px solid rgba(34,197,94,0.4)", boxShadow: "0 4px 16px rgba(0,0,0,0.07), 0 0 0 1px rgba(34,197,94,0.15)", maxWidth: "260px", width: "100%" }}>
+              <div className="h-1.5" style={{ background: "linear-gradient(90deg, #22c55e, #86efac)" }} />
+              <div className="px-6 py-5">
+                <div className="font-bold text-[15px] leading-tight" style={{ color: "#1c3a1c" }}>Madhuri . R</div>
+                <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: "#16a34a" }}>President</div>
+              </div>
+              <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
+                style={{ color: "rgba(34,197,94,0.1)" }}>00</div>
+            </motion.div>
+          </motion.div>
+
+          {/* Board of Directors */}
+          <div className="mb-14">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-3 mb-2">
+                <span className="w-12 h-px" style={{ background: "linear-gradient(90deg, transparent, #16a34a)" }} />
+                <span className="text-[10px] tracking-[0.4em] font-extrabold uppercase" style={{ color: "#16a34a" }}>Leadership</span>
+                <span className="w-12 h-px" style={{ background: "linear-gradient(90deg, #16a34a, transparent)" }} />
+              </div>
+              <h3 className="font-extrabold text-2xl" style={{ color: "#14532d" }}>Board of Directors</h3>
+            </div>
+
+            {/* Row 1 — 4 cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-5">
+              {["Gowthami S", "Ramachandrappa A", "K. R. Devendran", "Narayan Swami .N"].map((name, i) => {
+                const accents = ["#16a34a", "#15803d", "#22c55e", "#14532d"];
+                return (
+                  <motion.div key={name}
+                    initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}
+                    whileHover={{ y: -6, boxShadow: `0 20px 40px ${accents[i]}30` }}
+                    className="relative rounded-2xl overflow-hidden"
+                    style={{ background: "#fff", border: `1.5px solid ${accents[i]}30`,
+                      boxShadow: `0 4px 16px rgba(0,0,0,0.07), 0 0 0 1px ${accents[i]}15` }}>
+                    <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${accents[i]}, ${accents[i]}88)` }} />
+                    <div className="px-5 py-5">
+                      <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
+                      <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>Board of Director</div>
+                    </div>
+                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
+                      style={{ color: `${accents[i]}10` }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Row 2 — 3 cards centered */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
+              {["Mahalingappa", "Vinaya .C", "Divya"].map((name, i) => {
+                const accents = ["#15803d", "#16a34a", "#22c55e"];
+                return (
+                  <motion.div key={name}
+                    initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ delay: 0.32 + i * 0.08, duration: 0.5 }}
+                    whileHover={{ y: -6, boxShadow: `0 20px 40px ${accents[i]}30` }}
+                    className="relative rounded-2xl overflow-hidden"
+                    style={{ background: "#fff", border: `1.5px solid ${accents[i]}30`,
+                      boxShadow: `0 4px 16px rgba(0,0,0,0.07), 0 0 0 1px ${accents[i]}15` }}>
+                    <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${accents[i]}, ${accents[i]}88)` }} />
+                    <div className="px-5 py-5">
+                      <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
+                      <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>Board of Director</div>
+                    </div>
+                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
+                      style={{ color: `${accents[i]}10` }}>
+                      {String(i + 5).padStart(2, "0")}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Project Director & Managers */}
+          <div>
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-3 mb-2">
+                <span className="w-12 h-px" style={{ background: "linear-gradient(90deg, transparent, #16a34a)" }} />
+                <span className="text-[10px] tracking-[0.4em] font-extrabold uppercase" style={{ color: "#16a34a" }}>Management</span>
+                <span className="w-12 h-px" style={{ background: "linear-gradient(90deg, #16a34a, transparent)" }} />
+              </div>
+              <h3 className="font-extrabold text-2xl" style={{ color: "#14532d" }}>Project Director &amp; Managers</h3>
+            </div>
+
+            {/* Row 1 — 3 cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5 max-w-4xl mx-auto">
+              {[
+                { name: "Harsha V",   role: "Project Director" },
+                { name: "Manoj",      role: "Project Manager" },
+                { name: "Aman Kumar", role: "Project Manager" },
+              ].map(({ name, role }, i) => {
+                const accents = ["#16a34a", "#15803d", "#22c55e"];
+                return (
+                  <motion.div key={name}
+                    initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}
+                    whileHover={{ y: -6, boxShadow: `0 20px 40px ${accents[i]}30` }}
+                    className="relative rounded-2xl overflow-hidden"
+                    style={{ background: "#fff", border: `1.5px solid ${accents[i]}30`,
+                      boxShadow: `0 4px 16px rgba(0,0,0,0.07), 0 0 0 1px ${accents[i]}15` }}>
+                    <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${accents[i]}, ${accents[i]}88)` }} />
+                    <div className="px-5 py-5">
+                      <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
+                      <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>{role}</div>
+                    </div>
+                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
+                      style={{ color: `${accents[i]}10` }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Row 2 — 3 cards centered */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
+              {[
+                { name: "Raveena",   role: "Project Manager" },
+                { name: "Venugopal", role: "Project Manager" },
+                { name: "Manjula",   role: "Project Manager" },
+              ].map(({ name, role }, i) => {
+                const accents = ["#14532d", "#16a34a", "#15803d"];
+                return (
+                  <motion.div key={name}
+                    initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ delay: 0.24 + i * 0.08, duration: 0.5 }}
+                    whileHover={{ y: -6, boxShadow: `0 20px 40px ${accents[i]}30` }}
+                    className="relative rounded-2xl overflow-hidden"
+                    style={{ background: "#fff", border: `1.5px solid ${accents[i]}30`,
+                      boxShadow: `0 4px 16px rgba(0,0,0,0.07), 0 0 0 1px ${accents[i]}15` }}>
+                    <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${accents[i]}, ${accents[i]}88)` }} />
+                    <div className="px-5 py-5">
+                      <div className="font-bold text-[14px] leading-tight" style={{ color: "#1c3a1c" }}>{name}</div>
+                      <div className="text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5" style={{ color: accents[i] }}>{role}</div>
+                    </div>
+                    <div className="absolute bottom-2 right-3 font-extrabold text-[28px] leading-none select-none pointer-events-none"
+                      style={{ color: `${accents[i]}10` }}>
+                      {String(i + 4).padStart(2, "0")}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 

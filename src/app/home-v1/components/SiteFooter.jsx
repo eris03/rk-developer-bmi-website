@@ -27,7 +27,7 @@ export default function SiteFooter() {
               <div className="w-14 h-14 rounded-full bg-white shrink-0 flex items-center justify-center overflow-hidden"
                 style={{ border: "2px solid rgba(255,255,255,0.65)" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/bmi-logo.png" alt="BMI Housing" className="w-12 h-12 object-contain object-center" />
+                <img src="/bmi-logo.png" alt="BMI Housing" className="w-full h-full object-contain scale-[1.28]" />
               </div>
               <div className="flex flex-col justify-center">
                 <div className="font-bold text-[15px]" style={{ color: C.greenDark }}>BMI Housing</div>
@@ -38,8 +38,8 @@ export default function SiteFooter() {
             <div className="mb-4">
               <h4 className="font-bold text-[14px] mb-2" style={{ color: C.greenDark }}>Office Location</h4>
               <p className="text-[13px] leading-relaxed" style={{ color: "#2d4a2d" }}>
-                #28/1, 2nd floor, 1st cross, 15th main E-block,<br />
-                Sahakar Nagar, Bangalore – 560 092
+                1st Cross, 15th Main E Block, Beside Nandana Palace,<br />
+                Sahakarnagar, Bengaluru-560092
               </p>
             </div>
 
@@ -117,6 +117,7 @@ export default function SiteFooter() {
                 { label: "About Us",                  href: "/our-projects#about" },
                 { label: "Membership Registration",   href: "/membership" },
                 { label: "Application Registration",  href: "/application-registration" },
+                { label: "Contact Us",                href: "/home-v1/contact" },
               ].map((l, i) => (
                 <motion.a
                   key={l.label}
@@ -146,7 +147,7 @@ export default function SiteFooter() {
               Office Location
             </h4>
             <a
-              href="https://maps.app.goo.gl/qN62fCVttpLS3egV7"
+              href="https://maps.app.goo.gl/uSXL9N2KSsUHkz5o7"
               target="_blank"
               rel="noopener noreferrer"
               className="block rounded-xl overflow-hidden mb-3 group relative"
@@ -168,7 +169,7 @@ export default function SiteFooter() {
               </div>
             </a>
             <motion.a
-              href="https://maps.app.goo.gl/qN62fCVttpLS3egV7"
+              href="https://maps.app.goo.gl/uSXL9N2KSsUHkz5o7"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}

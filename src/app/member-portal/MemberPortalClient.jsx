@@ -293,7 +293,7 @@ export default function MemberPortalClient({ name, phone }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <div className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden"
             style={{ border: "1.5px solid #d1fae5", background: "#f0fdf4" }}>
-            <img src="/bmi-logo.png" alt="BMI" className="w-7 h-7 object-contain" />
+            <img src="/bmi-logo.png" alt="BMI" className="w-full h-full object-contain scale-[1.28]" />
           </div>
           <div className="leading-none hidden sm:block">
             <div className="font-bold text-[13px]" style={{ color: C.greenDark }}>BMI Housing</div>

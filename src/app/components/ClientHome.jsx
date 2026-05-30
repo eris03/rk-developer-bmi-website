@@ -13,7 +13,6 @@ import Immersive3D from "./Immersive3D";
 import Gallery from "./Gallery";
 import Testimonials from "./Testimonials";
 import Contact from "./Contact";
-import SideActions from "./SideActions";
 import WhatsAppFAB from "./WhatsAppFAB";
 import Splash from "./Splash";
 import MarqueeStrip from "./MarqueeStrip";
@@ -37,7 +36,6 @@ export default function ClientHome() {
         <Contact />
       </ZoomStage>
       <Header />
-      <SideActions />
       <WhatsAppFAB />
       {/* Marquee strip — visible on all sections */}
       <MarqueeStrip visible={true} />

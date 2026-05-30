@@ -1,7 +1,8 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const body = await req.json();
     const { formType, applicantName, mobile, email, fields } = body;
@@ -26,7 +27,6 @@ export async function POST(req) {
             ${isApplication ? "Application for Purchase of Site" : "Application for Membership"}
           </p>
         </div>
-
         <div style="padding:28px 36px;background:#ffffff;border:1px solid #e5e7eb;border-top:none;">
           <p style="color:#16a34a;font-size:13px;font-weight:bold;margin-bottom:16px;">
             📋 ${isApplication ? "New Site Purchase Application" : "New Membership Application"} received
@@ -48,7 +48,6 @@ export async function POST(req) {
             </tr>
             ${fieldRows}
           </table>
-
           <div style="margin-top:24px;padding:16px 20px;background:#f0fdf4;border-left:4px solid #16a34a;border-radius:4px;">
             <p style="margin:0;font-size:12px;color:#14532d;">
               Please follow up with <strong>${applicantName || "the applicant"}</strong>
@@ -57,35 +56,28 @@ export async function POST(req) {
             </p>
           </div>
         </div>
-
         <div style="padding:14px 36px;text-align:center;color:#9ca3af;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;background:#f9fafb;border:1px solid #e5e7eb;border-top:none;">
           BMI Housing Co-Operative Society Ltd · Bengaluru 560092 · Reg. No: JRB/RGN/CR-13/51578/2022-23
         </div>
       </div>
     `;
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || "smtp.gmail.com",
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: `"BMI Housing Website" <${process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_EMAIL || "info@bmihousing.com",
-      replyTo: email || "info@bmihousing.com",
+    const { error } = await resend.emails.send({
+      from: "BMI Housing <onboarding@resend.dev>",
+      to: ["info@bmihousing.com"],
+      replyTo: email || undefined,
       subject,
       html,
     });
 
+    if (error) {
+      console.error("Resend error:", error);
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Application submit error:", err);
-    // Still return 200 so the UI shows success (email config may not be set yet)
-    return NextResponse.json({ success: true, warning: "Email not sent — check SMTP config" });
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }

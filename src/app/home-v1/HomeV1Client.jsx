@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useEffect, useLayoutEffect } from "react";
-import SideActions from "../components/SideActions";
 import NavBar from "./components/NavBar";
 import SiteFooter from "./components/SiteFooter";
 import { Perspective, Highlight } from "@/components/ui/perspective-highlight";
@@ -151,8 +150,8 @@ function ProjectCard3D({ href, image, locationTag, nameEnglish, price, tags, acc
   );
 }
 
-/* ─── FEATURE CARD (3D tilt) ─── */
-function FeatureCard({ icon, title, desc, accent, delay = 0 }) {
+/* ─── FEATURE CARD (3D tilt, no icon) ─── */
+function FeatureCard({ title, desc, accent, delay = 0 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 180, damping: 22 });
@@ -176,25 +175,17 @@ function FeatureCard({ icon, title, desc, accent, delay = 0 }) {
       className="relative p-7 rounded-2xl overflow-hidden group cursor-default"
       style={{
         background: "#ffffff",
-        border: `1px solid ${accent}22`,
-        boxShadow: "0 4px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
+        border: `1.5px solid ${accent}55`,
+        boxShadow: `0 4px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05), 0 0 0 1px ${accent}18`,
       }}
     >
-      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
-        style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
+      <div className="absolute top-0 left-0 right-0 h-[4px] rounded-t-2xl"
+        style={{ background: `linear-gradient(90deg, ${accent}80, ${accent}, ${accent}80)` }} />
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}0a 0%, transparent 65%)` }}
+        style={{ background: `radial-gradient(ellipse at 50% 0%, ${accent}15 0%, transparent 65%)` }}
       />
-      <motion.div
-        whileHover={{ scale: 1.1, rotate: [-3, 3, -3, 0] }}
-        transition={{ duration: 0.4 }}
-        className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5"
-        style={{ background: `${accent}12`, color: accent, border: `1px solid ${accent}25` }}
-      >
-        {icon}
-      </motion.div>
-      <h3 className="font-bold text-lg mb-3" style={{ color: C.text }}>{title}</h3>
+      <h3 className="font-bold text-lg mb-3 mt-2" style={{ color: C.text }}>{title}</h3>
       <p className="text-sm leading-relaxed" style={{ color: C.body }}>{desc}</p>
     </motion.div>
   );
@@ -244,7 +235,6 @@ export default function HomeV1Client() {
 
   return (
     <div style={{ background: C.bg }}>
-      <SideActions />
 
       {/* Scroll Progress Bar */}
       <motion.div
@@ -292,7 +282,7 @@ export default function HomeV1Client() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.85, duration: 0.7 }}
             className="flex flex-wrap items-center justify-center gap-4 mb-14">
-            <motion.a href="/our-projects"
+            <motion.a href="/home-v1/our-projects"
               whileHover={{ scale: 1.06, boxShadow: "0 12px 36px rgba(22,163,74,0.55)" }}
               whileTap={{ scale: 0.96 }}
               className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group"
@@ -382,36 +372,30 @@ export default function HomeV1Client() {
           <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.8 }}
             className="text-center mb-16">
-            <Perspective maxRotateX={6} maxRotateY={10} className="block w-full">
-              <div className="text-center px-8 py-12 rounded-3xl"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(34,197,94,0.1)" }}>
 
-                <div className="flex items-center justify-center gap-3 mb-5">
-                  <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
-                  <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenMid }}>
-                    ನಮ್ಮ ಯೋಜನೆಗಳು · Our Projects
-                  </span>
-                  <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
-                </div>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenMid }}>
+                ನಮ್ಮ ಯೋಜನೆಗಳು · Our Projects
+              </span>
+              <span className="w-10 h-px" style={{ background: "rgba(34,197,94,0.5)" }} />
+            </div>
 
-                {/* Kannada — compact single line */}
-                <h2 className="font-bold text-base md:text-lg tracking-wide whitespace-nowrap mb-3"
-                  style={{ background: "linear-gradient(90deg, #86efac, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                  ನಿಮ್ಮ ಕನಸಿನ ನಿವೇಶನ ಆಯ್ಕೆ ಮಾಡಿ
-                </h2>
+            <p className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-2"
+              style={{ background: "linear-gradient(90deg, #86efac, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              ನಿಮ್ಮ ಕನಸಿನ ನಿವೇಶನ ಆಯ್ಕೆ ಮಾಡಿ
+            </p>
 
-                {/* English — with Highlight */}
-                <h3 className="font-extrabold text-2xl md:text-3xl text-white tracking-tight mb-5">
-                  Choose Your{" "}
-                  <Highlight color="green">Dream Plot</Highlight>
-                </h3>
+            <h2 className="font-extrabold text-xl md:text-2xl lg:text-3xl text-white tracking-tight mb-5">
+              Choose Your{" "}
+              <Highlight color="green">Dream Plot</Highlight>
+            </h2>
 
-                <p className="text-[15px] max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  Two premium layouts in North Bengaluru&apos;s fastest-growing corridors — starting at{" "}
-                  <Highlight color="yellow">₹1,249/sqft</Highlight>
-                </p>
-              </div>
-            </Perspective>
+            <p className="text-[15px] max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
+              Two premium layouts in North Bengaluru&apos;s fastest-growing corridors — starting at{" "}
+              <Highlight color="yellow">&#8377;1,249/sqft</Highlight>
+            </p>
+
           </motion.div>
 
           {/* ── 3D Project Cards ── */}
@@ -473,8 +457,9 @@ export default function HomeV1Client() {
       {/* ════════════════════════════════════
           WHY BMI HOUSING — Feature Cards
       ════════════════════════════════════ */}
-      <section className="relative px-6 lg:px-10 py-28 overflow-hidden" style={{ background: C.bgSection }}>
-        {/* Rotating wireframe rings */}
+      <section className="relative px-6 lg:px-10 py-28 overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #c8efc8 0%, #d4f0d4 40%, #c0ebc0 100%)" }}>
+        {/* Rotating wireframe rings — darker */}
         {[
           { top: "8%",  left: "4%",  w: 320, dur: 22, rx: [0, 360], ry: [0, 180], delay: 0 },
           { top: "60%", left: "72%", w: 260, dur: 18, rx: [0, -360], ry: [0, 360], delay: 1.5 },
@@ -487,21 +472,21 @@ export default function HomeV1Client() {
             style={{
               position: "absolute", top: s.top, left: s.left,
               width: s.w, height: s.w, borderRadius: "50%",
-              border: "1px solid rgba(22,163,74,0.10)",
+              border: "2px solid rgba(22,163,74,0.40)",
               pointerEvents: "none", transformStyle: "preserve-3d",
             }}
           />
         ))}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
-          style={{ backgroundImage: "linear-gradient(rgba(22,163,74,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(22,163,74,0.4) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+        <div className="absolute inset-0 pointer-events-none opacity-[0.18]"
+          style={{ backgroundImage: "linear-gradient(rgba(22,163,74,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(22,163,74,0.6) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
 
         <div className="relative max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-14">
             <div className="flex items-center gap-3 mb-5">
               <span className="w-8 h-px" style={{ background: C.green }} />
-              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.green }}>ಬಿಎಂಐ ಹೌಸಿಂಗ್ ಏಕೆ? / Why BMI Housing</span>
+              <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenDark }}>ಬಿಎಂಐ ಹೌಸಿಂಗ್ ಏಕೆ? / Why BMI Housing</span>
             </div>
-            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.green }}>
+            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.greenDark }}>
               ನಗರ ಜೀವನದ ಭವಿಷ್ಯಕ್ಕಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ
             </h2>
             <h3 className="font-extrabold text-xl md:text-2xl lg:text-3xl tracking-tight" style={{ color: C.text }}>
@@ -515,15 +500,12 @@ export default function HomeV1Client() {
           <div className="grid md:grid-cols-3 gap-6">
             <FeatureCard delay={0} accent={C.greenMid} title="Metro Connectivity"
               desc="Adjacent to ITIR Tech Park (12,000 acres), Amity & Gitam Universities, Harrow International School, and minutes from Kempegowda International Airport."
-              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><circle cx="8.5" cy="17" r="1"/><circle cx="15.5" cy="17" r="1"/><path d="M7.5 21l1.5-2 1.5 2 1.5-2 1.5 2 1.5-2 1.5 2"/></svg>}
             />
             <FeatureCard delay={0.12} accent={C.yellow} title="Smart-Home Ready"
               desc="Underground electricity, 24/7 water supply, 60ft wide roads, themed clubhouse & swimming pool — infrastructure for tomorrow's lifestyle."
-              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
             />
             <FeatureCard delay={0.24} accent={C.red} title="Secure Co-Op Investment"
-              desc="Government-registered co-operative society. Flexible 4-EMI payment plan. Layouts approved by DTCP &amp; BMRDA in North Bengaluru's fastest-appreciating zone."
-              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-7 h-7"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>}
+              desc="Government-registered co-operative society. Flexible 4-EMI payment plan. Layouts approved by DTCP & BMRDA in North Bengaluru's fastest-appreciating zone."
             />
           </div>
         </div>

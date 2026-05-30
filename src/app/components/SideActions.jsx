@@ -49,7 +49,7 @@ const items = [
   },
   {
     name: "Location",
-    href: "https://maps.app.goo.gl/qN62fCVttpLS3egV7",
+    href: "https://maps.app.goo.gl/uSXL9N2KSsUHkz5o7",
     external: true,
     color: "#ef4444",
     dark:  "#b91c1c",
