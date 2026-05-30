@@ -250,7 +250,7 @@ export default function HomeV1Client() {
       {/* ════════════════════════════════════
           HERO — fullscreen video
       ════════════════════════════════════ */}
-      <section className="relative w-full overflow-hidden" style={{ height: "calc(100svh - 134px)" }}>
+      <section className="relative w-full overflow-hidden" style={{ height: "calc(100vh - 134px)", minHeight: "420px" }}>
         <video src="/hero.mp4" autoPlay loop muted playsInline preload="auto"
           className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(3,13,7,0.55) 0%, rgba(3,13,7,0.35) 40%, rgba(3,13,7,0.72) 100%)" }} />
@@ -409,7 +409,7 @@ export default function HomeV1Client() {
               accentColor={C.greenMid}
               highlightColor="green"
               ctaLabel="Explore Garden City"
-              tags={["4-EMI Plan", "60ft Road", "Club House", "Pool", "Govt. Registered"]}
+              tags={["4-EMI Plan", "60ft Road", "Club House", "Pool"]}
               delay={0}
             />
             <ProjectCard3D
@@ -421,7 +421,7 @@ export default function HomeV1Client() {
               accentColor="#fb923c"
               highlightColor="orange"
               ctaLabel="Explore North Metro City"
-              tags={["4-EMI Plan", "60ft Road", "Near Airport", "Amity Univ", "Govt. Registered"]}
+              tags={["4-EMI Plan", "60ft Road", "Near Airport", "Amity Univ"]}
               delay={0.15}
             />
           </div>
@@ -499,7 +499,7 @@ export default function HomeV1Client() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FeatureCard delay={0} accent={C.greenMid} title="Metro Connectivity"
-              desc="Adjacent to ITIR Tech Park (12,000 acres), Amity & Gitam Universities, Harrow International School, and minutes from Kempegowda International Airport."
+              desc="Adjacent to ITIR Tech Park (12,000 acres), Amity, Gitam & Chanakya Universities, Harrow International School, and minutes from Kempegowda International Airport."
             />
             <FeatureCard delay={0.12} accent={C.yellow} title="Smart-Home Ready"
               desc="Underground electricity, 24/7 water supply, 60ft wide roads, themed clubhouse & swimming pool — infrastructure for tomorrow's lifestyle."

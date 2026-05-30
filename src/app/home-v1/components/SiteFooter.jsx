@@ -205,7 +205,7 @@ export default function SiteFooter() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.4)" }}
         >
           <div className="text-[11px] tracking-[0.12em]" style={{ color: "rgba(20,50,20,0.65)" }}>
-            © 2024–2025 Bengaluru Metro City Infrastructure (BMI) Housing Co-Operative Society. All rights reserved.
+            © 2025–2026 Bengaluru Metro City Infrastructure (BMI) Housing Co-Operative Society. All rights reserved.
           </div>
           <div className="flex items-center gap-4 text-[11px]" style={{ color: "rgba(20,50,20,0.65)" }}>
             <a href="/disclaimer" className="hover:text-green-900 transition-colors">Disclaimer</a>

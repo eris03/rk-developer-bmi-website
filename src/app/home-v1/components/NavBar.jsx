@@ -89,6 +89,24 @@ export default function NavBar({ activePage = "", showTicker = false }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open (fixes freeze on Android)
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    };
+  }, [mobileOpen]);
+
   // Auto-open if redirected with ?login=1
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.search.includes("login=1")) {
@@ -331,7 +349,7 @@ export default function NavBar({ activePage = "", showTicker = false }) {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 34 }}
               className="absolute top-0 right-0 h-full w-[280px] flex flex-col overflow-y-auto"
-              style={{ background: C.bgWhite, boxShadow: "-8px 0 32px rgba(0,0,0,0.18)" }}
+              style={{ background: C.bgWhite, boxShadow: "-8px 0 32px rgba(0,0,0,0.18)", WebkitOverflowScrolling: "touch", overscrollBehavior: "contain" }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Drawer Header */}
