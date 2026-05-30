@@ -20,6 +20,14 @@ export const metadata = {
     "Premium residential plots in North Bengaluru. Government-approved co-operative society offering affordable layouts in Devanahalli & Vishwanathapura. Starting ₹1,399/sqft."
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#16a34a",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>

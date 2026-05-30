@@ -11,12 +11,51 @@
   --ember-green:#22c55e;
 }
 
-* { -webkit-font-smoothing: antialiased; }
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 html, body {
   background: var(--slate);
   color: var(--pearl);
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* ── Prevent input auto-zoom on Android/iOS Chrome (triggers on < 16px) ── */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+/* ── Remove tap highlight & prevent double-tap zoom on Android ── */
+a, button, [role="button"], input, select, textarea, label {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Select: consistent rendering on Android Chrome ── */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* ── Canvas: disable long-press callout on Android ── */
+canvas {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 ::selection { background: var(--gold); color: #fff; }
