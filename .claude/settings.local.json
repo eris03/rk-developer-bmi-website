@@ -57,7 +57,8 @@
       "Bash(npx next *)",
       "Bash(findstr \":3000\")",
       "Bash(timeout 8)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git remote *)"
     ]
   }
 }

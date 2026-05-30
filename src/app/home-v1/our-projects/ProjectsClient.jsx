@@ -399,7 +399,7 @@ export default function ProjectsClient() {
       {/* ════════════════════════════════════
           SECTION 1 — ABOUT US
       ════════════════════════════════════ */}
-      <section id="about" className="relative overflow-hidden py-28"
+      <section id="about" className="relative overflow-hidden py-16 sm:py-28"
         style={{ background: `linear-gradient(135deg, ${C.bgDark} 0%, #0d2818 50%, ${C.bgDark2} 100%)` }}>
 
         <motion.div
@@ -417,7 +417,7 @@ export default function ProjectsClient() {
         <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 flex flex-col items-center gap-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex flex-col items-center gap-10">
           {/* ── Orbital Logo — full-width centred ── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }}
@@ -789,7 +789,7 @@ export default function ProjectsClient() {
                 maskComposite: "exclude",
               }}
             />
-            <div className="relative p-8">
+            <div className="relative p-4 sm:p-8 overflow-x-auto">
               <BankRow label="Account Name" value="BENGALURU METRO CITY INFRASTRUCTURE HOUSING" delay={0} />
               <BankRow label="Bank Name" value="BANK OF BARODA" delay={0.1} />
               <BankRow label="Account Number" value="73750200003586" mono delay={0.2} />

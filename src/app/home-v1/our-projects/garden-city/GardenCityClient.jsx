@@ -217,7 +217,7 @@ export default function GardenCityClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.18 }}
-            className="font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-6 text-white"
+            className="font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight mb-6 text-white"
           >
             BMI{" "}
             <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -254,8 +254,8 @@ export default function GardenCityClient() {
       </section>
 
       {/* ── Overview ── */}
-      <section className="px-6 lg:px-10 py-20" style={{ background: C.bgWhite }}>
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
+      <section className="px-4 sm:px-6 lg:px-10 py-12 sm:py-20" style={{ background: C.bgWhite }}>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -325,7 +325,7 @@ export default function GardenCityClient() {
       </section>
 
       {/* ── Pricing Table ── */}
-      <section className="px-6 lg:px-10 py-20" style={{ background: C.bgSection }}>
+      <section className="px-4 sm:px-6 lg:px-10 py-12 sm:py-20" style={{ background: C.bgSection }}>
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -539,7 +539,7 @@ export default function GardenCityClient() {
             </h2>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl p-8 grid md:grid-cols-2 gap-8"
+            className="rounded-2xl p-4 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8"
             style={{ background: C.bgSection, border: `1px solid ${C.border}` }}>
             {/* Kannada — first */}
             <div>
@@ -648,7 +648,7 @@ export default function GardenCityClient() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl p-8 grid sm:grid-cols-2 gap-3"
+            className="rounded-2xl p-4 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-3"
             style={{ background: C.bgSection, border: `1px solid ${C.border}`, perspective: "1200px" }}>
             {[
               "135 Acres Brigade Orchards",
@@ -878,7 +878,7 @@ export default function GardenCityClient() {
         <p className="text-[15px] mb-8" style={{ color: "rgba(255,255,255,0.55)" }}>
           Contact us today or explore our other project.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <motion.a href="tel:+917710556677"
             whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}
             className="px-8 py-3.5 rounded-xl text-[14px] font-bold text-white"

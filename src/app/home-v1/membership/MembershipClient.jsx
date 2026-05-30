@@ -120,7 +120,7 @@ function Card({ children, delay = 0, className = "" }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay }}
-      className={`rounded-3xl p-8 mb-8 ${className}`}
+      className={`rounded-3xl p-5 sm:p-8 mb-8 ${className}`}
       style={{ background: C.bgWhite, boxShadow: C.shadowLg, border: `1px solid ${C.border}` }}
     >
       {children}
@@ -523,7 +523,7 @@ export default function MembershipClient() {
                   <Input label="Designation / Occupation" optional placeholder="e.g. Software Engineer, Business" />
                 </div>
                 <Input label="Office / Business Address" optional placeholder="Full office or business address" />
-                <div className="grid md:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                   <Input label="City" optional placeholder="City" />
                   <Input label="State" optional placeholder="State" />
                   <Input label="PIN Code" optional placeholder="PIN" />
@@ -590,9 +590,9 @@ export default function MembershipClient() {
 
               {/* Nominee Address with quick-fill buttons */}
               <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-3 flex-wrap mb-1">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
                   <Label>Nominee Address</Label>
-                  <div className="flex gap-2 ml-auto">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:ml-auto">
                     <motion.button type="button"
                       whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                       onClick={() => {
@@ -680,7 +680,7 @@ export default function MembershipClient() {
                 <p className="text-[12px] font-extrabold tracking-[0.12em] uppercase mb-3" style={{ color: C.text }}>
                   Fee Details
                 </p>
-                <div className="rounded-2xl overflow-hidden" style={{ border: `1.5px solid ${C.border}` }}>
+                <div className="overflow-x-auto rounded-2xl" style={{ border: `1.5px solid ${C.border}` }}>
                   <table className="w-full border-collapse">
                     <thead>
                       <tr style={{ background: `linear-gradient(135deg, ${C.greenDark}, #0d2818)` }}>

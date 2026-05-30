@@ -165,7 +165,7 @@ export default function ContactClient() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-extrabold text-3xl md:text-4xl tracking-tight mb-3 text-white">
+            className="font-extrabold text-2xl sm:text-3xl md:text-4xl tracking-tight mb-3 text-white">
             Get in{" "}
             <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Touch
@@ -181,7 +181,7 @@ export default function ContactClient() {
       </section>
 
       {/* ── Main Content ── */}
-      <div className="max-w-6xl mx-auto px-6 lg:px-10 py-14 grid lg:grid-cols-5 gap-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14 grid grid-cols-1 lg:grid-cols-5 gap-10">
 
         {/* ── Left: Info panel ── */}
         <motion.div

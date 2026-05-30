@@ -265,7 +265,7 @@ export default function HomeV1Client() {
 
           <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-extrabold text-4xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.08] mb-6 max-w-5xl">
+            className="font-extrabold text-2xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.08] mb-6 max-w-5xl">
             Your Dream Plot in{" "}
             <span style={{ background: "linear-gradient(90deg, #22c55e, #86efac)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               North Bengaluru
@@ -281,11 +281,11 @@ export default function HomeV1Client() {
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.85, duration: 0.7 }}
-            className="flex flex-wrap items-center justify-center gap-4 mb-14">
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-14">
             <motion.a href="/home-v1/our-projects"
               whileHover={{ scale: 1.06, boxShadow: "0 12px 36px rgba(22,163,74,0.55)" }}
               whileTap={{ scale: 0.96 }}
-              className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group"
+              className="flex items-center gap-2 px-5 py-3 sm:px-7 sm:py-3.5 rounded-xl text-[15px] font-bold text-white relative overflow-hidden group w-full sm:w-auto justify-center"
               style={{ background: `linear-gradient(135deg, ${C.green}, ${C.greenDark})` }}>
               <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100"
                 style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)" }}
@@ -298,7 +298,7 @@ export default function HomeV1Client() {
             </motion.a>
             <motion.a href="/membership"
               whileHover={{ scale: 1.06, backgroundColor: "rgba(255,255,255,0.18)" }} whileTap={{ scale: 0.96 }}
-              className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-bold text-white"
+              className="flex items-center gap-2 px-5 py-3 sm:px-7 sm:py-3.5 rounded-xl text-[15px] font-bold text-white w-full sm:w-auto justify-center"
               style={{ background: "rgba(255,255,255,0.1)", border: "1.5px solid rgba(255,255,255,0.35)", backdropFilter: "blur(8px)" }}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4 shrink-0">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -323,7 +323,7 @@ export default function HomeV1Client() {
       {/* ════════════════════════════════════
           OUR PROJECTS — 3D SHOWCASE
       ════════════════════════════════════ */}
-      <section className="relative py-28 px-6 lg:px-10 overflow-hidden"
+      <section className="relative py-16 sm:py-28 px-4 sm:px-6 lg:px-10 overflow-hidden"
         style={{ background: `linear-gradient(180deg, #050a1a 0%, #0b1535 50%, #050a1a 100%)` }}>
 
         {/* ── Animated background mesh ── */}
@@ -399,7 +399,7 @@ export default function HomeV1Client() {
           </motion.div>
 
           {/* ── 3D Project Cards ── */}
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             <ProjectCard3D
               href="/our-projects/garden-city"
               image="/garden-overview.png"
@@ -457,7 +457,7 @@ export default function HomeV1Client() {
       {/* ════════════════════════════════════
           WHY BMI HOUSING — Feature Cards
       ════════════════════════════════════ */}
-      <section className="relative px-6 lg:px-10 py-28 overflow-hidden"
+      <section className="relative px-4 sm:px-6 lg:px-10 py-16 sm:py-28 overflow-hidden"
         style={{ background: "linear-gradient(135deg, #c8efc8 0%, #d4f0d4 40%, #c0ebc0 100%)" }}>
         {/* Rotating wireframe rings — darker */}
         {[
@@ -486,7 +486,7 @@ export default function HomeV1Client() {
               <span className="w-8 h-px" style={{ background: C.green }} />
               <span className="text-[10px] tracking-[0.6em] uppercase font-bold" style={{ color: C.greenDark }}>ಬಿಎಂಐ ಹೌಸಿಂಗ್ ಏಕೆ? / Why BMI Housing</span>
             </div>
-            <h2 className="font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.greenDark }}>
+            <h2 className="font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-snug mb-2" style={{ color: C.greenDark }}>
               ನಗರ ಜೀವನದ ಭವಿಷ್ಯಕ್ಕಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ
             </h2>
             <h3 className="font-extrabold text-xl md:text-2xl lg:text-3xl tracking-tight" style={{ color: C.text }}>
@@ -497,7 +497,7 @@ export default function HomeV1Client() {
             </h3>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FeatureCard delay={0} accent={C.greenMid} title="Metro Connectivity"
               desc="Adjacent to ITIR Tech Park (12,000 acres), Amity & Gitam Universities, Harrow International School, and minutes from Kempegowda International Airport."
             />

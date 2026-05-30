@@ -123,7 +123,7 @@ function Card({ number, title, accent = C.green, icon, children }) {
           <h3 className="font-bold text-[15px]" style={{ color: C.text }}>{title}</h3>
         </div>
       </div>
-      <div className="p-7">{children}</div>
+      <div className="p-4 sm:p-7">{children}</div>
     </motion.div>
   );
 }
@@ -340,7 +340,7 @@ export default function PurchaseSiteClient() {
           </motion.h1>
           {/* English — smaller, below — one line */}
           <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.18 }}
-            className="font-extrabold text-xl md:text-2xl lg:text-3xl tracking-tight mb-5 text-white whitespace-nowrap leading-tight">
+            className="font-extrabold text-xl md:text-2xl lg:text-3xl tracking-tight mb-5 text-white leading-tight">
             Application for{" "}
             <span style={{ background: `linear-gradient(90deg, ${C.greenMid}, #86efac)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Purchase of Site
@@ -361,7 +361,7 @@ export default function PurchaseSiteClient() {
       <motion.div
         initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
         className="max-w-4xl mx-auto mt-10 mb-2 px-6 lg:px-0">
-        <div className="rounded-2xl px-7 py-5 flex flex-col gap-1"
+        <div className="rounded-2xl px-4 py-4 sm:px-7 sm:py-5 flex flex-col gap-1"
           style={{ background: C.greenLight, border: `1px solid ${C.border}` }}>
           <div className="flex items-center gap-3 mb-3 pb-3 px-3 py-2 rounded-xl" style={{ background: "#fef9c3", border: "1.5px solid #fbbf24" }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth={2} className="w-4 h-4 shrink-0">
@@ -616,9 +616,9 @@ export default function PurchaseSiteClient() {
 
           {/* Nominee Address with quick-fill buttons */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center flex-wrap gap-2 mb-1">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
               <label className="block text-[11px] font-extrabold tracking-[0.15em] uppercase" style={{ color: C.text }}>Nominee Address</label>
-              <div className="flex gap-2 ml-auto flex-wrap">
+              <div className="flex flex-col sm:flex-row gap-2 sm:ml-auto">
                 <motion.button type="button" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                   onClick={() => {
                     setNomineeAddrSame("correspondence");
